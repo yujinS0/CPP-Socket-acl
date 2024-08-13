@@ -15,8 +15,16 @@ CPP-Socket-acl/
 └── acl/
     └── ... (ACL 라이브러리 관련 파일들)
 
-
 ```
+
+------------------------------
+
+## 코드 테스트를 위한 세팅
+- acl/Debug 디렉토리로 .lib 파일들 옮기기 (.lib 파일은 [acl/Debug_lib_Files](./acl/Debug_lib_Files)에 존재)
+ 
+## 초기 세팅
+* [오픈소스 라이브러리 추가 방법](./Document/Build.md)
+
 
 ------------------------------
 
@@ -78,16 +86,16 @@ The redis client module in Acl is powerful, high-performance and easy to use.
 ## 문서
 
 ### 프로젝트 시작 이전
-* [오픈소스 라이브러리 추가 방법](./Build.md)
+* [오픈소스 라이브러리 추가 방법](./Document/Build.md)
 
 ### 실습 예제
-* [코루틴 설명 및 예제](./Coroutine.md)
+* [코루틴 설명 및 예제](./Document/Coroutine.md)
 
-* [주요 예제 정리](./EX.md)
+* [주요 예제 정리](./Document/EX.md)
 
 
 ### 원문 번역
-* [예제 디렉토리 설명-번역](./SAMPLES-KO.md) 
+* [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md) 
 
 
 
