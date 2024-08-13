@@ -20,7 +20,7 @@ CPP-Socket-acl/
 ------------------------------
 
 ## 코드 테스트를 위한 세팅
-- acl/Debug 디렉토리로 .lib 파일들 옮기기 (.lib 파일은 acl/Debug_lib_Files에 존재)
+- acl/Debug 디렉토리로 .lib 파일들 옮기기 (.lib 파일은 [acl/Debug_lib_Files](./acl/Debug_lib_Files)에 존재)
  
 ## 초기 세팅
 * [오픈소스 라이브러리 추가 방법](./Document/Build.md)
