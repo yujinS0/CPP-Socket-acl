@@ -14,7 +14,6 @@ suppoting LINUX, WIN32, Solaris, FreeBSD, MacOS, AndroidOS, iOS.
 
 <br>
 
-* [예제 디렉토리 설명-번역](https://github.com/yujinS0/CPP-Socket-acl/blob/main/SAMPLES-KO.md) 
 
 ### 중요한 6가지 모듈
 * 1.1. Basic network module
@@ -57,4 +56,14 @@ The redis client module in Acl is powerful, high-performance and easy to use.
 * Retry automatically for the reason of network error
 * Can be used in the shared stack coroutine mode
 * For more information, see [Using Acl redis client](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md)
+
+--------------------------
+
+## 문서
+* [오픈소스 라이브러리 추가 방법](https://github.com/yujinS0/CPP-Socket-acl/blob/main/Build.md)
+* [예제 디렉토리 설명-번역](https://github.com/yujinS0/CPP-Socket-acl/blob/main/SAMPLES-KO.md) 
+
+
+
+
 
