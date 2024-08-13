@@ -1,5 +1,5 @@
 # Server
-## 파일 구조
+## ServerAcl 프로젝트 구조
 
 ```
   ServerAcl/
