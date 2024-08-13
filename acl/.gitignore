@@ -25,7 +25,6 @@
 .vs/
 x64/
 build/
-Debug/
 Release/
 #dist/
 acl_cpp_vc2015.VC.VC.opendb
