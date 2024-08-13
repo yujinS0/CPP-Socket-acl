@@ -16,7 +16,7 @@ int main() {
     char buf[256];
 
     while (true) {
-        std::cout << "Enter a message (Ctrl+C to quit): ";
+        std::cout << "Enter a message (0 to quit): ";
         std::getline(std::cin, message);
 
         if (message == "0") {
