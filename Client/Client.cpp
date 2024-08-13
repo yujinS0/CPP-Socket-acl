@@ -19,6 +19,11 @@ int main() {
         std::cout << "Enter a message (Ctrl+C to quit): ";
         std::getline(std::cin, message);
 
+        if (message == "0") {
+            std::cout << "Exiting..." << std::endl;
+            break;  // 루프 탈출 및 프로그램 종료
+        }
+
         if (message.empty()) {
             std::cerr << "No message entered, please try again." << std::endl;
             continue;
