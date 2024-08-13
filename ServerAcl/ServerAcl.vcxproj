@@ -148,7 +148,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tcpCoroutine.cpp" />
     <ClCompile Include="tcpServer.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
