@@ -5,11 +5,13 @@
     <ClCompile Include="tcpCoroutine.cpp" />
     <ClCompile Include="redisHandler.cpp" />
     <ClCompile Include="PacketDefinition.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="tcpCoroutine.h" />
     <ClInclude Include="redisHandler.h" />
     <ClInclude Include="PacketDefinition.h" />
+    <ClInclude Include="RoomManager.h" />
   </ItemGroup>
 </Project>

@@ -82,7 +82,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\acl\lib_fiber\c\include;..\acl\lib_fiber\cpp\include;..\acl\lib_acl_cpp\include;..\acl\lib_protocol\include;..\acl\lib_acl\include;..\acl\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -148,12 +148,14 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PacketDefinition.cpp" />
     <ClCompile Include="redisHandler.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="tcpCoroutine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketDefinition.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="redisHandler.h" />
+    <ClInclude Include="RoomManager.h" />
     <ClInclude Include="tcpCoroutine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

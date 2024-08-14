@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace WinFormsClient;
 
@@ -12,6 +8,10 @@ internal class PacketDefinition
     {
         ReqLogin = 1002,
         ResLogin = 1003,
+        ReqRoomEnter = 1021,
+        ResRoomEnter = 1022,
+        ReqRoomChat = 1026,
+        ResRoomChat = 1027,
     }
 
     public class PacketHeader
@@ -68,6 +68,62 @@ internal class PacketDefinition
                 Type = buffer[4],
                 UserID = Encoding.UTF8.GetString(buffer, 6, 32).TrimEnd('\0'),
                 AuthToken = Encoding.UTF8.GetString(buffer, 38, 32).TrimEnd('\0')
+            };
+        }
+    }
+
+    public class RoomEnterRequest : PacketHeader
+    {
+        public int RoomNumber { get; set; }
+
+        public byte[] Serialize()
+        {
+            byte[] headerBuffer = base.Serialize();
+            byte[] roomNumberBuffer = BitConverter.GetBytes(RoomNumber);
+
+            byte[] buffer = new byte[headerBuffer.Length + roomNumberBuffer.Length];
+            Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
+            Array.Copy(roomNumberBuffer, 0, buffer, headerBuffer.Length, roomNumberBuffer.Length);
+
+            return buffer;
+        }
+
+        public static RoomEnterRequest Deserialize(byte[] buffer)
+        {
+            return new RoomEnterRequest
+            {
+                TotalSize = BitConverter.ToUInt16(buffer, 0),
+                Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
+                Type = buffer[4],
+                RoomNumber = BitConverter.ToInt32(buffer, 6)
+            };
+        }
+    }
+
+    public class RoomChatRequest : PacketHeader
+    {
+        public string Message { get; set; }
+
+        public byte[] Serialize()
+        {
+            byte[] headerBuffer = base.Serialize();
+            byte[] messageBuffer = Encoding.UTF8.GetBytes(Message);
+
+            byte[] buffer = new byte[headerBuffer.Length + messageBuffer.Length];
+            Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
+            Array.Copy(messageBuffer, 0, buffer, headerBuffer.Length, messageBuffer.Length);
+
+            return buffer;
+        }
+
+        public static RoomChatRequest Deserialize(byte[] buffer)
+        {
+            return new RoomChatRequest
+            {
+                TotalSize = BitConverter.ToUInt16(buffer, 0),
+                Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
+                Type = buffer[4],
+                Message = Encoding.UTF8.GetString(buffer, 6, buffer.Length - 6)
             };
         }
     }

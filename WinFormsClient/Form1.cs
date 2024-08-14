@@ -63,6 +63,83 @@ public partial class Form1 : Form
         MessageBox.Show(responseMessage);
     }
 
+    private void btnEnterRoom_Click(object sender, EventArgs e)
+    {
+        int roomNumber = int.Parse(txtRoomNumber.Text);
+
+        if (_stream == null)
+        {
+            MessageBox.Show("Not connected to the server.");
+            return;
+        }
+
+        var roomEnterRequest = new RoomEnterRequest
+        {
+            TotalSize = 10,
+            Id = PacketID.ReqRoomEnter,
+            Type = 0,
+            RoomNumber = roomNumber
+        };
+
+        byte[] packetData = roomEnterRequest.Serialize();
+
+        // 서버로 방 입장 요청 전송
+        _stream.Write(packetData, 0, packetData.Length);
+    }
+
+    private void btnSendChat_Click(object sender, EventArgs e)
+    {
+        string message = txtChatMessage.Text;
+
+        if (_stream == null)
+        {
+            MessageBox.Show("Not connected to the server.");
+            return;
+        }
+
+        var chatRequest = new RoomChatRequest
+        {
+            TotalSize = (ushort)(6 + message.Length),
+            Id = PacketID.ReqRoomChat,
+            Type = 0,
+            Message = message
+        };
+
+        byte[] packetData = chatRequest.Serialize();
+
+        // 서버로 채팅 메시지 전송
+        _stream.Write(packetData, 0, packetData.Length);
+        txtChatMessage.Clear();
+    }
+
+    private void StartReceiving()
+    {
+        Task.Run(() =>
+        {
+            while (_client != null && _client.Connected)
+            {
+                try
+                {
+                    byte[] buffer = new byte[256];
+                    int bytesRead = _stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        Invoke((Action)(() =>
+                        {
+                            string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+                            txtChatDisplay.AppendText($"{message}{Environment.NewLine}");
+                        }));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to receive data from server: {ex.Message}");
+                    break;
+                }
+            }
+        });
+    }
+
     private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
     {
         _stream?.Close();

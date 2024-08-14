@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "tcpServer.h"
 #include "tcpCoroutine.h"
 #include "redisHandler.h"
 
@@ -9,7 +8,7 @@ int main() {
 
     //run_tcp_server();  // TCP 서버 실행 함수 호출
     //run_tcp_coroutine_server();  // 코루틴 TCP 서버 실행 함수 호출
-    run_tcp_coroutine_server_with_redis();  // 코루틴 TCP 서버 실행 함수 호출
+    run_tcp_coroutine_server_with_redis_and_rooms();  // 코루틴 TCP 서버 실행 함수 호출
 
     //// Redis 서버의 주소와 포트 설정
     //const char* redis_addr = "127.0.0.1:6379";
