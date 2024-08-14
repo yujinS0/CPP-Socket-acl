@@ -4,10 +4,12 @@
     <ClCompile Include="tcpServer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tcpCoroutine.cpp" />
+    <ClCompile Include="redisHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="tcpServer.h" />
     <ClInclude Include="tcpCoroutine.h" />
+    <ClInclude Include="redisHandler.h" />
   </ItemGroup>
 </Project>
