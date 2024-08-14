@@ -146,16 +146,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PacketDefinition.cpp" />
     <ClCompile Include="redisHandler.cpp" />
     <ClCompile Include="tcpCoroutine.cpp" />
-    <ClCompile Include="tcpServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketDefinition.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="redisHandler.h" />
     <ClInclude Include="tcpCoroutine.h" />
-    <ClInclude Include="tcpServer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
