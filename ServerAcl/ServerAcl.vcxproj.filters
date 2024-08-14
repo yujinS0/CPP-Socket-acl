@@ -11,5 +11,6 @@
     <ClInclude Include="tcpServer.h" />
     <ClInclude Include="tcpCoroutine.h" />
     <ClInclude Include="redisHandler.h" />
+    <ClInclude Include="PacketDefinition.h" />
   </ItemGroup>
 </Project>

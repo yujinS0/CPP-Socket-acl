@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "tcpCoroutine.h"
 #include "redisHandler.h"
-
+#include "PacketDefinition.h"
 
 void run_tcp_coroutine_server_with_redis() {
     const char* addr = "127.0.0.1:8088";
@@ -35,17 +35,22 @@ void run_tcp_coroutine_server_with_redis() {
                             break;
                         }
 
-                        buf[ret] = '\0';  // 문자열로 처리하기 위해 null-terminator 추가
-                        std::cout << "Received from client: " << buf << std::endl;
+                        PacketHeader header = PacketHeader::Deserialize(buf);
 
-                        // 클라이언트로부터 받은 데이터를 Redis에 저장
-                        const char* key = "client_input";
-                        int ttl = 300;  // 5분 (300초)
-                        set_with_ttl(cmd, key, buf, ttl);
+                        if (header.Id == PacketID::ReqLogin) {
+                            LoginRequest loginRequest = LoginRequest::Deserialize(buf);
 
-                        if (conn->write(buf, ret) != ret) {
-                            std::cerr << "Failed to send data to client." << std::endl;
-                            break;
+                            acl::string storedPassword;
+                            bool userExists = cmd.get(loginRequest.UserID, storedPassword);
+
+                            if (userExists && storedPassword == loginRequest.AuthToken) {
+                                std::string successMessage = "Login Success!";
+                                conn->write(successMessage.c_str(), successMessage.size());
+                            }
+                            else {
+                                std::string failureMessage = "Login Failed!";
+                                conn->write(failureMessage.c_str(), failureMessage.size());
+                            }
                         }
                     }
                     delete conn;  // 연결 종료 시 소켓 스트림 삭제
