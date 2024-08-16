@@ -32,7 +32,7 @@ CPP-Socket-acl/
  
 ## 초기 세팅
 * [친절한 정적 라이브러리 추가 방법(사진포함)](./Document/HowToAddCPPStaticLibrary.md)
-* [오픈소스 라이브러리 추가 방법](./Document/Build.md)
+* [빌드 후 오픈소스 라이브러리 추가 방법](./Document/Build.md)
 
 
 ------------------------------
