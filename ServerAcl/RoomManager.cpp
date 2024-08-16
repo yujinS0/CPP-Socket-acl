@@ -76,44 +76,6 @@ void RoomManager::SendUserListToAll(int roomNumber) {
     Broadcast(roomNumber, buffer, sizeof(buffer));
 }
 
-
-
-//void RoomManager::SendUserListToAll(int roomNumber) {
-//    if (rooms_.find(roomNumber) == rooms_.end()) {
-//        return;
-//    }
-//
-//    // 유저 목록 구성
-//    std::string userList = "User list in room: ";
-//    for (const auto& pair : rooms_[roomNumber]) {
-//        userList += pair.first + " ";
-//    }
-//
-//    // 유저 목록을 방에 있는 모든 유저에게 브로드캐스트
-//    for (const auto& pair : rooms_[roomNumber]) {
-//        acl::socket_stream* conn = pair.second;
-//
-//        RoomChatNotification notification;
-//        notification.TotalSize = sizeof(RoomChatNotification);
-//        notification.Id = PacketID::NtfRoomChat;
-//        std::strncpy(notification.UserID, "System", sizeof(notification.UserID) - 1);
-//
-//        // 문자열의 크기를 확인하여 안전하게 복사
-//        if (userList.length() >= sizeof(notification.Message)) {
-//            std::cerr << "Error: User list string too long to fit into notification message." << std::endl;
-//            return;
-//        }
-//        std::strncpy(notification.Message, userList.c_str(), sizeof(notification.Message) - 1);
-//
-//        char buffer[sizeof(RoomChatNotification)];
-//        notification.Serialize(buffer);
-//
-//        std::cout << "Broadcasting User List: " << userList << " to client [" << pair.first << "]." << std::endl;
-//
-//        conn->write(buffer, sizeof(buffer));
-//    }
-//}
-
 void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, const std::string& senderID) {
     RoomChatNotification notification;
     notification.TotalSize = sizeof(RoomChatNotification);
@@ -131,34 +93,6 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
     // 모든 클라이언트에게 브로드캐스트
     Broadcast(roomNumber, buffer, sizeof(buffer));
 }
-
-
-
-//void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, const std::string& senderID) {
-//    for (const auto& pair : rooms_[roomNumber]) {
-//        acl::socket_stream* conn = pair.second;
-//        const std::string& receiverID = pair.first; // 수신자 ID
-//
-//        RoomChatNotification notification;
-//        notification.TotalSize = sizeof(RoomChatNotification);
-//        notification.Id = PacketID::NtfRoomChat;
-//        std::strncpy(notification.UserID, senderID.c_str(), sizeof(notification.UserID) - 1);
-//        std::strncpy(notification.Message, message.c_str(), sizeof(notification.Message) - 1);
-//
-//        char buffer[sizeof(RoomChatNotification)];
-//        notification.Serialize(buffer);
-//
-//        // 디버깅 로그 추가: 각 클라이언트에게 브로드캐스트하는 메시지와 수신자 ID 출력
-//        std::cout << "Broadcasting Message: [" << senderID << "] " << message
-//            << " to client [" << receiverID << "]." << std::endl;
-//
-//        // 메시지의 길이와 버퍼의 크기 확인
-//        std::cout << "Message length: " << message.length() << ", Buffer size: " << sizeof(buffer) << std::endl;
-//
-//
-//        conn->write(buffer, sizeof(buffer));
-//    }
-//}
 
 void RoomManager::Broadcast(int roomNumber, const char* buffer, size_t bufferSize) {
     if (rooms_.find(roomNumber) == rooms_.end()) {
