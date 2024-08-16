@@ -10,6 +10,7 @@ internal class PacketDefinition
         ResLogin = 1003,
         ReqRoomEnter = 1021,
         ResRoomEnter = 1022,
+        NtfUserList = 2024,
         ReqRoomChat = 1026,
         NtfRoomChat = 1027,
     }
@@ -166,5 +167,40 @@ internal class PacketDefinition
             return notification;
         }
 
+    }
+
+    public class UserListNotification : PacketHeader
+    {
+        public string UserID1 { get; set; }
+        public string UserID2 { get; set; }
+
+        public byte[] Serialize()
+        {
+            byte[] headerBuffer = base.Serialize();
+            byte[] userId1Buffer = Encoding.UTF8.GetBytes(UserID1.PadRight(32, '\0'));
+            byte[] userId2Buffer = Encoding.UTF8.GetBytes(UserID2.PadRight(32, '\0'));
+
+            byte[] buffer = new byte[headerBuffer.Length + userId1Buffer.Length + userId2Buffer.Length];
+            Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
+            Array.Copy(userId1Buffer, 0, buffer, headerBuffer.Length, userId1Buffer.Length);
+            Array.Copy(userId2Buffer, 0, buffer, headerBuffer.Length + userId1Buffer.Length, userId2Buffer.Length);
+
+            return buffer;
+        }
+
+        public static UserListNotification Deserialize(byte[] buffer)
+        {
+            var notification = new UserListNotification
+            {
+                TotalSize = BitConverter.ToUInt16(buffer, 0),
+                Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
+                Type = buffer[4],
+            };
+
+            notification.UserID1 = Encoding.UTF8.GetString(buffer, 6, 32).TrimEnd('\0');
+            notification.UserID2 = Encoding.UTF8.GetString(buffer, 38, 32).TrimEnd('\0');
+
+            return notification;
+        }
     }
 }
