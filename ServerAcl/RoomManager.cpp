@@ -58,6 +58,12 @@ void RoomManager::SendUserListToAll(int roomNumber) {
         notification.TotalSize = sizeof(RoomChatNotification);
         notification.Id = PacketID::NtfRoomChat;
         std::strncpy(notification.UserID, "System", sizeof(notification.UserID) - 1);
+
+        // 문자열의 크기를 확인하여 안전하게 복사
+        if (userList.length() >= sizeof(notification.Message)) {
+            std::cerr << "Error: User list string too long to fit into notification message." << std::endl;
+            return;
+        }
         std::strncpy(notification.Message, userList.c_str(), sizeof(notification.Message) - 1);
 
         char buffer[sizeof(RoomChatNotification)];
@@ -68,6 +74,9 @@ void RoomManager::SendUserListToAll(int roomNumber) {
         conn->write(buffer, sizeof(buffer));
     }
 }
+
+
+
 
 void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, const std::string& senderID) {
     for (const auto& pair : rooms_[roomNumber]) {

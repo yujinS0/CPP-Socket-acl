@@ -45,6 +45,25 @@ RoomEnterRequest RoomEnterRequest::Deserialize(const char* buffer) {
     return request;
 }
 
+// UserListNotification 직렬화
+void UserListNotification::Serialize(char* buffer) const {
+    PacketHeader::Serialize(buffer);
+    std::memcpy(buffer + sizeof(PacketHeader), UserID1, sizeof(UserID1));
+    std::memcpy(buffer + sizeof(PacketHeader) + sizeof(UserID1), UserID2, sizeof(UserID2));
+}
+
+// UserListNotification 역직렬화
+UserListNotification UserListNotification::Deserialize(const char* buffer) {
+    UserListNotification notification;
+    notification.TotalSize = *(uint16_t*)buffer;
+    notification.Id = *(PacketID*)(buffer + sizeof(notification.TotalSize));
+    notification.Type = buffer[sizeof(notification.TotalSize) + sizeof(notification.Id)];
+    std::memcpy(notification.UserID1, buffer + sizeof(PacketHeader), sizeof(notification.UserID1));
+    std::memcpy(notification.UserID2, buffer + sizeof(PacketHeader) + sizeof(notification.UserID1), sizeof(notification.UserID2));
+    return notification;
+}
+
+
 // RoomChatRequest
 void RoomChatRequest::Serialize(char* buffer) const {
     PacketHeader::Serialize(buffer);

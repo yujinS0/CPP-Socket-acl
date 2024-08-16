@@ -7,6 +7,7 @@ enum class PacketID : uint16_t {
     ResLogin = 1003,
     ReqRoomEnter = 1021,
     ResRoomEnter = 1022,
+    NtfUserList = 2024,
     ReqRoomChat = 1026,
     NtfRoomChat = 1027,
 };
@@ -33,6 +34,15 @@ struct RoomEnterRequest : public PacketHeader {
     void Serialize(char* buffer) const;
     static RoomEnterRequest Deserialize(const char* buffer);
 };
+
+struct UserListNotification : public PacketHeader {
+    char UserID1[32];  // 첫 번째 유저 ID
+    char UserID2[32];  // 두 번째 유저 ID (없으면 빈 문자열)
+
+    void Serialize(char* buffer) const;
+    static UserListNotification Deserialize(const char* buffer);
+};
+
 
 struct RoomChatRequest : public PacketHeader {
     char Message[256];
