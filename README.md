@@ -10,7 +10,7 @@ CPP-Socket-acl/
 │   └── ... (클라이언트)
 ├── Document/
 │   └── ... (문서 정리)
-├── RediServerAcl/
+├── RedisServerAcl/
 │   └── ... (ACL을 통해 서버에서 간편하게 Redis 사용하는 예제)
 ├── ServerAcl/
 │   └── ... (서버)
