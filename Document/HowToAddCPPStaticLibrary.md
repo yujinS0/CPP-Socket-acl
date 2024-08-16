@@ -4,7 +4,7 @@
 * 오픈소스 확인 후 빌드하여 `*.lib`, `/include.*.h` 해당 파일 위치를 확인하자.
 * 우리의 경우 아래 페이지를 보고 빌드를 진행하자.
   + [Acl 오픈소스](https://github.com/acl-dev/acl/tree/master?tab=readme-ov-file)
-  + [Acl 빌드 번역 및 설명 페이지](./build.md)
+  + [Acl 빌드 번역 및 설명 페이지](./Build.md)
 
 ## Visual Studio에서 설정 진행하기
 
