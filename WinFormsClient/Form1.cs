@@ -155,13 +155,16 @@ namespace WinFormsClient
                 case PacketID.NtfRoomChat:
                     var chatNotification = RoomChatNotification.Deserialize(buffer);
 
+                    // 널 문자 제거 처리
+                    var cleanMessage = chatNotification.Message.TrimEnd('\0');
+                    var cleanUserID = chatNotification.UserID.TrimEnd('\0');
+
                     Invoke((Action)(() =>
                     {
                         try
                         {
-                            var cleanMessage = chatNotification.Message.TrimEnd('\0');
-                            AddLogMessage($"서버로부터 받은 메시지 = {chatNotification.UserID} : {cleanMessage}");
-                            lstChatMessages.Items.Add($"{chatNotification.UserID} : {cleanMessage}");
+                            AddLogMessage($"서버로부터 받은 메시지 = {cleanUserID} : {cleanMessage}");
+                            lstChatMessages.Items.Add($"{cleanUserID} : {cleanMessage}");
                         }
                         catch (Exception ex)
                         {
@@ -172,19 +175,24 @@ namespace WinFormsClient
 
                 case PacketID.NtfUserList:
                     var userListNotification = UserListNotification.Deserialize(buffer);
+
+                    // 널 문자 제거 처리
+                    var cleanUserID1 = userListNotification.UserID1.TrimEnd('\0');
+                    var cleanUserID2 = userListNotification.UserID2.TrimEnd('\0');
+
                     Invoke((Action)(() =>
                     {
                         try
                         {
                             AddLogMessage("[로그] 유저 목록을 수신했습니다.");
                             lstUsers.Items.Clear();
-                            if (!string.IsNullOrEmpty(userListNotification.UserID1))
+                            if (!string.IsNullOrEmpty(cleanUserID1))
                             {
-                                lstUsers.Items.Add(userListNotification.UserID1);
+                                lstUsers.Items.Add(cleanUserID1);
                             }
-                            if (!string.IsNullOrEmpty(userListNotification.UserID2))
+                            if (!string.IsNullOrEmpty(cleanUserID2))
                             {
-                                lstUsers.Items.Add(userListNotification.UserID2);
+                                lstUsers.Items.Add(cleanUserID2);
                             }
                         }
                         catch (Exception ex)
