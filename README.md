@@ -12,7 +12,7 @@ CPP-Socket-acl/
 │   └── ... (문서 정리)
 ├── RedisServerAcl/
 │   └── ... (ACL을 통해 서버에서 간편하게 Redis 사용하는 예제)
-├── ServerAcl/
+├── ChatServerAcl/
 │   └── ... (서버)
 ├── TCPCoroutineEcoServerAcl/
 │   └── ... (Coroutine을 활용한 TCP Eco 서버)
