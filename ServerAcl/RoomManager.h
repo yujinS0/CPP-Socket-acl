@@ -11,6 +11,7 @@ public:
     void SendUserListToAll(int roomNumber);
 
     void BroadcastMessage(int roomNumber, const std::string& message, const std::string& senderID);
+    void Broadcast(int roomNumber, const char* buffer, size_t bufferSize);
 
 private:
     std::unordered_map<int, std::unordered_map<std::string, acl::socket_stream*>> rooms_;
