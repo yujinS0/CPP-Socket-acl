@@ -157,8 +157,16 @@ namespace WinFormsClient
 
                     Invoke((Action)(() =>
                     {
-                        AddLogMessage($"서버로부터 받은 메시지 = {chatNotification.UserID} : {chatNotification.Message}");
-                        lstChatMessages.Items.Add($"{chatNotification.UserID} : {chatNotification.Message}");
+                        try
+                        {
+                            var cleanMessage = chatNotification.Message.TrimEnd('\0');
+                            AddLogMessage($"서버로부터 받은 메시지 = {chatNotification.UserID} : {cleanMessage}");
+                            lstChatMessages.Items.Add($"{chatNotification.UserID} : {cleanMessage}");
+                        }
+                        catch (Exception ex)
+                        {
+                            AddLogMessage($"UI 업데이트 중 오류 발생: {ex.Message}");
+                        }
                     }));
                     break;
 
@@ -166,15 +174,22 @@ namespace WinFormsClient
                     var userListNotification = UserListNotification.Deserialize(buffer);
                     Invoke((Action)(() =>
                     {
-                        AddLogMessage("[로그] 유저 목록을 수신했습니다.");
-                        lstUsers.Items.Clear();
-                        if (!string.IsNullOrEmpty(userListNotification.UserID1))
+                        try
                         {
-                            lstUsers.Items.Add(userListNotification.UserID1);
+                            AddLogMessage("[로그] 유저 목록을 수신했습니다.");
+                            lstUsers.Items.Clear();
+                            if (!string.IsNullOrEmpty(userListNotification.UserID1))
+                            {
+                                lstUsers.Items.Add(userListNotification.UserID1);
+                            }
+                            if (!string.IsNullOrEmpty(userListNotification.UserID2))
+                            {
+                                lstUsers.Items.Add(userListNotification.UserID2);
+                            }
                         }
-                        if (!string.IsNullOrEmpty(userListNotification.UserID2))
+                        catch (Exception ex)
                         {
-                            lstUsers.Items.Add(userListNotification.UserID2);
+                            AddLogMessage($"UI 업데이트 중 오류 발생: {ex.Message}");
                         }
                     }));
                     break;
