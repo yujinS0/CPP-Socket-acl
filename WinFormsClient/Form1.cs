@@ -132,68 +132,6 @@ namespace WinFormsClient
             txtChatMessage.Clear();
         }
 
-        //private void StartReceiving()
-        //{
-        //    Task.Run(() =>
-        //    {
-        //        byte[] headerBuffer = new byte[6]; // 헤더 크기만큼 먼저 읽음
-        //        int headerOffset = 0;
-
-        //        while (_client != null && _client.Connected)
-        //        {
-        //            try
-        //            {
-        //                // 1단계: 먼저 고정된 크기의 헤더를 읽는다.
-        //                int bytesRead = _stream.Read(headerBuffer, headerOffset, headerBuffer.Length - headerOffset);
-        //                if (bytesRead > 0)
-        //                {
-        //                    headerOffset += bytesRead;
-
-        //                    // 헤더를 모두 읽었는지 확인
-        //                    if (headerOffset == headerBuffer.Length)
-        //                    {
-        //                        // 2단계: 헤더에서 TotalSize를 읽고 나머지 패킷을 처리
-        //                        PacketHeader header = PacketHeader.Deserialize(headerBuffer);
-
-        //                        byte[] fullPacket = new byte[header.TotalSize];
-        //                        Array.Copy(headerBuffer, fullPacket, headerBuffer.Length);
-
-        //                        int remainingBytes = header.TotalSize - headerBuffer.Length;
-        //                        int packetOffset = headerBuffer.Length;
-
-        //                        // 남은 데이터 읽기
-        //                        while (remainingBytes > 0)
-        //                        {
-        //                            bytesRead = _stream.Read(fullPacket, packetOffset, remainingBytes);
-        //                            if (bytesRead > 0)
-        //                            {
-        //                                remainingBytes -= bytesRead;
-        //                                packetOffset += bytesRead;
-        //                            }
-        //                        }
-
-        //                        // 3단계: 전체 패킷을 처리
-        //                        switch (header.Id)
-        //                        {
-        //                            case PacketID.NtfRoomChat:
-        //                                RoomChatRequest chatRequest = RoomChatRequest.Deserialize(fullPacket);
-        //                                // 메시지 처리
-        //                                break;
-        //                        }
-
-        //                        // 다시 헤더 읽기로 돌아가기
-        //                        headerOffset = 0;
-        //                    }
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                // 오류 처리
-        //                break;
-        //            }
-        //        }
-        //    });
-        //}
         private void StartReceiving()
         {
             Task.Run(() =>
