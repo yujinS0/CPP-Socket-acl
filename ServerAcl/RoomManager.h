@@ -8,6 +8,8 @@ class RoomManager {
 public:
     void EnterRoom(int roomNumber, const std::string& userID, acl::socket_stream* conn);
     void LeaveRoom(int roomNumber, const std::string& userID);
+    void SendUserListToAll(int roomNumber);
+
     void BroadcastMessage(int roomNumber, const std::string& message, const std::string& senderID);
 
 private:

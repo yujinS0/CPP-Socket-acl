@@ -23,7 +23,7 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
     acl::redis_client client(redis_addr, conn_timeout, rw_timeout);
     acl::redis cmd(&client);  // Redis 疙飞 按眉 积己
 
-    RoomManager roomManager;  // 规 包府磊甫 积己钦聪促.
+    RoomManager roomManager;  
 
     go[&]{
         while (true) {
