@@ -11,7 +11,7 @@ internal class PacketDefinition
         ReqRoomEnter = 1021,
         ResRoomEnter = 1022,
         ReqRoomChat = 1026,
-        ResRoomChat = 1027,
+        NtfRoomChat = 1027,
     }
 
     public class PacketHeader
@@ -23,7 +23,7 @@ internal class PacketDefinition
         public byte[] Serialize()
         {
             byte[] buffer = new byte[6];
-            BitConverter.GetBytes(TotalSize).CopyTo(buffer, 0);
+            BitConverter.GetBytes(TotalSize).CopyTo(buffer, 0); // TotalSize는 전체 패킷 크기를 포함
             BitConverter.GetBytes((ushort)Id).CopyTo(buffer, 2);
             buffer[4] = Type;
             return buffer;
@@ -109,7 +109,10 @@ internal class PacketDefinition
             byte[] headerBuffer = base.Serialize();
             byte[] messageBuffer = Encoding.UTF8.GetBytes(Message);
 
-            byte[] buffer = new byte[headerBuffer.Length + messageBuffer.Length];
+            // TotalSize는 고정된 헤더 크기(6바이트) + 가변 메시지 크기
+            TotalSize = (ushort)(headerBuffer.Length + messageBuffer.Length);
+
+            byte[] buffer = new byte[TotalSize];
             Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
             Array.Copy(messageBuffer, 0, buffer, headerBuffer.Length, messageBuffer.Length);
 
@@ -123,8 +126,45 @@ internal class PacketDefinition
                 TotalSize = BitConverter.ToUInt16(buffer, 0),
                 Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
                 Type = buffer[4],
-                Message = Encoding.UTF8.GetString(buffer, 6, buffer.Length - 6)
+                Message = Encoding.UTF8.GetString(buffer, 6, buffer.Length - 6).TrimEnd('\0')  // 가변 메시지를 헤더 뒤에서 읽음
             };
         }
+    }
+
+    public class RoomChatNotification : PacketHeader
+    {
+        public string UserID { get; set; }
+        public string Message { get; set; }
+
+        public byte[] Serialize()
+        {
+            byte[] headerBuffer = base.Serialize();
+            byte[] userIdBuffer = Encoding.UTF8.GetBytes(UserID.PadRight(32, '\0'));
+            byte[] messageBuffer = Encoding.UTF8.GetBytes(Message);
+
+            byte[] buffer = new byte[headerBuffer.Length + userIdBuffer.Length + messageBuffer.Length];
+            Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
+            Array.Copy(userIdBuffer, 0, buffer, headerBuffer.Length, userIdBuffer.Length);
+            Array.Copy(messageBuffer, 0, buffer, headerBuffer.Length + userIdBuffer.Length, messageBuffer.Length);
+
+            return buffer;
+        }
+
+        public static RoomChatNotification Deserialize(byte[] buffer)
+        {
+            var notification = new RoomChatNotification
+            {
+                TotalSize = BitConverter.ToUInt16(buffer, 0),
+                Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
+                Type = buffer[4],
+            };
+
+            notification.UserID = Encoding.UTF8.GetString(buffer, 6, 32).TrimEnd('\0');
+            int messageLength = notification.TotalSize - 6 - 32; // 패킷 크기에서 헤더와 UserID 크기를 뺀 값이 메시지 크기
+            notification.Message = Encoding.UTF8.GetString(buffer, 38, messageLength).TrimEnd('\0');
+
+            return notification;
+        }
+
     }
 }
