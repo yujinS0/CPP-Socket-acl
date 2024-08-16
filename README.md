@@ -7,13 +7,15 @@ Visual C++ 환경에서 오픈 소스 네트워크 프레임워크인 Acl을 활
 ```
 CPP-Socket-acl/
 ├── Client/
-│   └── ... (클라이언트)
+│   └── ... (C++ Test용 명령줄 클라이언트)
+├── WinFormsClient/
+│   └── ... (WinForms 채팅 클라이언트)
 ├── Document/
 │   └── ... (문서 정리)
 ├── RedisServerAcl/
 │   └── ... (ACL을 통해 서버에서 간편하게 Redis 사용하는 예제)
 ├── ChatServerAcl/
-│   └── ... (서버)
+│   └── ... (ACL 활용한 채팅 서버)
 ├── TCPCoroutineEcoServerAcl/
 │   └── ... (Coroutine을 활용한 TCP Eco 서버)
 ├── TCPEcoServerAcl/
@@ -29,6 +31,7 @@ CPP-Socket-acl/
 - acl/Debug 디렉토리로 .lib 파일들 옮기기 (.lib 파일은 [acl/Debug_lib_Files](./acl/Debug_lib_Files)에 존재)
  
 ## 초기 세팅
+* [친절한 정적 라이브러리 추가 방법(사진포함)](./Document/HowToAddCPPStaticLibrary.md)
 * [오픈소스 라이브러리 추가 방법](./Document/Build.md)
 
 
