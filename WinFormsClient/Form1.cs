@@ -150,18 +150,12 @@ namespace WinFormsClient
         {
             PacketHeader header = PacketHeader.Deserialize(buffer);
 
-            // 패킷 ID에 대한 로그 출력
-            AddLogMessage($"수신된 패킷 ID: {header.Id}");
-
             switch (header.Id)
             {
                 case PacketID.NtfRoomChat:
                     var chatNotification = RoomChatNotification.Deserialize(buffer);
 
-                    // 채팅 메시지 및 사용자 ID 디버깅 로그 추가
-                    AddLogMessage($"수신된 메시지: {chatNotification.UserID}, 내용: {chatNotification.Message}");
-
-                    // 널 문자 제거 처리
+                    // 널 문자 제거 처리 
                     var cleanMessage = chatNotification.Message.TrimEnd('\0');
                     var cleanUserID = chatNotification.UserID.TrimEnd('\0');
 
