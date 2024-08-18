@@ -131,10 +131,6 @@ namespace WinFormsClient
                         int bytesRead = _stream.Read(buffer, 0, buffer.Length);
                         if (bytesRead > 0)
                         {
-                            // 수신된 데이터를 처리하기 전 로그 출력
-                            AddLogMessage($"수신된 데이터 크기: {bytesRead} 바이트");
-                            AddLogMessage($"수신된 원시 데이터: {BitConverter.ToString(buffer, 0, bytesRead)}");
-
                             ProcessReceivedData(buffer);
                         }
                     }
