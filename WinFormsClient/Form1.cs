@@ -131,6 +131,10 @@ namespace WinFormsClient
                         int bytesRead = _stream.Read(buffer, 0, buffer.Length);
                         if (bytesRead > 0)
                         {
+                            // 수신된 데이터를 처리하기 전 로그 출력
+                            AddLogMessage($"수신된 데이터 크기: {bytesRead} 바이트");
+                            AddLogMessage($"수신된 원시 데이터: {BitConverter.ToString(buffer, 0, bytesRead)}");
+
                             ProcessReceivedData(buffer);
                         }
                     }
@@ -150,21 +154,27 @@ namespace WinFormsClient
         {
             PacketHeader header = PacketHeader.Deserialize(buffer);
 
+            // 패킷 ID에 대한 로그 출력
+            AddLogMessage($"수신된 패킷 ID: {header.Id}");
+
             switch (header.Id)
             {
                 case PacketID.NtfRoomChat:
                     var chatNotification = RoomChatNotification.Deserialize(buffer);
 
+                    // 채팅 메시지 및 사용자 ID 디버깅 로그 추가
+                    AddLogMessage($"수신된 메시지: {chatNotification.UserID}, 내용: {chatNotification.Message}");
+
                     // 널 문자 제거 처리
                     var cleanMessage = chatNotification.Message.TrimEnd('\0');
                     var cleanUserID = chatNotification.UserID.TrimEnd('\0');
 
+                    // 채팅 메시지를 리스트에 추가하는 함수 호출
                     Invoke((Action)(() =>
                     {
                         try
                         {
-                            AddLogMessage($"서버로부터 받은 메시지 = {cleanUserID} : {cleanMessage}");
-                            lstChatMessages.Items.Add($"{cleanUserID} : {cleanMessage}");
+                            AddRoomChatMessageList(cleanUserID, cleanMessage);
                         }
                         catch (Exception ex)
                         {
@@ -175,6 +185,9 @@ namespace WinFormsClient
 
                 case PacketID.NtfUserList:
                     var userListNotification = UserListNotification.Deserialize(buffer);
+
+                    // 유저 목록 수신 로그 추가
+                    AddLogMessage($"유저 목록 수신: {userListNotification.UserID1}, {userListNotification.UserID2}");
 
                     // 널 문자 제거 처리
                     var cleanUserID1 = userListNotification.UserID1.TrimEnd('\0');
@@ -211,7 +224,35 @@ namespace WinFormsClient
             }
         }
 
-        private void AddLogMessage(string message)
+        // 채팅 메시지를 리스트에 추가하는 함수
+        private void AddRoomChatMessageList(string userID, string message)
+        {
+            // '\0' 문자가 있으면 그 전까지의 문자열만 사용
+            int nullCharIndexUserID = userID.IndexOf('\0');
+            if (nullCharIndexUserID >= 0)
+            {
+                userID = userID.Substring(0, nullCharIndexUserID);
+            }
+
+            int nullCharIndexMessage = message.IndexOf('\0');
+            if (nullCharIndexMessage >= 0)
+            {
+                message = message.Substring(0, nullCharIndexMessage);
+            }
+
+            // 최대 메시지 수를 512로 제한
+            if (lstChatMessages.Items.Count > 512)
+            {
+                lstChatMessages.Items.Clear();
+            }
+
+            // 새로운 메시지를 추가하고, 리스트박스를 맨 아래로 스크롤
+            lstChatMessages.Items.Add($"[{userID}]: {message}");
+            lstChatMessages.SelectedIndex = lstChatMessages.Items.Count - 1;
+        }
+
+
+        public void AddLogMessage(string message)
         {
             if (InvokeRequired)
             {
