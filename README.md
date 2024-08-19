@@ -138,11 +138,14 @@ ACL을 사용하여 Redis와 상호작용하는 서버를 구축합니다. 이 �
 # 문서
 
 ## 프로젝트 시작 이전
-- [오픈소스 라이브러리 추가 방법](./Document/Build.md)
+- [오픈소스 라이브러리(Acl 빌드 후) 정적 라이브러리로 추가 방법](./Document/Build.md)
+- [친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)
 
 ## 실습 예제
 - [코루틴 설명 및 예제](./Document/Coroutine.md)
+- [주요 예제 정리](./Document/EX.md)
 
 ## 원문 번역
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
+
 
