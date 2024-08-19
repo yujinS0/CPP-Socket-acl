@@ -6,9 +6,9 @@ Visual C++ 환경에서 오픈 소스 네트워크 프레임워크인 Acl을 활
 
 ```
 CPP-Socket-acl/
-├── Client/
+├── CppConsoleClient/
 │   └── ... (C++ Test용 명령줄 클라이언트)
-├── WinFormsClient/
+├── WinFormsChatClient/
 │   └── ... (WinForms 채팅 클라이언트)
 ├── Document/
 │   └── ... (문서 정리)
