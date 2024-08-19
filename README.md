@@ -13,9 +13,9 @@
 2. [ACL 빌드 및 정적 라이브러리로 추가하는 방법](#acl-빌드-및-정적-라이브러리로-추가하는-방법)
 
 3. [ACL 간단 실습](#acl-간단-실습)
-   - [TCP Eco Server + CppConsoleClient](#tcp-eco-server--cppconsoleclient)
-   - [TCP Coroutine Eco Server + CppConsoleClient](#tcp-coroutine-eco-server--cppconsoleclient)
-   - [Redis Server](#redis-server)
+   - TCP Eco 서버 (TCP Eco Server + CppConsoleClient)
+   - Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient)
+   - Redis와 상호작용하는 서버 (Redis Server)
 
 4. [ACL 채팅 서버 실습 (with C# WinForms client)](#acl-채팅-서버-실습-with-c-winforms-client)
    - 실습 목표 소개
@@ -32,13 +32,13 @@
 [The Acl (Advanced C/C++ Library) project](https://github.com/acl-dev/acl/tree/master)은 강력한 다중 플랫폼 네트워크 통신 라이브러리 및 서비스 프레임워크입니다.
 
 지원되는 플랫폼:
-- LINUX, WIN32, Solaris, FreeBSD, MacOS, AndroidOS, iOS
+- Linux, Windows, Solaris, FreeBSD, MacOS, iOS, AndroidOS
 
 ## ACL 주요 기능 소개
 ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 1. **Basic Network Module**
-   - 비동기 네트워크 프로그래밍을 위한 기초 API 제공
+   - 가장 기본적인 스트리밍 통신 모듈로, 네트워크 스트리밍을 지원할 뿐만 아니라 파일 스트리밍도 지원
 
 2. **Coroutine (코루틴)**
    - 비동기 코드를 작성할 수 있는 경량 코루틴 지원
@@ -62,11 +62,22 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 # ACL 빌드 및 정적 라이브러리로 추가하는 방법
 
 ## 1. ACL 빌드
-1. 이 리포지토리의 acl 디렉토리로 이동합니다.
-2. 빌드를 진행하세요. 빌드 방법에 대한 자세한 내용은 [오픈소스 라이브러리 추가 방법](./Document/Build.md)를 참조하세요.
+1. 이 리포지토리의 [acl 디렉토리](./acl)로 이동합니다. 또는 [공식 깃허브](https://github.com/acl-dev/acl)를 clone 합니다.
+2. 빌드를 진행하세요.
+   - windows 기준 : `acl_cpp_vc2022.sln` 솔루션에서 필요한 각 프로젝트의 빌드를 진행한다. <br>
+      * lib_acl
+      * lib_protocol
+      * lib_acl_cpp
+      * libfiber
+      * libfiber_cpp
+   - 빌드 방법에 대한 자세한 내용은 [Acl 빌드 후 정적 라이브러리로 추가하기](./Document/Build.md)를 참조하세요.
 
-## 2. 정적 라이브러리 추가 방법
+## 2. 정적 라이브러리 추가
 정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
+   - 플랫폼 확인 (ex. win32)
+   - C/C++ > 일반 > **추가 포함 디렉터리**에 헤더파일 경로 추가
+   - 링커 > 일반 > **추가 라이브러리 디렉터리**에 lib 파일 경로 추가
+   - 링커 > 입력 > **추가 종속성**에 lib파일 이름 추가
 
 <br>
 
@@ -111,16 +122,18 @@ ACL을 사용하여 Redis와 상호작용하는 서버를 구축합니다. 이 �
 2. **채팅 기능**: 여러 사용자가 채팅방에 입장하여 메시지를 주고받을 수 있습니다. 서버는 각 사용자의 메시지를 해당 방에 있는 모든 사용자에게 브로드캐스트합니다.
 
 3. **C#과 C++ 사이의 패킷 직렬화 기법**
-   - **Protocol Buffers**: [Protocol Buffers](https://protobuf.dev/)를 사용하여 C#과 C++ 간의 데이터 직렬화 및 역직렬화를 할 수 있습니다.
+   - **Protocol Buffers**: [Protocol Buffers](https://protobuf.dev/)를 사용하여 C#과 C++ 간의 데이터 직렬화/역직렬화를 보다 쉽게 할 수 있습니다.
    - **현재 구현 방식**: 이 프로젝트에서는 Protocol Buffers 같은 오픈소스 직렬화 데이터 구조를 사용하지 않고, <br>
      직접 메모리 버퍼에 쓰고 읽는 식으로 구현한 직렬화 방식으로 패킷을 주고받습니다. <br>
      이는 사용자 정의된 간단한 직렬화 포맷을 사용하여 데이터를 처리합니다.
 
 ## 실습 캡쳐
 
-프로젝트의 실행 결과를 캡처한 화면입니다:
+채팅 프로젝트의 실행 결과를 캡처한 화면입니다:
 
-![실습 캡쳐 이미지](./Document/ChatServerExample.png) 
+![실습 캡쳐 이미지](./Document/img/ChatServerExample.PNG) 
+
+<br>
 
 # 문서
 
