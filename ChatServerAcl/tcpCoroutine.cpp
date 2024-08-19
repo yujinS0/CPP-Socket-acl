@@ -35,6 +35,8 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                     int currentRoomNumber = -1;
 
                     while (true) {
+                        std::memset(buf, 0, sizeof(buf));
+
                         int ret = conn->read(buf, sizeof(buf), false);
                         if (ret <= 0) {  // 데이터 읽기 실패 또는 연결 종료 시
                             std::cerr << "Failed to read data from client or connection closed." << std::endl;
@@ -62,7 +64,8 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                             break;
                         }
                         case PacketID::ReqRoomEnter: {
-                            RoomEnterRequest roomEnterRequest = RoomEnterRequest::Deserialize(buf);
+                            RoomEnterRequest roomEnterRequest{};
+                            roomEnterRequest = RoomEnterRequest::Deserialize(buf);
                             currentRoomNumber = roomEnterRequest.RoomNumber;
                             if (!currentUserID.empty()) {
                                 roomManager.EnterRoom(currentRoomNumber, currentUserID, conn);
@@ -71,7 +74,8 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                             break;
                         }
                         case PacketID::ReqRoomChat: {
-                            RoomChatRequest roomChatRequest = RoomChatRequest::Deserialize(buf);
+                            RoomChatRequest roomChatRequest{};
+                            roomChatRequest = RoomChatRequest::Deserialize(buf);
                             if (currentRoomNumber != -1 && !currentUserID.empty()) {
                                 roomManager.BroadcastMessage(currentRoomNumber, roomChatRequest.Message, currentUserID);
                                 std::cout << "User " << currentUserID << " sent message: " << roomChatRequest.Message << std::endl;
