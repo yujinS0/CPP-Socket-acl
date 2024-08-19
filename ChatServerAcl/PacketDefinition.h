@@ -47,6 +47,10 @@ struct UserListNotification : public PacketHeader {
 struct RoomChatRequest : public PacketHeader {
     char Message[256];
 
+    RoomChatRequest() : PacketHeader() {
+        std::memset(Message, 0, sizeof(Message));
+    }
+
     void Serialize(char* buffer) const;
     static RoomChatRequest Deserialize(const char* buffer);
 };
@@ -54,6 +58,11 @@ struct RoomChatRequest : public PacketHeader {
 struct RoomChatNotification : public PacketHeader {
     char UserID[32];
     char Message[256];
+
+    RoomChatNotification() : PacketHeader() {
+        std::memset(UserID, 0, sizeof(UserID));
+        std::memset(Message, 0, sizeof(Message));
+    }
 
     void Serialize(char* buffer) const;
     static RoomChatNotification Deserialize(const char* buffer);

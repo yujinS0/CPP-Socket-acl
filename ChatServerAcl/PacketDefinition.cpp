@@ -66,12 +66,14 @@ UserListNotification UserListNotification::Deserialize(const char* buffer) {
 
 // RoomChatRequest
 void RoomChatRequest::Serialize(char* buffer) const {
+    //std::memset(buffer, 0, sizeof(RoomChatRequest));
     PacketHeader::Serialize(buffer);
     std::memcpy(buffer + sizeof(PacketHeader), Message, sizeof(Message));
 }
 
 RoomChatRequest RoomChatRequest::Deserialize(const char* buffer) {
-    RoomChatRequest request;
+    RoomChatRequest request{};
+    //std::memset(&request, 0, sizeof(RoomChatRequest));
     request.TotalSize = *(uint16_t*)buffer;
     request.Id = *(PacketID*)(buffer + sizeof(request.TotalSize));
     request.Type = buffer[sizeof(request.TotalSize) + sizeof(request.Id)];
@@ -81,13 +83,15 @@ RoomChatRequest RoomChatRequest::Deserialize(const char* buffer) {
 
 // RoomChatNotification
 void RoomChatNotification::Serialize(char* buffer) const {
+    //std::memset(buffer, 0, sizeof(RoomChatNotification));
     PacketHeader::Serialize(buffer);
     std::memcpy(buffer + sizeof(PacketHeader), UserID, sizeof(UserID));
     std::memcpy(buffer + sizeof(PacketHeader) + sizeof(UserID), Message, sizeof(Message));
 }
 
 RoomChatNotification RoomChatNotification::Deserialize(const char* buffer) {
-    RoomChatNotification notification;
+    RoomChatNotification notification{};
+    //std::memset(&notification, 0, sizeof(RoomChatNotification));
     notification.TotalSize = *(uint16_t*)buffer;
     notification.Id = *(PacketID*)(buffer + sizeof(notification.TotalSize));
     notification.Type = buffer[sizeof(notification.TotalSize) + sizeof(notification.Id)];
