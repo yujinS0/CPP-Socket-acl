@@ -144,7 +144,8 @@ ACL을 사용하여 Redis와 상호작용하는 예제입니다. 이 예제는 R
 ## 실습 예제
 - [코루틴 설명 및 예제](./Document/Coroutine.md)
 - [Redis 설명 및 예제](./Document/Redis.md)
-- [주요 예제 정리](./Document/EX.md)
+* [기초 예제](./Document/EX.md)
+* [심층 예제 (with 코루틴, mysql, redis)](./Document/Advanced_EX.md)
 
 ## 원문 번역
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
