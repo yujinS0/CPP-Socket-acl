@@ -2,6 +2,47 @@
 
 
 # acl 예제
+
+acl에 다양한 기능이 포함되어있기에 예제 목록도 복잡합니다. 이를 정리/번역한 문서입니다.
+
+## 주요 예제
+
+### MYSQL 관련 예제
+* **2.52 mysql: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql)
+* **2.53 mysql2: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql2)
+
+### Redis 관련 예제
+* **Redis 관련 파일** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
+  - 2.75 redis/redis_connection: redis 연결 클라이언트 프로그램
+  - 2.76 redis/redis_hash: redis 해시 테이블과 유사한 클라이언트 애플리케이션
+  - 2.77 redis/redis_hyperloglog: redis 하이퍼로그 클라이언트 프로그램
+  - 2.78 redis/redis_key: redis 키 클라이언트 응용 프로그램
+  - 2.79 redis/redis_list: redis 리스트 클라이언트 프로그램
+  - 2.80 redis/redis_manager: redis 연결 풀 클러스터 관리 클라이언트 프로그램
+  - 2.81 redis/redis_pool: redis 연결 풀 클라이언트 프로그램
+  - 2.82 redis/redis_pubsub: redis 게시-구독 클라이언트 프로그램
+  - 2.83 redis/redis_server: redis 서버 관리 클라이언트 애플리케이션
+  - 2.84 REDIS/REDIS_SET: REDIS 수집 클라이언트 애플리케이션
+  - 2.85 redis/redis_string: redis 문자열 클라이언트 애플리케이션
+  - 2.86 redis/redis_trans: redis 트랜잭션 클라이언트
+  - 2.87 redis/redis_zset: redis 정렬 집합 클라이언트 프로그램
+  - 2.88 redis/redis_zset_pool: redis ordered-set 클라이언트, ordered-set 객체를 사용하여 대용량 데이터 블록을 저장하고 연결 풀링을 지원합니다.
+
+### Coroutine 관련 예제
+* [samples](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c++)
+  + event_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/event_mutex)
+  + thread_cond [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_cond)
+  + thread_event [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_event)
+  + thread_lock [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_lock)
+  + thread_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_mutex)
+  + thread_tbox [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_tbox)
+    
+* 위 Samples은 [acl project](https://github.com/acl-dev/acl/) library의 APIs 사용
+
+
+
+
+
 ## acl 프로젝트의 테스트 및 애플리케이션 예제는 주로 다음과 같이 세 가지 예제 모음으로 구성되어 있습니다:
 
 ### 1. acl/samples [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl/samples)
@@ -139,8 +180,8 @@
 - 2.49 mime_base64: MIME BASE64 포맷 핸들러
 - 2.50 mime_qp: MIME QP 형식 처리기
 - 2.51 mime_xxcode: MIME XXCODE 포맷 핸들러
-- 2.52 mysql: mysql 클라이언트 프로그램
-- 2.53 mysql2: mysql 클라이언트 프로그램
+- **2.52 mysql: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql)
+- **2.53 mysql2: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql2)
 - 2.54 rfc822: 메일용 RFC822 프로토콜 핸들러
 - 2.55 rfc2047: 메일용 RFC2047 프로토콜 핸들러
 - 2.56 rpc_download: 차단/비차단 통합 HTTP 다운로드 프로그램
@@ -163,6 +204,7 @@
 - 2.73 winaio: WIN32 GUI 기반 비차단 클라이언트 프로그램
 - 2.74 xml: XML 객체 파싱 핸들러
 - 2.75 zlib: 압축 포맷 핸들러
+- **Redis 관련 파일** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
 - 2.75 redis/redis_connection: redis 연결 클라이언트 프로그램
 - 2.76 redis/redis_hash: redis 해시 테이블과 유사한 클라이언트 애플리케이션
 - 2.77 redis/redis_hyperloglog: redis 하이퍼로그 클라이언트 프로그램
