@@ -114,6 +114,8 @@ internal class PacketDefinition
             TotalSize = (ushort)(headerBuffer.Length + messageBuffer.Length);
 
             byte[] buffer = new byte[TotalSize];
+            Array.Clear(buffer, 0, buffer.Length); // 이전 데이터 제거
+
             Array.Copy(headerBuffer, 0, buffer, 0, headerBuffer.Length);
             Array.Copy(messageBuffer, 0, buffer, headerBuffer.Length, messageBuffer.Length);
 
@@ -122,13 +124,18 @@ internal class PacketDefinition
 
         public static RoomChatRequest Deserialize(byte[] buffer)
         {
-            return new RoomChatRequest
+            var request = new RoomChatRequest
             {
                 TotalSize = BitConverter.ToUInt16(buffer, 0),
                 Id = (PacketID)BitConverter.ToUInt16(buffer, 2),
-                Type = buffer[4],
-                Message = Encoding.UTF8.GetString(buffer, 6, buffer.Length - 6).TrimEnd('\0')  // 가변 메시지를 헤더 뒤에서 읽음
+                Type = buffer[4]
             };
+
+            // 문자열 데이터를 정확하게 추출 (널 문자 제거)
+            int messageLength = request.TotalSize - 6;
+            request.Message = Encoding.UTF8.GetString(buffer, 6, messageLength).TrimEnd('\0');
+
+            return request;
         }
     }
 
