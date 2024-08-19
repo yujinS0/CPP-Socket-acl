@@ -146,6 +146,13 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
 
 이와 같은 방식으로 패킷을 주고받으며, C++과 C# 간의 원활한 데이터 통신을 제공합니다.
 
+## 실습 캡쳐
+
+채팅 프로젝트의 실행 결과를 캡처한 화면입니다:
+
+![실습 캡쳐 이미지](../Document/img/ChatServerExample.PNG) 
+
+
 ## 결론
 이 프로젝트는 ACL 라이브러리를 활용하여 TCP 서버와 클라이언트 간의 채팅 시스템을 구축하는 실습 프로젝트입니다. <br>
 주요 기능으로 Redis를 사용한 로그인 인증, 방을 관리하는 채팅 기능, C++과 C# 간의 커스텀 직렬화 방식을 구현하여 서버와 클라이언트 간의 원활한 통신을 실현합니다. <br>
