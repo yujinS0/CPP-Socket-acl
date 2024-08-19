@@ -8,7 +8,7 @@
 * [코루틴 설명 및 예제](./Coroutine.md)
 * [Redis 설명 및 예제](./Redis.md)
 * [기초 예제](./EX.md)
-* [심층 예제 (with 코루틴, mysql, redis)](.Advanced_EX.md)
+* [심층 예제 (with 코루틴, mysql, redis)](./Advanced_EX.md)
 
 
 ### 원문 번역
