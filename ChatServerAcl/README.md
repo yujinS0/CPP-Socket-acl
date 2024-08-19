@@ -16,7 +16,7 @@ ChatServerAcl/
 ├── RoomManager.cpp        # 방 관리 및 사용자 메시지 브로드캐스트 로직 구현 파일.
 ├── RoomManager.h          # 방 관리 클래스 선언 파일.
 ├── tcpCoroutine.cpp       # TCP 코루틴 서버의 실행 로직 구현 파일.
-├── tcpCoroutine.h         # TCP 코루틴 서버 관련 함수 및 클래스 선언 파일.
+└── tcpCoroutine.h         # TCP 코루틴 서버 관련 함수 및 클래스 선언 파일.
 ```
 
 ## 각 파일의 역할
