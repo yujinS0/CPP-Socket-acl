@@ -1,4 +1,4 @@
-#include "PacketDefinition.h"
+﻿#include "PacketDefinition.h"
 
 void PacketHeader::Serialize(char* buffer) const {
     std::memcpy(buffer, &TotalSize, sizeof(TotalSize));

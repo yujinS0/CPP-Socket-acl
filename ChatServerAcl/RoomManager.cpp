@@ -1,40 +1,40 @@
-#include "RoomManager.h"
+ï»¿#include "RoomManager.h"
 #include "PacketDefinition.h"
 #define _CRT_SECURE_NO_WARNINGS
 
 void RoomManager::EnterRoom(int roomNumber, const std::string& userID, acl::socket_stream* conn) {
-    // ÇöÀç ¹æ¿¡ À¯Àú ¼ö È®ÀÎ
+    // í˜„ì¬ ë°©ì— ìœ ì € ìˆ˜ í™•ì¸
     if (rooms_[roomNumber].size() >= 2) {
         std::string message = "Room is full!";
         conn->write(message.c_str(), message.size());
         return;
     }
 
-    // ¹æ¿¡ À¯Àú Ãß°¡
+    // ë°©ì— ìœ ì € ì¶”ê°€
     rooms_[roomNumber][userID] = conn;
 
-    // ¹æ¿¡ ÀÖ´Â À¯Àú ¸ñ·ÏÀ» ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ºê·ÎµåÄ³½ºÆ®
+    // ë°©ì— ìˆëŠ” ìœ ì € ëª©ë¡ì„ ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
     SendUserListToAll(roomNumber);
 
-    // ¸ğµç À¯Àú¿¡°Ô »õ·Î¿î À¯Àú°¡ ÀÔÀåÇßÀ½À» ¾Ë¸²
+    // ëª¨ë“  ìœ ì €ì—ê²Œ ìƒˆë¡œìš´ ìœ ì €ê°€ ì…ì¥í–ˆìŒì„ ì•Œë¦¼
     std::string joinMessage = userID + " has entered the room.";
     BroadcastMessage(roomNumber, joinMessage, "System");
 }
 
 void RoomManager::LeaveRoom(int roomNumber, const std::string& userID) {
-    // ¹æ¿¡¼­ À¯Àú Á¦°Å
+    // ë°©ì—ì„œ ìœ ì € ì œê±°
     rooms_[roomNumber].erase(userID);
 
-    // ¸ğµç À¯Àú¿¡°Ô À¯Àú°¡ ¹æÀ» ³ª°¬À½À» ¾Ë¸²
+    // ëª¨ë“  ìœ ì €ì—ê²Œ ìœ ì €ê°€ ë°©ì„ ë‚˜ê°”ìŒì„ ì•Œë¦¼
     std::string leaveMessage = userID + " has left the room.";
     BroadcastMessage(roomNumber, leaveMessage, "System");
 
-    // ¹æÀÌ ºñ¾úÀ» °æ¿ì ÇØ´ç ¹æ »èÁ¦
+    // ë°©ì´ ë¹„ì—ˆì„ ê²½ìš° í•´ë‹¹ ë°© ì‚­ì œ
     if (rooms_[roomNumber].empty()) {
         rooms_.erase(roomNumber);
     }
     else {
-        // ¹æ¿¡ ³²¾ÆÀÖ´Â À¯Àúµé¿¡°Ô À¯Àú ¸ñ·ÏÀ» ºê·ÎµåÄ³½ºÆ®
+        // ë°©ì— ë‚¨ì•„ìˆëŠ” ìœ ì €ë“¤ì—ê²Œ ìœ ì € ëª©ë¡ì„ ë¸Œë¡œë“œìºìŠ¤íŠ¸
         SendUserListToAll(roomNumber);
     }
 }
@@ -44,7 +44,7 @@ void RoomManager::SendUserListToAll(int roomNumber) {
         return;
     }
 
-    // À¯Àú ¸ñ·Ï¿¡¼­ ÃÖ´ë µÎ ¸íÀÇ À¯Àú ID¸¦ °¡Á®¿É´Ï´Ù.
+    // ìœ ì € ëª©ë¡ì—ì„œ ìµœëŒ€ ë‘ ëª…ì˜ ìœ ì € IDë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     std::string userID1 = "";
     std::string userID2 = "";
 
@@ -55,23 +55,23 @@ void RoomManager::SendUserListToAll(int roomNumber) {
         }
         else if (userIndex == 1) {
             userID2 = pair.first;
-            break; // µÎ ¸í±îÁö¸¸ ÀúÀå
+            break; // ë‘ ëª…ê¹Œì§€ë§Œ ì €ì¥
         }
         userIndex++;
     }
 
-    // UserListNotification ÆĞÅ¶ ±¸¼º
+    // UserListNotification íŒ¨í‚· êµ¬ì„±
     UserListNotification notification;
     notification.TotalSize = sizeof(UserListNotification);
     notification.Id = PacketID::NtfUserList;
     std::strncpy(notification.UserID1, userID1.c_str(), sizeof(notification.UserID1) - 1);
     std::strncpy(notification.UserID2, userID2.c_str(), sizeof(notification.UserID2) - 1);
 
-    // ÆĞÅ¶À» Á÷·ÄÈ­
+    // íŒ¨í‚·ì„ ì§ë ¬í™”
     char buffer[sizeof(UserListNotification)];
     notification.Serialize(buffer);
 
-    // ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ºê·ÎµåÄ³½ºÆ®
+    // ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
     std::cout << "Broadcasting User List: " << userID1 << " " << userID2 << " to all clients." << std::endl;
     Broadcast(roomNumber, buffer, sizeof(buffer));
 }
@@ -83,14 +83,14 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
     std::strncpy(notification.UserID, senderID.c_str(), sizeof(notification.UserID) - 1);
     std::strncpy(notification.Message, message.c_str(), sizeof(notification.Message) - 1);
 
-    // ÆĞÅ¶À» Á÷·ÄÈ­
+    // íŒ¨í‚·ì„ ì§ë ¬í™”
     char buffer[sizeof(RoomChatNotification)];
     notification.Serialize(buffer);
 
-    // µğ¹ö±ë ·Î±× Ãß°¡
+    // ë””ë²„ê¹… ë¡œê·¸ ì¶”ê°€
     std::cout << "Broadcasting Message: [" << senderID << "] " << message << " to all clients." << std::endl;
 
-    // ¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ºê·ÎµåÄ³½ºÆ®
+    // ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë¸Œë¡œë“œìºìŠ¤íŠ¸
     Broadcast(roomNumber, buffer, sizeof(buffer));
 }
 
@@ -99,12 +99,12 @@ void RoomManager::Broadcast(int roomNumber, const char* buffer, size_t bufferSiz
         return;
     }
 
-    // ¹æ¿¡ ÀÖ´Â ¸ğµç À¯Àú¿¡°Ô ÆĞÅ¶ µ¥ÀÌÅÍ¸¦ Àü¼Û
+    // ë°©ì— ìˆëŠ” ëª¨ë“  ìœ ì €ì—ê²Œ íŒ¨í‚· ë°ì´í„°ë¥¼ ì „ì†¡
     for (const auto& pair : rooms_[roomNumber]) {
         acl::socket_stream* conn = pair.second;
-        const std::string& receiverID = pair.first; // ¼ö½ÅÀÚ ID
+        const std::string& receiverID = pair.first; // ìˆ˜ì‹ ì ID
 
-        // µğ¹ö±ë ·Î±× Ãß°¡: °¢ Å¬¶óÀÌ¾ğÆ®¿¡°Ô º¸³»´Â µ¥ÀÌÅÍ Ãâ·Â
+        // ë””ë²„ê¹… ë¡œê·¸ ì¶”ê°€: ê° í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë³´ë‚´ëŠ” ë°ì´í„° ì¶œë ¥
         std::cout << "Broadcasting data to client [" << receiverID << "]." << std::endl;
 
         conn->write(buffer, bufferSize);

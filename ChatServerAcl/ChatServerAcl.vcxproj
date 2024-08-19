@@ -147,14 +147,12 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PacketDefinition.cpp" />
-    <ClCompile Include="redisHandler.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="tcpCoroutine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PacketDefinition.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="redisHandler.h" />
     <ClInclude Include="RoomManager.h" />
     <ClInclude Include="tcpCoroutine.h" />
   </ItemGroup>

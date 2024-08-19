@@ -1,6 +1,5 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "tcpCoroutine.h"
-#include "redisHandler.h"
 #include "PacketDefinition.h"
 #include "RoomManager.h"
 
@@ -14,14 +13,14 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
 
     std::cout << "Chat Server is running on " << addr << std::endl;
 
-    // Redis ¿¬°á ¼³Á¤
+    // Redis ì—°ê²° ì„¤ì •
     const char* redis_addr = "127.0.0.1:6379";
-    int conn_timeout = 10;  // Redis ¿¬°á Å¸ÀÓ¾Æ¿ô (ÃÊ)
-    int rw_timeout = 10;    // Redis ÀĞ±â/¾²±â Å¸ÀÓ¾Æ¿ô (ÃÊ)
+    int conn_timeout = 10;  // Redis ì—°ê²° íƒ€ì„ì•„ì›ƒ (ì´ˆ)
+    int rw_timeout = 10;    // Redis ì½ê¸°/ì“°ê¸° íƒ€ì„ì•„ì›ƒ (ì´ˆ)
 
-    // Redis Å¬¶óÀÌ¾ğÆ® »ı¼º
+    // Redis í´ë¼ì´ì–¸íŠ¸ ìƒì„±
     acl::redis_client client(redis_addr, conn_timeout, rw_timeout);
-    acl::redis cmd(&client);  // Redis ¸í·É °´Ã¼ »ı¼º
+    acl::redis cmd(&client);  // Redis ëª…ë ¹ ê°ì²´ ìƒì„±
 
     RoomManager roomManager;  
 
@@ -29,7 +28,7 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
         while (true) {
             acl::socket_stream* conn = server.accept();
             if (conn) {
-                go[=, &cmd, &roomManager] {  // Redis ¹× RoomManager °´Ã¼ ÂüÁ¶ Àü´Ş
+                go[=, &cmd, &roomManager] {  // Redis ë° RoomManager ê°ì²´ ì°¸ì¡° ì „ë‹¬
                     char buf[256];
                     std::string currentUserID;
                     int currentRoomNumber = -1;
@@ -38,7 +37,7 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                         std::memset(buf, 0, sizeof(buf));
 
                         int ret = conn->read(buf, sizeof(buf), false);
-                        if (ret <= 0) {  // µ¥ÀÌÅÍ ÀĞ±â ½ÇÆĞ ¶Ç´Â ¿¬°á Á¾·á ½Ã
+                        if (ret <= 0) {  // ë°ì´í„° ì½ê¸° ì‹¤íŒ¨ ë˜ëŠ” ì—°ê²° ì¢…ë£Œ ì‹œ
                             std::cerr << "Failed to read data from client or connection closed." << std::endl;
                             break;
                         }
@@ -55,7 +54,7 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                             if (userExists && storedPassword == loginRequest.AuthToken) {
                                 std::string successMessage = "Login Success!";
                                 conn->write(successMessage.c_str(), successMessage.size());
-                                currentUserID = loginRequest.UserID;  // ÇöÀç »ç¿ëÀÚ ID ¼³Á¤
+                                currentUserID = loginRequest.UserID;  // í˜„ì¬ ì‚¬ìš©ì ID ì„¤ì •
                             }
                             else {
                                 std::string failureMessage = "Login Failed!";
@@ -88,13 +87,13 @@ void run_tcp_coroutine_server_with_redis_and_rooms() {
                         }
                     }
                     if (currentRoomNumber != -1 && !currentUserID.empty()) {
-                        roomManager.LeaveRoom(currentRoomNumber, currentUserID);  // ¿¬°á Á¾·á ½Ã À¯Àú¸¦ ¹æ¿¡¼­ Á¦°Å
+                        roomManager.LeaveRoom(currentRoomNumber, currentUserID);  // ì—°ê²° ì¢…ë£Œ ì‹œ ìœ ì €ë¥¼ ë°©ì—ì„œ ì œê±°
                     }
-                    delete conn;  // ¿¬°á Á¾·á ½Ã ¼ÒÄÏ ½ºÆ®¸² »èÁ¦
+                    delete conn;  // ì—°ê²° ì¢…ë£Œ ì‹œ ì†Œì¼“ ìŠ¤íŠ¸ë¦¼ ì‚­ì œ
                 };
             }
         }
     };
 
-    acl::fiber::schedule();  // ÄÚ·çÆ¾ ½ºÄÉÁÙ·¯ ½ÃÀÛ
+    acl::fiber::schedule();  // ì½”ë£¨í‹´ ìŠ¤ì¼€ì¤„ëŸ¬ ì‹œì‘
 }

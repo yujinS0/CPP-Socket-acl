@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <cstdint>
 #include <cstring>
 
@@ -36,8 +36,8 @@ struct RoomEnterRequest : public PacketHeader {
 };
 
 struct UserListNotification : public PacketHeader {
-    char UserID1[32];  // Ã¹ ¹øÂ° À¯Àú ID
-    char UserID2[32];  // µÎ ¹øÂ° À¯Àú ID (¾øÀ¸¸é ºó ¹®ÀÚ¿­)
+    char UserID1[32];  // ì²« ë²ˆì§¸ ìœ ì € ID
+    char UserID2[32];  // ë‘ ë²ˆì§¸ ìœ ì € ID (ì—†ìœ¼ë©´ ë¹ˆ ë¬¸ìì—´)
 
     void Serialize(char* buffer) const;
     static UserListNotification Deserialize(const char* buffer);
