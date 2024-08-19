@@ -7,8 +7,9 @@
 ### 실습 예제
 * [코루틴 설명 및 예제](./Coroutine.md)
 * [Redis 설명 및 예제](./Redis.md)
-* [주요 예제 정리](./EX.md)
+* [주요 예제 정리1(기초)](./EX.md)
+* [주요 예제 정리2(코루틴, mysql/redis 심화 다루기)](.NewEx.md)
 
 
 ### 원문 번역
-* [예제 디렉토리 설명-번역](./SAMPLES-KO.md) 
+* [예제 디렉토리 설명 및 번역](./SAMPLES-KO.md) 
