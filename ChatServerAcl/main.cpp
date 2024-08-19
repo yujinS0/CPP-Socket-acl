@@ -1,12 +1,13 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "tcpCoroutine.h"
-#include "redisHandler.h"
 
 int main() {
-    //std::cout << "__cplusplus value: " << __cplusplus << std::endl; // C++ ¹öÀü È®ÀÎ¿ë
-    acl::acl_cpp_init();  // ACL ÃÊ±âÈ­
+    //std::cout << "__cplusplus value: " << __cplusplus << std::endl; // C++ ë²„ì „ í™•ì¸ìš©
+    SetConsoleOutputCP(CP_UTF8); // ì½˜ì†”ì˜ ì½”ë“œ íŽ˜ì´ì§€ë¥¼ UTF-8ë¡œ ì„¤ì •
 
-    run_tcp_coroutine_server_with_redis_and_rooms();  // ÄÚ·çÆ¾ TCP ¼­¹ö ½ÇÇà ÇÔ¼ö È£Ãâ
+    acl::acl_cpp_init();  // ACL ì´ˆê¸°í™”
+
+    run_tcp_coroutine_server_with_redis_and_rooms();  // ì½”ë£¨í‹´ TCP ì„œë²„ ì‹¤í–‰ í•¨ìˆ˜ í˜¸ì¶œ
 
     return 0;
 }

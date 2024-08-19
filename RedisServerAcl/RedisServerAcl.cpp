@@ -5,6 +5,8 @@
 
 int main() {
     //std::cout << "__cplusplus value: " << __cplusplus << std::endl; // C++ 버전 확인용
+    SetConsoleOutputCP(CP_UTF8); // 콘솔의 코드 페이지를 UTF-8로 설정
+
     acl::acl_cpp_init();  // ACL 초기화
 
     // Redis 서버의 주소와 포트 설정

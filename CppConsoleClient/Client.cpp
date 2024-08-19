@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 
 int main() {
+    SetConsoleOutputCP(CP_UTF8); // 콘솔의 코드 페이지를 UTF-8로 설정
+
     const char* addr = "127.0.0.1:8088";
     int conn_timeout = 5, rw_timeout = 10;
     acl::acl_cpp_init();  // ACL 초기화
