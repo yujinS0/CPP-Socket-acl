@@ -1,4 +1,4 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "tcpCoroutine.h"
 
 void run_tcp_coroutine_server() {
@@ -19,12 +19,12 @@ void run_tcp_coroutine_server() {
                     char buf[256];
                     while (true) {
                         int ret = conn->read(buf, sizeof(buf), false);
-                        if (ret <= 0) {  // µ¥ÀÌÅÍ ÀÐ±â ½ÇÆÐ ¶Ç´Â ¿¬°á Á¾·á ½Ã
+                        if (ret <= 0) {  // ë°ì´í„° ì½ê¸° ì‹¤íŒ¨ ë˜ëŠ” ì—°ê²° ì¢…ë£Œ ì‹œ
                             std::cerr << "Failed to read data from client or connection closed." << std::endl;
                             break;
                         }
 
-                        buf[ret] = '\0';  // ¹®ÀÚ¿­·Î Ã³¸®ÇÏ±â À§ÇØ null-terminator Ãß°¡
+                        buf[ret] = '\0';  // ë¬¸ìžì—´ë¡œ ì²˜ë¦¬í•˜ê¸° ìœ„í•´ null-terminator ì¶”ê°€
                         std::cout << "Received from client: " << buf << std::endl;
 
                         if (conn->write(buf, ret) != ret) {
@@ -32,11 +32,11 @@ void run_tcp_coroutine_server() {
                             break;
                         }
                     }
-                    delete conn;  // ¿¬°á Á¾·á ½Ã ¼ÒÄÏ ½ºÆ®¸² »èÁ¦
+                    delete conn;  // ì—°ê²° ì¢…ë£Œ ì‹œ ì†Œì¼“ ìŠ¤íŠ¸ë¦¼ ì‚­ì œ
                 };
             }
         }
     };
 
-    acl::fiber::schedule();  // ÄÚ·çÆ¾ ½ºÄÉÁÙ·¯ ½ÃÀÛ
+    acl::fiber::schedule();  // ì½”ë£¨í‹´ ìŠ¤ì¼€ì¤„ëŸ¬ ì‹œìž‘
 }

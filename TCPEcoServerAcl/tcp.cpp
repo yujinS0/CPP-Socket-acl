@@ -1,26 +1,26 @@
-#include <thread>
+ï»¿#include <thread>
 #include "pch.h"
 #include "tcp.h"
 
 void handle_client(acl::socket_stream* conn) {
     char buf[256];
     while (true) {
-        int ret = conn->read(buf, sizeof(buf), false);  // Å¬¶óÀÌ¾ğÆ®·ÎºÎÅÍ µ¥ÀÌÅÍ ÀĞ±â
-        if (ret <= 0) break;  // ¿¬°áÀÌ Á¾·áµÇ°Å³ª ¿À·ù ¹ß»ı ½Ã ·çÇÁ Å»Ãâ
+        int ret = conn->read(buf, sizeof(buf), false);  // í´ë¼ì´ì–¸íŠ¸ë¡œë¶€í„° ë°ì´í„° ì½ê¸°
+        if (ret <= 0) break;  // ì—°ê²°ì´ ì¢…ë£Œë˜ê±°ë‚˜ ì˜¤ë¥˜ ë°œìƒ ì‹œ ë£¨í”„ íƒˆì¶œ
 
-        buf[ret] = '\0';  // ¹®ÀÚ¿­·Î Ã³¸®ÇÏ±â À§ÇØ null-terminator Ãß°¡
+        buf[ret] = '\0';  // ë¬¸ìì—´ë¡œ ì²˜ë¦¬í•˜ê¸° ìœ„í•´ null-terminator ì¶”ê°€
         std::cout << "Received from client: " << buf << std::endl;
 
-        conn->write(buf, ret);  // ÀĞÀº µ¥ÀÌÅÍ¸¦ Å¬¶óÀÌ¾ğÆ®·Î ¿¡ÄÚ
+        conn->write(buf, ret);  // ì½ì€ ë°ì´í„°ë¥¼ í´ë¼ì´ì–¸íŠ¸ë¡œ ì—ì½”
     }
-    delete conn;  // ¿¬°á Á¾·á ÈÄ ¼ÒÄÏ »èÁ¦
+    delete conn;  // ì—°ê²° ì¢…ë£Œ í›„ ì†Œì¼“ ì‚­ì œ
 }
 
 void run_tcp_server() {
     const char* addr = "127.0.0.1:8088";
     acl::server_socket server;
 
-    if (!server.open(addr)) {  // ·ÎÄÃ ÁÖ¼Ò¿¡ ¹ÙÀÎµåÇÏ°í ¸®½¼
+    if (!server.open(addr)) {  // ë¡œì»¬ ì£¼ì†Œì— ë°”ì¸ë“œí•˜ê³  ë¦¬ìŠ¨
         std::cerr << "Failed to open server socket on " << addr << std::endl;
         return;
     }
@@ -28,14 +28,14 @@ void run_tcp_server() {
     std::cout << "Server is running on " << addr << std::endl;
 
     while (true) {
-        acl::socket_stream* conn = server.accept(); // Å¬¶óÀÌ¾ğÆ® ¿¬°á ´ë±â
+        acl::socket_stream* conn = server.accept(); // í´ë¼ì´ì–¸íŠ¸ ì—°ê²° ëŒ€ê¸°
         if (conn == nullptr) {
             std::cerr << "Failed to accept connection" << std::endl;
             continue;
         }
 
-        std::thread client_thread(handle_client, conn);  // »õ ½º·¹µå¿¡¼­ Å¬¶óÀÌ¾ğÆ® Ã³¸®
-        client_thread.detach();  // ½º·¹µå¸¦ ºĞ¸®ÇÏ¿© µ¶¸³ÀûÀ¸·Î ½ÇÇàµÇµµ·Ï ÇÔ
+        std::thread client_thread(handle_client, conn);  // ìƒˆ ìŠ¤ë ˆë“œì—ì„œ í´ë¼ì´ì–¸íŠ¸ ì²˜ë¦¬
+        client_thread.detach();  // ìŠ¤ë ˆë“œë¥¼ ë¶„ë¦¬í•˜ì—¬ ë…ë¦½ì ìœ¼ë¡œ ì‹¤í–‰ë˜ë„ë¡ í•¨
     }
 }
 

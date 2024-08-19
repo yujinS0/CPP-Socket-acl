@@ -1,4 +1,4 @@
-namespace WinFormsClient;
+﻿namespace WinFormsClient;
 
 internal static class Program
 {

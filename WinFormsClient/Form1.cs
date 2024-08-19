@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,7 +19,7 @@ namespace WinFormsClient
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            AddLogMessage("ÇÁ·Î±×·¥ ½ÃÀÛ");
+            AddLogMessage("í”„ë¡œê·¸ë¨ ì‹œì‘");
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -62,13 +62,13 @@ namespace WinFormsClient
 
             byte[] packetData = loginRequest.Serialize();
             _stream.Write(packetData, 0, packetData.Length);
-            AddLogMessage("·Î±×ÀÎ ¿äÃ» Àü¼Û");
+            AddLogMessage("ë¡œê·¸ì¸ ìš”ì²­ ì „ì†¡");
 
             byte[] responseBuffer = new byte[256];
             int bytesRead = _stream.Read(responseBuffer, 0, responseBuffer.Length);
 
             string responseMessage = Encoding.UTF8.GetString(responseBuffer, 0, bytesRead);
-            AddLogMessage($"¼­¹ö ÀÀ´ä: {responseMessage}");
+            AddLogMessage($"ì„œë²„ ì‘ë‹µ: {responseMessage}");
             MessageBox.Show(responseMessage);
         }
 
@@ -93,7 +93,7 @@ namespace WinFormsClient
 
             byte[] packetData = roomEnterRequest.Serialize();
             _stream.Write(packetData, 0, packetData.Length);
-            AddLogMessage($"¹æ ÀÔÀå ¿äÃ» Àü¼Û: Room {roomNumber}");
+            AddLogMessage($"ë°© ì…ì¥ ìš”ì²­ ì „ì†¡: Room {roomNumber}");
         }
 
         private void btnSendChat_Click(object sender, EventArgs e)
@@ -115,7 +115,7 @@ namespace WinFormsClient
 
             byte[] packetData = chatRequest.Serialize();
             _stream.Write(packetData, 0, packetData.Length);
-            AddLogMessage($"Ã¤ÆÃ ¸Ş½ÃÁö Àü¼Û: {message}");
+            AddLogMessage($"ì±„íŒ… ë©”ì‹œì§€ ì „ì†¡: {message}");
             txtChatMessage.Clear();
         }
 
@@ -139,7 +139,7 @@ namespace WinFormsClient
                 {
                     Invoke((Action)(() =>
                     {
-                        AddLogMessage($"[·Î±×] ¼­¹ö·ÎºÎÅÍ µ¥ÀÌÅÍ¸¦ ¹Ş´Â Áß ¿À·ù ¹ß»ı: {ex.Message}");
+                        AddLogMessage($"[ë¡œê·¸] ì„œë²„ë¡œë¶€í„° ë°ì´í„°ë¥¼ ë°›ëŠ” ì¤‘ ì˜¤ë¥˜ ë°œìƒ: {ex.Message}");
                         MessageBox.Show($"Failed to receive data from server: {ex.Message}");
                     }));
                 }
@@ -155,11 +155,11 @@ namespace WinFormsClient
                 case PacketID.NtfRoomChat:
                     var chatNotification = RoomChatNotification.Deserialize(buffer);
 
-                    // ³Î ¹®ÀÚ Á¦°Å Ã³¸® 
+                    // ë„ ë¬¸ì ì œê±° ì²˜ë¦¬ 
                     var cleanMessage = chatNotification.Message.TrimEnd('\0');
                     var cleanUserID = chatNotification.UserID.TrimEnd('\0');
 
-                    // Ã¤ÆÃ ¸Ş½ÃÁö¸¦ ¸®½ºÆ®¿¡ Ãß°¡ÇÏ´Â ÇÔ¼ö È£Ãâ
+                    // ì±„íŒ… ë©”ì‹œì§€ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜ í˜¸ì¶œ
                     Invoke((Action)(() =>
                     {
                         try
@@ -168,7 +168,7 @@ namespace WinFormsClient
                         }
                         catch (Exception ex)
                         {
-                            AddLogMessage($"UI ¾÷µ¥ÀÌÆ® Áß ¿À·ù ¹ß»ı: {ex.Message}");
+                            AddLogMessage($"UI ì—…ë°ì´íŠ¸ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: {ex.Message}");
                         }
                     }));
                     break;
@@ -176,10 +176,10 @@ namespace WinFormsClient
                 case PacketID.NtfUserList:
                     var userListNotification = UserListNotification.Deserialize(buffer);
 
-                    // À¯Àú ¸ñ·Ï ¼ö½Å ·Î±× Ãß°¡
-                    AddLogMessage($"À¯Àú ¸ñ·Ï ¼ö½Å: {userListNotification.UserID1}, {userListNotification.UserID2}");
+                    // ìœ ì € ëª©ë¡ ìˆ˜ì‹  ë¡œê·¸ ì¶”ê°€
+                    AddLogMessage($"ìœ ì € ëª©ë¡ ìˆ˜ì‹ : {userListNotification.UserID1}, {userListNotification.UserID2}");
 
-                    // ³Î ¹®ÀÚ Á¦°Å Ã³¸®
+                    // ë„ ë¬¸ì ì œê±° ì²˜ë¦¬
                     var cleanUserID1 = userListNotification.UserID1.TrimEnd('\0');
                     var cleanUserID2 = userListNotification.UserID2.TrimEnd('\0');
 
@@ -187,7 +187,7 @@ namespace WinFormsClient
                     {
                         try
                         {
-                            AddLogMessage("[·Î±×] À¯Àú ¸ñ·ÏÀ» ¼ö½ÅÇß½À´Ï´Ù.");
+                            AddLogMessage("[ë¡œê·¸] ìœ ì € ëª©ë¡ì„ ìˆ˜ì‹ í–ˆìŠµë‹ˆë‹¤.");
                             lstUsers.Items.Clear();
                             if (!string.IsNullOrEmpty(cleanUserID1))
                             {
@@ -200,7 +200,7 @@ namespace WinFormsClient
                         }
                         catch (Exception ex)
                         {
-                            AddLogMessage($"UI ¾÷µ¥ÀÌÆ® Áß ¿À·ù ¹ß»ı: {ex.Message}");
+                            AddLogMessage($"UI ì—…ë°ì´íŠ¸ ì¤‘ ì˜¤ë¥˜ ë°œìƒ: {ex.Message}");
                         }
                     }));
                     break;
@@ -208,16 +208,16 @@ namespace WinFormsClient
                 default:
                     Invoke((Action)(() =>
                     {
-                        AddLogMessage($"¾Ë ¼ö ¾ø´Â ÆĞÅ¶ ¼ö½Å: {header.Id}");
+                        AddLogMessage($"ì•Œ ìˆ˜ ì—†ëŠ” íŒ¨í‚· ìˆ˜ì‹ : {header.Id}");
                     }));
                     break;
             }
         }
 
-        // Ã¤ÆÃ ¸Ş½ÃÁö¸¦ ¸®½ºÆ®¿¡ Ãß°¡ÇÏ´Â ÇÔ¼ö
+        // ì±„íŒ… ë©”ì‹œì§€ë¥¼ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•˜ëŠ” í•¨ìˆ˜
         private void AddRoomChatMessageList(string userID, string message)
         {
-            // '\0' ¹®ÀÚ°¡ ÀÖÀ¸¸é ±× Àü±îÁöÀÇ ¹®ÀÚ¿­¸¸ »ç¿ë
+            // '\0' ë¬¸ìê°€ ìˆìœ¼ë©´ ê·¸ ì „ê¹Œì§€ì˜ ë¬¸ìì—´ë§Œ ì‚¬ìš©
             int nullCharIndexUserID = userID.IndexOf('\0');
             if (nullCharIndexUserID >= 0)
             {
@@ -230,13 +230,13 @@ namespace WinFormsClient
                 message = message.Substring(0, nullCharIndexMessage);
             }
 
-            // ÃÖ´ë ¸Ş½ÃÁö ¼ö¸¦ 512·Î Á¦ÇÑ
+            // ìµœëŒ€ ë©”ì‹œì§€ ìˆ˜ë¥¼ 512ë¡œ ì œí•œ
             if (lstChatMessages.Items.Count > 512)
             {
                 lstChatMessages.Items.Clear();
             }
 
-            // »õ·Î¿î ¸Ş½ÃÁö¸¦ Ãß°¡ÇÏ°í, ¸®½ºÆ®¹Ú½º¸¦ ¸Ç ¾Æ·¡·Î ½ºÅ©·Ñ
+            // ìƒˆë¡œìš´ ë©”ì‹œì§€ë¥¼ ì¶”ê°€í•˜ê³ , ë¦¬ìŠ¤íŠ¸ë°•ìŠ¤ë¥¼ ë§¨ ì•„ë˜ë¡œ ìŠ¤í¬ë¡¤
             lstChatMessages.Items.Add($"[{userID}]: {message}");
             lstChatMessages.SelectedIndex = lstChatMessages.Items.Count - 1;
         }

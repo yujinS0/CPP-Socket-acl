@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #ifndef REDIS_HANDLER_H
 #define REDIS_HANDLER_H
 

@@ -1,3 +1,3 @@
-#pragma once
-void run_tcp_server();  // TCP ¼­¹ö ½ÇÇà ÇÔ¼ö ¼±¾ğ
-void handle_client(acl::socket_stream* conn);  // Å¬¶óÀÌ¾ğÆ® Ã³¸® ÇÔ¼ö ¼±¾ğ
+ï»¿#pragma once
+void run_tcp_server();  // TCP ì„œë²„ ì‹¤í–‰ í•¨ìˆ˜ ì„ ì–¸
+void handle_client(acl::socket_stream* conn);  // í´ë¼ì´ì–¸íŠ¸ ì²˜ë¦¬ í•¨ìˆ˜ ì„ ì–¸

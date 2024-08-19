@@ -1,14 +1,14 @@
-#include "pch.h"
+ï»¿#include "pch.h"
 #include "tcpCoroutine.h"
 
 int main() {
     try {
-        //std::cout << "__cplusplus value: " << __cplusplus << std::endl; // C++ ¹öÀü È®ÀÎ¿ë
-        SetConsoleOutputCP(CP_UTF8); // ÄÜ¼ÖÀÇ ÄÚµå ÆäÀÌÁö¸¦ UTF-8·Î ¼³Á¤
+        //std::cout << "__cplusplus value: " << __cplusplus << std::endl; // C++ ë²„ì „ í™•ì¸ìš©
+        SetConsoleOutputCP(CP_UTF8); // ì½˜ì†”ì˜ ì½”ë“œ íŽ˜ì´ì§€ë¥¼ UTF-8ë¡œ ì„¤ì •
 
-        acl::acl_cpp_init();  // ACL ÃÊ±âÈ­
+        acl::acl_cpp_init();  // ACL ì´ˆê¸°í™”
 
-        run_tcp_coroutine_server();  // ÄÚ·çÆ¾ TCP ¼­¹ö ½ÇÇà ÇÔ¼ö È£Ãâ
+        run_tcp_coroutine_server();  // ì½”ë£¨í‹´ TCP ì„œë²„ ì‹¤í–‰ í•¨ìˆ˜ í˜¸ì¶œ
     }
     catch (const std::exception& e) {
         std::cerr << "Standard exception: " << e.what() << std::endl;
