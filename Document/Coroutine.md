@@ -80,7 +80,7 @@
 
 --------------------
 
-## 예제
+## 예제1 : 기초 예제
 - [CoroutineTCP 소스코드](../TCPCoroutineEcoServerAcl)
 : ACL 라이브러리의 코루틴 기능을 사용하여 TCP 서버를 구현한 것입니다. 
 
@@ -100,6 +100,7 @@ void run_tcp_coroutine_server() {
 
 - **서버 소켓 생성**: `acl::server_socket server;` 서버 소켓 객체를 생성 (이 소켓은 클라이언트의 연결을 기다림)
 - **소켓 열기**: `server.open(addr)`를 통해 지정된 주소(`127.0.0.1:8088`)에서 서버 소켓을 열어 클라이언트 연결을 받을 준비 시작
+
 
 ### 2. 코루틴을 사용한 클라이언트 연결 처리
 
@@ -170,17 +171,131 @@ void run_tcp_coroutine_server() {
 
 - **코루틴 스케줄러 실행**: `acl::fiber::schedule()`을 호출하여 코루틴 스케줄링을 시작합니다. 이 함수는 코루틴이 일정하게 실행되도록 관리합니다.
 
-### 4. 코루틴 개념 관련 설명
 
-- **코루틴**은 비동기 프로그래밍을 간편하게 만들어주는 도구입니다. 일반적인 스레드와는 달리, 하나의 스레드 내에서 여러 코루틴을 생성하고 실행할 수 있으며, 이들 코루틴은 서로 독립적으로 실행됩니다. 코루틴을 사용하면 프로그램의 흐름을 중단하지 않고 비동기 작업을 수행할 수 있습니다.
+<br><br>
 
-- **코루틴의 장점**:
-  - **비동기 처리**: 비동기적으로 여러 작업을 처리할 수 있어 CPU 자원을 효율적으로 사용할 수 있습니다.
-  - **쉬운 동시성 구현**: 복잡한 스레드 관리 없이 간단한 코드로 동시성을 구현할 수 있습니다.
-  - **경량 스레드**: 스레드보다 더 적은 자원을 사용하여 효율적인 비동기 작업을 수행할 수 있습니다.
+----------------
 
-이 코드에서 각 클라이언트는 별도의 코루틴에서 처리되므로, 여러 클라이언트가 동시에 연결되어도 효율적으로 동작할 수 있습니다.
+## 예제2 : 코루틴 스레드 세이프를 위해 Acl에서 제공하는 다양한 기능
+
+이 예제들은 `acl` 라이브러리를 활용하여 코루틴과 스레드 간 동기화를 다루는 방법을 보여줍니다. <br>
+
+이 중 코루틴 동기화 관련한 **fiber_mutex 사용법**은 [☑️fiber_mutex 코루틴 동기화](./Coroutine-fiber_mutex.md) 를 참고하세요. <br><br>
+
+아래 예제는 `mutex`, `semaphore`, `condition variable`, `event`, 및 `thread-safe queue`와 같은 동기화 기법을 사용하여 다중 코루틴 환경에서 안전한 자원 관리를 구현합니다.<br>
+
+### Coroutine 관련 예제 소스 코드
+* [samples](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c++)
+  + event_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/event_mutex)
+  + fiber_sem_cpp [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/fiber_sem_cpp)
+  + thread_cond [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_cond)
+  + thread_event [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_event)
+  + thread_lock [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_lock)
+  + thread_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_mutex)
+  + thread_tbox [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_tbox)
 
 
+<br>
 
+<details>
+
+  ### 1. **Mutex (event_mutex)**
+  
+  이 예제는 `acl::event_mutex`를 사용하여 다중 스레드와 코루틴 간에 안전한 자원 접근을 보장하는 방법을 보여줍니다. 이 코드는 여러 스레드와 코루틴이 동일한 자원을 잠금(lock)하고 이를 해제(unlock)하여 작업을 수행하는 방식으로 구성됩니다.
+  
+  - **핵심 개념**: `acl::event_mutex`는 **스레드**와 **코루틴** 모두에서 사용할 수 있는 뮤텍스로, 자원에 대한 접근을 제어하여 동시에 여러 스레드 또는 코루틴이 동일한 자원에 접근하지 못하도록 합니다.
+  - **사용법**: 각 코루틴은 `lock()`을 호출하여 자원을 잠그고, 작업이 끝난 후 `unlock()`을 호출하여 자원을 해제합니다.
+  - **실행 흐름**:
+    - 각 코루틴은 뮤텍스를 잠그고(`lock()`), 작업을 수행한 뒤 뮤텍스를 해제(`unlock()`)합니다.
+    - `__show` 플래그를 사용하여 각 코루틴의 잠금 및 해제 상태를 출력할 수 있습니다.
+    - `__counter`는 코루틴이 작업을 수행할 때마다 증가합니다.
+  
+  ```cpp
+  acl::event_mutex lock;
+  myfiber* fb = new myfiber(lock, nfibers);
+  fb->start();
+  acl::fiber::schedule_with(__event_type);
+  ```
+  
+  <br>
+  
+  
+  ### 2. **Semaphore (fiber_sem_cpp)**
+  
+  이 예제는 `acl::fiber_sem`을 사용하여 코루틴 간 동기화를 수행하는 방법을 보여줍니다. 세마포어는 특정 수의 코루틴만 자원에 접근할 수 있도록 허용하며, 나머지 코루틴은 대기합니다.
+  
+  - **핵심 개념**: 세마포어는 정해진 수의 "티켓"을 관리하여 제한된 수의 코루틴만 자원에 접근할 수 있도록 합니다. `wait()`는 티켓을 소비하고, `post()`는 티켓을 반환합니다.
+  - **사용법**: 코루틴은 `wait()`을 호출하여 세마포어의 티켓을 소비하고, 작업이 끝나면 `post()`를 호출하여 티켓을 반환합니다.
+  - **실행 흐름**:
+    - 각 코루틴은 세마포어의 티켓을 얻기 위해 `wait()`을 호출하고, 작업을 완료한 후 `post()`로 티켓을 반환합니다.
+    - `sem_async` 플래그를 통해 비동기 세마포어(`acl::fiber_sem_t_async`)를 사용할 수 있습니다.
+  
+  ```cpp
+  acl::fiber_sem* sem = new acl::fiber_sem(1);
+  myfiber* f = new myfiber(sem);
+  f->start();
+  ```
+  
+  <br>
+  
+  
+  ### 3. **Condition Variable (thread_cond)**
+  
+  이 예제는 `acl::fiber_cond`와 `acl::fiber_event`를 사용하여 생산자-소비자 패턴을 구현한 코드입니다. 조건 변수와 이벤트를 사용하여 코루틴 간 동기화와 신호 전달을 관리합니다.
+  
+  - **핵심 개념**: 조건 변수는 특정 조건이 만족될 때까지 코루틴이 대기할 수 있게 하고, 이벤트를 사용해 신호를 전달합니다. `notify()`는 대기 중인 코루틴을 깨우고, `wait()`는 특정 조건이 만족될 때까지 대기합니다.
+  - **사용법**: 생산자는 작업을 완료한 후 조건 변수를 통해 소비자에게 신호를 보냅니다. 소비자는 조건 변수가 신호를 받을 때까지 대기하고, 작업을 수행합니다.
+  - **실행 흐름**:
+    - 생산자 스레드는 `notify()`를 사용해 소비자를 깨우고, 소비자는 조건 변수가 신호를 받을 때까지 대기합니다.
+    - `timeout`이 설정되면 대기 시간이 초과되었을 때 작업을 중단할 수 있습니다.
+  
+  ```cpp
+  acl::fiber_cond cond;
+  acl::fiber_event event;
+  producer* prod = new producer(event, cond);
+  consumer* cons = new consumer(event, cond, timeout);
+  ```
+  
+  <br>
+  
+  
+  ### 4. **Event Lock (thread_lock)**
+  
+  이 예제는 `acl::fiber_event`를 사용하여 코루틴이 자원을 안전하게 사용할 수 있도록 자원 접근을 제어하는 방법을 보여줍니다. 이 방식은 자원을 잠금(lock)하고 해제(unlock)하는 방식으로 자원을 보호합니다.
+  
+  - **핵심 개념**: 이벤트를 통해 코루틴 간의 자원 접근을 조율합니다. `wait()`는 자원을 잠그고, `notify()`는 자원을 해제하는 역할을 합니다.
+  - **사용법**: 각 코루틴은 `wait()`를 호출하여 자원을 잠그고, 작업이 완료되면 `notify()`를 호출하여 자원을 해제합니다.
+  - **실행 흐름**:
+    - 코루틴은 이벤트를 잠그고(`wait()`), 작업이 완료된 후 이벤트를 해제(`notify()`)합니다. 이 과정을 통해 자원을 안전하게 보호할 수 있습니다.
+  
+  ```cpp
+  acl::fiber_event lock;
+  myfiber* fb = new myfiber(lock, nfibers);
+  fb->start();
+  acl::fiber::schedule_with(__event_type);
+  ```
+  
+  <br>
+  
+  
+  ### 5. **Thread-Safe Queue (thread_tbox)**
+  
+  이 예제는 `acl::fiber_tbox`를 사용하여 코루틴 간에 안전하게 데이터를 전달하는 방법을 보여줍니다. 생산자는 데이터를 큐에 푸시하고, 소비자는 큐에서 데이터를 팝합니다.
+  
+  - **핵심 개념**: `fiber_tbox`는 코루틴 간 안전한 데이터 전달을 위한 쓰레드 세이프 큐입니다. 생산자는 데이터를 생성하여 큐에 삽입하고, 소비자는 큐에서 데이터를 제거하여 처리합니다.
+  - **사용법**: 생산자는 `push()`를 사용해 데이터를 큐에 추가하고, 소비자는 `pop()`을 사용해 데이터를 큐에서 가져옵니다.
+  - **실행 흐름**:
+    - 생산자는 큐에 데이터를 추가하고, 소비자는 해당 데이터를 가져와 처리합니다. 타임아웃을 설정할 수 있어 일정 시간이 지나면 데이터 수신을 중단할 수 있습니다.
+  
+  ```cpp
+  acl::fiber_tbox<myobj> tbox;
+  producer* prod = new producer(tbox);
+  consumer* cons = new consumer(tbox, timeout);
+  ```
+  
+  <br>
+
+</details>
+
+ <br><br> <br><br>
 

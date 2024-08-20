@@ -9,6 +9,7 @@
 * [Redis 설명 및 예제](./Redis.md)
 * [기초 예제](./EX.md)
 * [심층 예제 (with 코루틴, mysql, redis)](./Advanced_EX.md)
+* [코루틴 동기화](./Coroutine-fiber_mutex.md)
 
 
 ### 원문 번역
