@@ -179,7 +179,11 @@ void run_tcp_coroutine_server() {
 ## 예제2 : 코루틴 스레드 세이프를 위해 Acl에서 제공하는 다양한 기능
 
 이 예제들은 `acl` 라이브러리를 활용하여 코루틴과 스레드 간 동기화를 다루는 방법을 보여줍니다. <br>
-각 예제는 `mutex`, `semaphore`, `condition variable`, `event`, 및 `thread-safe queue`와 같은 동기화 기법을 사용하여 다중 코루틴 환경에서 안전한 자원 관리를 구현합니다.
+
+이 중 코루틴 동기화 관련한 **fiber_mutex 사용법**은 [☑️fiber_mutex 코루틴 동기화](./Coroutine-fiber_mutex.md) 를 참고하세요. <br><br>
+
+아래 예제는 `mutex`, `semaphore`, `condition variable`, `event`, 및 `thread-safe queue`와 같은 동기화 기법을 사용하여 다중 코루틴 환경에서 안전한 자원 관리를 구현합니다.<br>
+
 ### Coroutine 관련 예제 소스 코드
 * [samples](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c++)
   + event_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/event_mutex)
@@ -293,5 +297,5 @@ void run_tcp_coroutine_server() {
 
 </details>
 
-
+ <br><br> <br><br>
 
