@@ -71,6 +71,11 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
       * libfiber
       * libfiber_cpp
    - 빌드 방법에 대한 자세한 내용은 [Acl 빌드 후 정적 라이브러리로 추가하기](./Document/Build.md)를 참조하세요.
+<br><br>
+#### 만약 위의 과정을 생략하고 현재 나의 빌드 버전으로 테스트만 진행하고 싶다면,
+이 리포지토리의 [acl/Debug_lib_Files 디렉토리](./acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
+따라서 추가로 빌드 과정을 거치고 싶지 않다면, [해당 위치](./acl/Debug_lib_Files)에 존재하는 .lib 파일들을 그대로 자신의 로컬 [acl/Debug 디렉토리](./acl/Debug)에 옮긴 후 <br>
+아래 과정을 (경로까지 같게) 똑같이 따라하면 된다.
 
 ## 2. 정적 라이브러리 추가
 정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
@@ -144,9 +149,10 @@ ACL을 사용하여 Redis와 상호작용하는 예제입니다. 이 예제는 R
 ## 실습 예제
 - [코루틴 설명 및 예제](./Document/Coroutine.md)
 - [Redis 설명 및 예제](./Document/Redis.md)
-* [기초 예제](./Document/EX.md)
-* [심층 예제 (with 코루틴, mysql, redis)](./Document/Advanced_EX.md)
-* [코루틴 동기화](./Document/Coroutine-fiber_mutex.md)
+- [MySQL 설명 및 예제](./Document/MySQL-Acl.md)
+- [기초 예제](./Document/EX.md)
+- [심층 예제 (with 코루틴, mysql, redis)](./Document/Advanced_EX.md)
+- [코루틴 동기화](./Document/Coroutine-fiber_mutex.md)
 
 ## 원문 번역
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
