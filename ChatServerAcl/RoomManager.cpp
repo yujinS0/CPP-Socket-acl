@@ -1,17 +1,27 @@
 ﻿#include "RoomManager.h"
 #include "PacketDefinition.h"
+#include <fiber/fiber_mutex.hpp>
 #define _CRT_SECURE_NO_WARNINGS
 
+static acl::fiber_mutex room_mutex_;
+
 void RoomManager::EnterRoom(int roomNumber, const std::string& userID, acl::socket_stream* conn) {
+    room_mutex_.lock();
+    
     // 현재 방에 유저 수 확인
     if (rooms_[roomNumber].size() >= 2) {
         std::string message = "Room is full!";
         conn->write(message.c_str(), message.size());
+
+        room_mutex_.unlock();
+
         return;
     }
 
     // 방에 유저 추가
     rooms_[roomNumber][userID] = conn;
+
+    room_mutex_.unlock();
 
     // 방에 있는 유저 목록을 모든 클라이언트에게 브로드캐스트
     SendUserListToAll(roomNumber);
@@ -22,25 +32,31 @@ void RoomManager::EnterRoom(int roomNumber, const std::string& userID, acl::sock
 }
 
 void RoomManager::LeaveRoom(int roomNumber, const std::string& userID) {
+    room_mutex_.lock();
+
     // 방에서 유저 제거
     rooms_[roomNumber].erase(userID);
-
-    // 모든 유저에게 유저가 방을 나갔음을 알림
-    std::string leaveMessage = userID + " has left the room.";
-    BroadcastMessage(roomNumber, leaveMessage, "System");
 
     // 방이 비었을 경우 해당 방 삭제
     if (rooms_[roomNumber].empty()) {
         rooms_.erase(roomNumber);
     }
-    else {
-        // 방에 남아있는 유저들에게 유저 목록을 브로드캐스트
-        SendUserListToAll(roomNumber);
-    }
+
+    room_mutex_.unlock();
+
+    // 모든 유저에게 유저가 방을 나갔음을 알림
+    std::string leaveMessage = userID + " has left the room.";
+    BroadcastMessage(roomNumber, leaveMessage, "System");
+
+    // 방에 남아있는 유저들에게 유저 목록을 브로드캐스트
+    SendUserListToAll(roomNumber);
 }
 
 void RoomManager::SendUserListToAll(int roomNumber) {
+    room_mutex_.lock();
+
     if (rooms_.find(roomNumber) == rooms_.end()) {
+        room_mutex_.unlock();
         return;
     }
 
@@ -59,6 +75,8 @@ void RoomManager::SendUserListToAll(int roomNumber) {
         }
         userIndex++;
     }
+
+    room_mutex_.unlock();
 
     // UserListNotification 패킷 구성
     UserListNotification notification;
@@ -95,7 +113,11 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
 }
 
 void RoomManager::Broadcast(int roomNumber, const char* buffer, size_t bufferSize) {
+    room_mutex_.lock();
+
     if (rooms_.find(roomNumber) == rooms_.end()) {
+        room_mutex_.unlock();
+
         return;
     }
 
@@ -109,4 +131,5 @@ void RoomManager::Broadcast(int roomNumber, const char* buffer, size_t bufferSiz
 
         conn->write(buffer, bufferSize);
     }
+    room_mutex_.unlock();
 }
