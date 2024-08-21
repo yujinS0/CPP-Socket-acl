@@ -1,6 +1,9 @@
 ﻿#include <iostream>
 #include <mysql.h>  // MySQL C API 헤더 파일
 #include <cstdlib>
+#include <stdio.h>
+#include <stdlib.h>
+#include "pch.h"
 
 
 void finish_with_error(MYSQL* conn) {
@@ -21,7 +24,7 @@ int main() {
     // MySQL 서버 연결 정보
     const char* server = "127.0.0.1";  // MySQL 서버 주소
     const char* user = "root";         // MySQL 사용자 이름
-    const char* password = ""; // MySQL 사용자 비밀번호
+    const char* password = "000930"; // MySQL 사용자 비밀번호
     const char* database = "testdb";   // 연결할 데이터베이스 이름
     unsigned int port = 3306;          // MySQL 포트 번호
 
@@ -92,10 +95,6 @@ int main() {
     return EXIT_SUCCESS;
 }
 
-
-//#include "pch.h"
-//#include <mysql.h>
-//
 //
 //// MySQL 관련 설정 및 초기화
 //const char* DB_HOST = "127.0.0.1:3306";
@@ -103,54 +102,54 @@ int main() {
 //const char* DB_USER = "root";
 //const char* DB_PASS = "000930";
 //
-//int main() {
-//    MYSQL* conn;
-//    MYSQL_RES* res;
-//    MYSQL_ROW row;
+////int main() {
+////    MYSQL* conn;
+////    MYSQL_RES* res;
+////    MYSQL_ROW row;
+////
+////    const char* server = "localhost";
+////    const char* user = "root";
+////    const char* password = "000930";  // MySQL root 계정 비밀번호
+////    const char* database = "testdb";  // 사용할 데이터베이스 이름
+////
+////    conn = mysql_init(NULL);
+////
+////    // MySQL 연결
+////    if (!mysql_real_connect(conn, server, user, password, database, 3306, NULL, 0)) {
+////        std::cerr << "MySQL 연결 실패: " << mysql_error(conn) << std::endl;
+////        return EXIT_FAILURE;
+////    }
+////
+////    // 데이터 삽입
+////    if (mysql_query(conn, "INSERT INTO test_table (name, age) VALUES('John', 25)")) {
+////        std::cerr << "INSERT 실패: " << mysql_error(conn) << std::endl;
+////        return EXIT_FAILURE;
+////    }
+////
+////    // 데이터 조회
+////    if (mysql_query(conn, "SELECT * FROM test_table")) {
+////        std::cerr << "SELECT 실패: " << mysql_error(conn) << std::endl;
+////        return EXIT_FAILURE;
+////    }
+////
+////    res = mysql_store_result(conn);
+////    int num_fields = mysql_num_fields(res);
+////
+////    while ((row = mysql_fetch_row(res))) {
+////        for (int i = 0; i < num_fields; i++) {
+////            std::cout << (row[i] ? row[i] : "NULL") << " ";
+////        }
+////        std::cout << std::endl;
+////    }
+////
+////    // 리소스 정리
+////    mysql_free_result(res);
+////    mysql_close(conn);
+////
+////    return EXIT_SUCCESS;
+////}
 //
-//    const char* server = "localhost";
-//    const char* user = "root";
-//    const char* password = "000930";  // MySQL root 계정 비밀번호
-//    const char* database = "testdb";  // 사용할 데이터베이스 이름
 //
-//    conn = mysql_init(NULL);
-//
-//    // MySQL 연결
-//    if (!mysql_real_connect(conn, server, user, password, database, 3306, NULL, 0)) {
-//        std::cerr << "MySQL 연결 실패: " << mysql_error(conn) << std::endl;
-//        return EXIT_FAILURE;
-//    }
-//
-//    // 데이터 삽입
-//    if (mysql_query(conn, "INSERT INTO test_table (name, age) VALUES('John', 25)")) {
-//        std::cerr << "INSERT 실패: " << mysql_error(conn) << std::endl;
-//        return EXIT_FAILURE;
-//    }
-//
-//    // 데이터 조회
-//    if (mysql_query(conn, "SELECT * FROM test_table")) {
-//        std::cerr << "SELECT 실패: " << mysql_error(conn) << std::endl;
-//        return EXIT_FAILURE;
-//    }
-//
-//    res = mysql_store_result(conn);
-//    int num_fields = mysql_num_fields(res);
-//
-//    while ((row = mysql_fetch_row(res))) {
-//        for (int i = 0; i < num_fields; i++) {
-//            std::cout << (row[i] ? row[i] : "NULL") << " ";
-//        }
-//        std::cout << std::endl;
-//    }
-//
-//    // 리소스 정리
-//    mysql_free_result(res);
-//    mysql_close(conn);
-//
-//    return EXIT_SUCCESS;
-//}
-
-
 //class mysql_fiber : public acl::fiber
 //{
 //public:
