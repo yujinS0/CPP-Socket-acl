@@ -56,8 +56,9 @@
 ## `lib_fiber`
 
 * acl의 `lib_fiber`는 windows 기준 **select, poll, iocp, GUI Message** 지원
-* libfiber를 사용하면 이벤트 중심 모델을 사용하는 기존 비동기 프레임워크보다 <br> **고성능과 대용량 네트워크 애플리케이션 서비스를 더 쉽게 작성 가능**
-* 또한 코루틴 방식으로 Windows에서 GUI 프레임워크(MFC, wtl 등)로 작성된 Windows GUI 앱의 네트워크 모듈도 작성 가능
+* lib fiber를 사용하면 이벤트 중심 모델을 사용하는 기존 비동기 프레임워크보다 <br> **고성능과 대용량 네트워크 애플리케이션 서비스를 더 쉽게 작성 가능**
+  + 또한 동기화 객체도 지원하고 있다. [☑️lib_fiber가 지원하는 동기화 객체](./Cpp-SynchronizationObject.md)
+* +) 코루틴 방식으로 Windows에서 GUI 프레임워크(MFC, wtl 등)로 작성된 Windows GUI 앱의 네트워크 모듈도 작성 가능
 
 <br>
 
