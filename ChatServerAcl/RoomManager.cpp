@@ -1,7 +1,7 @@
-﻿#include "RoomManager.h"
+﻿#define _CRT_SECURE_NO_WARNINGS
+#include "RoomManager.h"
 #include "PacketDefinition.h"
 #include <fiber/fiber_mutex.hpp>
-#define _CRT_SECURE_NO_WARNINGS
 
 static acl::fiber_mutex room_mutex_;
 
