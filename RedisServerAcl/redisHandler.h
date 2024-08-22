@@ -12,7 +12,7 @@ acl::redis_client* setup_redis();
 // Redis 명령어 처리 함수
 void handle_string(acl::redis& redis);
 void handle_get(acl::redis& redis);
-void handle_list_create(acl::redis_list& redis);
+void handle_list_push(acl::redis_list& redis);
 void handle_list_get(acl::redis_list& redis);
 void handle_set(acl::redis& redis);
 void handle_hash(acl::redis& redis);
