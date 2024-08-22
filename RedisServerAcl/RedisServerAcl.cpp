@@ -1,15 +1,6 @@
-﻿#include <iostream>
-
-#include "pch.h"
+﻿#include "pch.h"
 #include "redisHandler.h"
-#include "redisHandler.h"
-#include <iostream>
-#include <vector>
 
-static const int max_print_line = 50;
-
-
-///
 int main() {
     acl::acl_cpp_init();
     acl::log::stdout_open(true);
@@ -24,7 +15,7 @@ int main() {
 
     while (true) {
         std::string command;
-        std::cout << "\n명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, exit): ";
+        std::cout << "\n[Redis Test with Acl] 명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, exit): ";
         std::cin >> command;
 
         if (command == "exit") {
