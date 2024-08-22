@@ -11,9 +11,9 @@
     5. [Hash 자료형 실습](#5-hash-자료형-실습)
     6. [Sorted Set (ZSet) 자료형 실습](#6-sorted-set-zset-자료형-실습)
 4. [Redis JSON 사용](#redis-json-사용)
-    1. [User 구조체와 JSON 변환](#user-구조체와-json-변환)
-    2. [Redis JSON 데이터 저장](#redis-json-데이터-저장)
-    3. [Redis JSON 데이터 가져오기](#redis-json-데이터-가져오기)
+    1. [User 구조체와 JSON 변환](#1-user-구조체와-json-변환)
+    2. [Redis JSON 데이터 저장](#2-redis-json-데이터-저장)
+    3. [Redis JSON 데이터 가져오기](#3-redis-json-데이터-가져오기)
 5. [코드 예제 실행](#코드-예제-실행)
 
 ---
@@ -542,14 +542,14 @@ int main() {
 
 ---
 
-이 코드를 통해 다양한 Redis 자료형을 연습하고, 데이터를 저장하고 조회하는 실습을 진행할 수 있습니다. 
+이 코드를 통해 다양한 Redis 자료형을 연습하고, 데이터를 저장하고 조회하는 실습을 진행할 수 있습니다. <br>
 JSON 데이터를 사용하는 부분에서는 `User` 구조체를 ACL의 JSON 객체로 변환하고 이를 Redis에 저장하는 방법을 실습할 수 있습니다.
 
 ---
 
 ## 추가 자료
 
-Redis JSON을 더욱 깊이 이해하고 사용하려면 아래 링크들을 참조하세요.
+Acl Redis를 더욱 깊이 이해하고 사용하려면 아래 링크들을 참조하세요.
 
 - [cluster example for redis3.0+](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#22-redis-client-cluster-example-for-redis30)
 - [Using redis client cluster in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#23-using-redis-client-cluster-in-multi-threads)
