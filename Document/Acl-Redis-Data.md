@@ -99,6 +99,8 @@ Redis는 인메모리 데이터베이스로, 고속의 데이터 읽기 및 쓰�
 
 ### 3. ACL을 활용한 Redis 실습 코드
 
+[Redis 실습 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
+
 #### 3.1 **Redis 연결 설정**
 ACL 라이브러리를 사용하여 Redis 서버에 연결하는 코드입니다.
 
