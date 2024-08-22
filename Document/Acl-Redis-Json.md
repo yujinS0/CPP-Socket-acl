@@ -1,4 +1,4 @@
-# RedisJson 사용법
+# Redis Json 사용법
 
 RedisJSON을 사용하기 위해서는 Redis Stack 이미지를 다운로드해서 실행해야 하므로, 이미지를 추가해야 합니다.
 
@@ -22,7 +22,9 @@ RedisJSON을 사용하기 위해서는 Redis Stack 이미지를 다운로드해�
 
 ## RedisJSON 사용법
 
-RedisJSON은 JSON 데이터를 Redis에 저장하고 조작할 수 있는 Redis 모듈입니다. Redis Stack 이미지를 사용하면 JSON 관련 명령어를 사용할 수 있습니다. RedisJSON 명령어는 `JSON.SET`, `JSON.GET` 등 JSON 데이터를 처리할 수 있는 기능을 제공합니다.
+[RedisJSON](https://redis.io/docs/latest/develop/data-types/json/)은 JSON 데이터를 Redis에 저장하고 조작할 수 있는 Redis 모듈입니다. <br>
+Redis Stack 이미지를 사용하면 JSON 관련 명령어를 사용할 수 있습니다. <br>
+RedisJSON 명령어는 `JSON.SET`, `JSON.GET` 등 JSON 데이터를 처리할 수 있는 기능을 제공합니다. <br>
 
 ### RedisJSON 기본 명령어
 
@@ -142,5 +144,5 @@ RedisJSON은 JSON 데이터를 Redis에 저장하고 조작할 수 있는 Redis 
 - JSON 구조를 사용하면 더 복잡한 데이터 저장이 가능하며, 관계형 데이터베이스보다 더 유연하게 데이터를 관리할 수 있습니다.
 
 ## RedisJSON을 활용한 Acl 예제
-- [RedisServerAcl](../RedisServerAcl)
+- [🖱️ RedisServerAcl](../RedisServerAcl/README.md#redis-json-사용)
 
