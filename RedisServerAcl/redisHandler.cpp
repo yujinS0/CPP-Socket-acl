@@ -1,7 +1,11 @@
 ﻿#include "redisHandler.h"
 #include "pch.h"
+#include "User.h"
+#include <limits>  // 이 헤더를 포함해야 std::numeric_limits 사용 가능
+#include <map>
 
-// Redis 연결 설정
+// redis 연결 설정
+// redis_client 반환하는 함수
 acl::redis_client* setup_redis() {
     acl::string redis_addr("127.0.0.1:6389"); // RedisJSON 모듈(redislabs/rejson:latest)
     //acl::string redis_addr("127.0.0.1:6379"); // 일반 Redis
@@ -19,6 +23,26 @@ acl::redis_client* setup_redis() {
     std::cout << "Redis 연결 성공!" << std::endl;
     return client;
 }
+
+// redis return 반환하는 함수 (주소 입력받기)
+acl::redis* setup_redis(const char* redis_addr) {
+    // Redis 클라이언트 생성
+    acl::redis_client* client = new acl::redis_client(redis_addr, 10, 10);
+    acl::redis* redis = new acl::redis();
+    redis->set_client(client);  // redis_client를 redis에 설정
+
+    // 연결 테스트
+    if (!redis->ping()) {
+        std::cerr << "Redis 연결 실패!" << std::endl;
+        delete redis;
+        delete client;
+        return nullptr;
+    }
+
+    std::cout << "Redis 연결 성공!" << std::endl;
+    return redis;  // 설정된 redis 객체 반환
+}
+
 
 void handle_string(acl::redis& redis) {
     std::string key, value;
@@ -190,8 +214,19 @@ void handle_zset(acl::redis& redis) {
         std::cin >> value;
         if (value == "q") break;
 
-        std::cout << "해당 값의 점수를 입력하세요: ";
-        std::cin >> score;
+        while (true) {
+            std::cout << "해당 값의 점수를 입력하세요: ";
+            std::cin >> score;
+
+            if (std::cin.fail()) {
+                std::cin.clear();
+                std::cin.ignore(10000, '\n');
+                std::cerr << "유효한 숫자를 입력하세요!" << std::endl;
+            }
+            else {
+                break;  // 유효한 숫자가 입력된 경우 루프를 빠져나감
+            }
+        }
 
         acl::string acl_value(value.c_str());
         members[acl_value] = score;
@@ -206,6 +241,45 @@ void handle_zset(acl::redis& redis) {
     }
 }
 
+// JSON 관련 핸들러 함수들
+void handle_set_json(acl::redis_client& client) {
+    std::string key, name, email;
+    int age;
+
+    std::cout << "Enter key: ";
+    std::cin >> key;
+    std::cout << "Enter name: ";
+    std::cin >> name;
+    std::cout << "Enter age: ";
+    std::cin >> age;
+    std::cout << "Enter email: ";
+    std::cin >> email;
+
+    User user = { name, age, email };
+
+    if (set_json_data(client, key, user)) {
+        std::cout << "User data saved successfully in Redis!" << std::endl;
+    }
+    else {
+        std::cerr << "Failed to save user data in Redis." << std::endl;
+    }
+}
+
+void handle_get_json(acl::redis_client& client) {
+    std::string key;
+    std::cout << "Enter key: ";
+    std::cin >> key;
+
+    try {
+        User user = json_to_user(client, key);
+        std::cout << "Name: " << user.name
+            << ", Age: " << user.age
+            << ", Email: " << user.email << std::endl;
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
+}
 
 
 
