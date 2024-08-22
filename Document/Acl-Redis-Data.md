@@ -3,6 +3,7 @@
 이 문서에서는 Redis의 주요 기능을 소개하고, ACL 라이브러리를 사용하여 해당 기능을 실습하는 방법을 설명합니다. <br>
 [Redis](https://redis.io)는 고성능의 인메모리 데이터 저장소로, 다양한 자료구조를 지원하여 빠르고 유연한 데이터 처리를 제공합니다. <br>
 각 기능별로 Redis의 주요 명령어를 설명하고, ACL 라이브러리를 이용한 실습 코드를 함께 정리하였습니다. <br>
+- **테스트 가능한 실습 코드는 [RedisServerAcl 디렉토리](../RedisServerAcl)에 위치하고 있습니다!**
 
 ## 목차
 1. Redis 개요
@@ -19,7 +20,6 @@
    - 3.4 Set 자료형 실습
    - 3.5 Hash 자료형 실습
    - 3.6 Sorted Set (ZSet) 자료형 실습
-4. 결론
 
 ---
 
@@ -99,7 +99,10 @@ Redis는 인메모리 데이터베이스로, 고속의 데이터 읽기 및 쓰�
 
 ### 3. ACL을 활용한 Redis 실습 코드
 
-[Redis 실습 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
+**테스트 가능한 실습 코드는 [RedisServerAcl 디렉토리](../RedisServerAcl)에 위치하고 있습니다!**
+- [Redis 실습 acl github 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
+
+<br>
 
 #### 3.1 **Redis 연결 설정**
 ACL 라이브러리를 사용하여 Redis 서버에 연결하는 코드입니다.
@@ -141,8 +144,11 @@ List 자료형의 LPUSH, LPOP 명령을 사용한 예제입니다.
 
 ```cpp
 // 리스트 값 추가
-redis.lpush("tasks", "Task1");
-redis.lpush("tasks", "Task2");
+redis.lpush("tasks", "Task1", NULL);
+redis.lpush("tasks", "Task2", NULL);
+
+// TTL 추가
+redis.expire(tasks, ttl);
 
 // 리스트 값 가져오기
 std::string task;
