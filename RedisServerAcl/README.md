@@ -1,17 +1,42 @@
-# Acl을 활용하여 Redis 사용하는 예제
+## Acl을 활용하여 Redis 사용하는 예제
+
+### 목차
+1. [Acl Redis](#acl-redis)
+2. [실습 목표](#실습-목표)
+3. [코드 설명](#코드-설명)
+    1. [Redis 연결 설정](#1-redis-연결-설정)
+    2. [String 자료형 실습](#2-string-자료형-실습)
+    3. [List 자료형 실습](#3-list-자료형-실습)
+    4. [Set 자료형 실습](#4-set-자료형-실습)
+    5. [Hash 자료형 실습](#5-hash-자료형-실습)
+    6. [Sorted Set (ZSet) 자료형 실습](#6-sorted-set-zset-자료형-실습)
+4. [Redis JSON 사용](#redis-json-사용)
+    1. [User 구조체와 JSON 변환](#user-구조체와-json-변환)
+    2. [Redis JSON 데이터 저장](#redis-json-데이터-저장)
+    3. [Redis JSON 데이터 가져오기](#redis-json-데이터-가져오기)
+5. [코드 예제 실행](#코드-예제-실행)
+
+---
 
 ## Acl Redis
+
 * [Acl redis - One C++ redis client library in Acl](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md)
 * ACL은 다양한 기능을 제공하는 C++ 라이브러리로, 네트워크 프로그래밍과 코루틴, **Redis**와 같은 데이터베이스와의 상호작용 등을 쉽게 할 수 있게 해줍니다.
 * Redis에 대한 자세한 설명이 필요하시다면 ["Redis가 지원하는 자료형 with Acl"](../Document/Acl-Redis-Data.md) 문서를 참고하세요.
 
+---
+
 ## 실습 목표
+
 1. Redis와 연결 설정: Redis 서버에 연결하고 기본 설정을 확인합니다.
 2. String 자료형 실습: 키-값 쌍을 저장하고 TTL(Time To Live)을 설정하며 값을 조회합니다.
 3. List 자료형 실습: 리스트에 값을 추가하고 특정 범위의 값을 조회합니다.
 4. Set 자료형 실습: 집합(Set)에 값을 추가하고 조회합니다.
 5. Hash 자료형 실습: 해시(Hash)에 필드와 값을 저장하고 조회합니다.
 6. Sorted Set (ZSet) 자료형 실습: 정렬된 집합에 값과 점수를 저장하고 조회합니다.
+7. Redis JSON 사용: JSON 데이터를 Redis에 저장하고 가져옵니다.
+
+---
 
 ## 코드 설명
 
@@ -24,6 +49,7 @@
 
 // Redis 연결 설정
 acl::redis_client* setup_redis();
+acl::redis* setup_redis(const char* redis_addr);
 ```
 
 #### `redisHandler.cpp`
@@ -48,10 +74,10 @@ acl::redis_client* setup_redis() {
     return client;
 }
 ```
+
 - **`setup_redis()`**: Redis 서버에 연결하는 함수입니다. 연결에 성공하면 클라이언트를 반환하고, 실패하면 에러 메시지를 출력합니다.
 
-
-<br>
+---
 
 ### 2. String 자료형 실습
 
@@ -106,11 +132,11 @@ void handle_get(acl::redis& redis) {
     }
 }
 ```
+
 - **`handle_string()`**: 사용자가 입력한 키와 값을 Redis에 저장합니다. TTL을 설정하여 데이터의 만료 시간을 지정할 수 있습니다.
 - **`handle_get()`**: 사용자가 입력한 키를 사용해 Redis에 저장된 값을 조회하고 출력합니다.
 
-<br>
-
+---
 
 ### 3. List 자료형 실습
 
@@ -188,11 +214,11 @@ void handle_list_get(acl::redis_list& redis) {
     }
 }
 ```
+
 - **`handle_list_push()`**: 사용자가 입력한 값을 리스트의 왼쪽(LPUSH) 또는 오른쪽(RPUSH)에 추가합니다.
 - **`handle_list_get()`**: 사용자가 지정한 범위 내에서 리스트의 값을 조회하고 출력합니다.
 
-<br>
-
+---
 
 ### 4. Set 자료형 실습
 
@@ -212,7 +238,9 @@ void handle_set(acl::redis& redis) {
     acl::string acl_key(key.c_str());
 
     while (true) {
-        std::cout << "집합에 추가할 값을 입력하세요 (종료하려면 q 입력): ";
+        std::cout << "
+
+집합에 추가할 값을 입력하세요 (종료하려면 q 입력): ";
         std::cin >> value;
         if (value == "q") break;
 
@@ -223,10 +251,10 @@ void handle_set(acl::redis& redis) {
     std::cout << "Set 저장 완료!" << std::endl;
 }
 ```
+
 - **`handle_set()`**: 사용자가 입력한 값을 Redis의 Set에 추가합니다. `q`를 입력하면 종료됩니다.
 
-<br>
-
+---
 
 ### 5. Hash 자료형 실습
 
@@ -256,18 +284,16 @@ void handle_hash(acl::redis& redis) {
         acl::string acl_field(field.c_str());
         acl::string acl_value(value.c_str());
 
-
-
         redis.hset(acl_key, acl_field, acl_value);
     }
 
     std::cout << "Hash 저장 완료!" << std::endl;
 }
 ```
+
 - **`handle_hash()`**: 해시 자료형에 필드와 값을 저장합니다. 필드와 값을 반복적으로 입력할 수 있습니다.
 
-<br>
-
+---
 
 ### 6. Sorted Set (ZSet) 자료형 실습
 
@@ -309,12 +335,148 @@ void handle_zset(acl::redis& redis) {
     }
 }
 ```
+
 - **`handle_zset()`**: 정렬된 집합(ZSet)에 값과 점수를 추가합니다. 점수는 멤버의 순서를 결정하는데 사용됩니다.
 
+---
 
+## Redis JSON 사용
+
+Redis는 JSON 데이터를 저장하기 위한 별도의 RedisJSON 모듈을 지원합니다. <br>
+이 모듈을 활용하면 구조체 데이터를 JSON 형식으로 Redis에 저장하고 조회할 수 있습니다. 
+<br>
+RedisJSON 모듈에 대한 설명이 궁금하다면 [Redis JSON이란?](../Document/Acl-Redis-Json.md) 문서를 참고하세요. <br>
+이번 실습에서는 Acl을 통해 `User` 구조체를 JSON으로 변환하고, 이를 Redis에 저장하거나 조회하는 방법을 다룹니다.
 <br>
 
+ACL의 JSON 모듈과 acl::redis_command 클래스는 Redis와 JSON 데이터를 쉽게 다룰 수 있도록 도와줍니다.
 
+- JSON 모듈: User 구조체를 ACL의 acl::json 객체로 변환하고, 이 객체를 Redis에 저장하는 데 사용됩니다.
+- Redis Command: acl::redis_command 객체는 JSON.SET, JSON.GET 같은 Redis 명령어를 실행하는 데 사용되며, JSON 데이터를 효율적으로 저장하고 조회할 수 있도록 지원합니다.
+
+### 1. User 구조체와 JSON 변환
+
+먼저, 구조체를 JSON으로 변환하는 함수를 정의합니다. ACL 라이브러리의 JSON 기능을 활용하여, `User` 구조체의 데이터를 ACL JSON 객체로 변환합니다. <br>
+이는 Redis에 구조체 데이터를 저장하기 위한 준비 단계입니다.
+
+#### `User.h`
+```cpp
+#ifndef USER_H
+#define USER_H
+
+#include <string>
+#include <acl_cpp/lib_acl.hpp>
+
+// User 구조체 정의
+struct User {
+    std::string name;
+    int age;
+    std::string email;
+};
+
+// JSON 변환 관련 함수 선언
+void user_to_json(const User& user, acl::json& json);
+User json_to_user(acl::redis_client& client, const std::string& key);
+
+#endif // USER_H
+```
+
+#### `User.cpp`
+```cpp
+#include "User.h"
+#include <iostream>
+#include <stdexcept>
+#include "redisHandler.h"
+
+// User 구조체를 ACL JSON 객체로 변환하는 함수
+void user_to_json(const User& user, acl::json& json) {
+    acl::json_node& root = json.get_root();
+    root.add_text("name", user.name.c_str());
+    root.add_number("age", user.age);
+    root.add_text("email", user.email.c_str());
+}
+
+// Redis에서 전체 User 구조체 데이터를 가져오는 함수
+User json_to_user(acl::redis_client& client, const std::string& key) {
+    User user;
+
+    user.name = get_json_field(client, key, "name");
+    user.age = std::stoi(get_json_field(client, key, "age"));
+    user.email = get_json_field(client, key, "email");
+
+    return user;
+}
+```
+
+- **`user_to_json()`**: `User` 구조체를 ACL의 JSON 객체로 변환합니다. `acl::json` 객체의 루트에 구조체 데이터를 추가합니다.
+- **`json_to_user()`**: Redis에서 개별 JSON 필드를 가져와 `User` 구조체로 변환합니다.
+
+---
+
+### 2. Redis JSON 데이터 저장
+이 과정에서는 ACL의 `acl::redis_command` 클래스를 사용하여 Redis의 `JSON.SET` 명령을 실행하고, 변환된 JSON 데이터를 Redis에 저장합니다.
+
+#### `redisHandler.h`
+```cpp
+bool set_json_data(acl::redis_client& client, const std::string& key, const User& user);
+```
+
+#### `redisHandler.cpp`
+```cpp
+bool set_json_data(acl::redis_client& client, const std::string& key, const User& user) {
+    acl::json json;
+    user_to_json(user, json);
+
+    acl::string json_str;
+    json.build_json(json_str);
+
+    acl::redis_command cmd(&client);
+    std::vector<const char*> argv = { "JSON.SET", key.c_str(), "$", json_str.c_str() };
+    std::vector<size_t> lens = { strlen("JSON.SET"), key.size(), strlen("$"), json_str.size() };
+
+    const acl::redis_result* result = cmd.request(argv.size(), argv.data(), lens.data());
+    return result && result->get_type() == acl::REDIS_RESULT_STATUS;
+}
+```
+
+- **`set_json_data()`**: `User` 구조체를 JSON으로 변환한 후, 이를 Redis에 저장합니다. ACL의 `acl::redis_command` 객체를 사용해 `JSON.SET` 명령어를 실행합니다. 
+- **`acl::redis_command`**: 이 클래스는 Redis 명령어를 실행하는 데 사용됩니다. `cmd.request()` 함수를 호출하여 Redis의 `JSON.SET` 명령어를 전달하고, 결과를 처리합니다.
+
+---
+
+### 3. Redis JSON 데이터 가져오기
+
+#### `redisHandler.h`
+```cpp
+std::string get_json_field(acl::redis_client& client, const std::string& key, const std::string& field);
+```
+
+#### `redisHandler.cpp`
+```cpp
+std::string get_json_field(acl::redis_client& client, const std::string& key, const std::string& field) {
+    acl::redis_command cmd(&client);
+    std::vector<const char*> argv = { "JSON.GET", key.c_str(), field.c_str() };
+    std::vector<size_t> lens = { strlen("JSON.GET"), key.size(), field.size() };
+
+    const acl::redis_result* result = cmd.request(argv.size(), argv.data(), lens.data());
+
+    if (!result || result->get_type() != acl::REDIS_RESULT_STRING) {
+        throw std::runtime_error("Failed to retrieve JSON field from Redis");
+    }
+    return result->get(0);
+}
+```
+
+- **`get_json_field()`**
+      + Redis에 저장된 JSON 데이터에서 특정 필드를 가져오는 함수입니다.
+      + `acl::redis_command` 객체를 사용하여 `JSON.GET` 명령을 사용하여 Redis에서 필드 값을 조회합니다.
+- **`acl::redis_command`**: 이 클래스는 `cmd.request()` 함수로 `JSON.GET` 명령을 실행하고, Redis로부터 해당 필드의 값을 받아옵니다.
+
+---
+
+이처럼 ACL의 기능을 활용하면 Redis와의 상호작용을 보다 효율적으로 수행할 수 있으며, 특히 구조체와 같은 복잡한 데이터 타입도 쉽게 처리할 수 있습니다.
+
+---
 
 ## 코드 예제 실행
 
@@ -336,7 +498,7 @@ int main() {
 
     while (true) {
         std::string command;
-        std::cout << "\n[Redis Test with Acl] 명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, exit): ";
+        std::cout << "\n[Redis Test with Acl] 명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, set_json, get_json, exit): ";
         std::cin >> command;
 
         if (command == "exit") {
@@ -360,6 +522,12 @@ int main() {
         else if (command == "zset") {
             handle_zset(redis);
         }
+        else if (command == "set_json") {
+            handle_set_json(*client);
+        }
+        else if (command == "get_json") {
+            handle_get_json(*client);
+        }
         else {
             std::cout << "지원하지 않는 명령어입니다." << std::endl;
         }
@@ -372,17 +540,17 @@ int main() {
 
 - **`acl::acl_cpp_init()`**: ACL 라이브러리 초기화 함수입니다. 이 함수를 호출하여 ACL 내부의 여러 기능을 사용할 준비를 합니다.
 
+---
 
-이 코드를 통해 다양한 Redis 자료형을 연습하고, 데이터를 저장하고 조회하는 실습을 진행할 수 있습니다.
+이 코드를 통해 다양한 Redis 자료형을 연습하고, 데이터를 저장하고 조회하는 실습을 진행할 수 있습니다. 
+JSON 데이터를 사용하는 부분에서는 `User` 구조체를 ACL의 JSON 객체로 변환하고 이를 Redis에 저장하는 방법을 실습할 수 있습니다.
 
--------------------
+---
 
-아 외에도 아래와 같은 다양한 기능을 사용할 수 있습니다. 
+## 추가 자료
+
+Redis JSON을 더욱 깊이 이해하고 사용하려면 아래 링크들을 참조하세요.
 
 - [cluster example for redis3.0+](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#22-redis-client-cluster-example-for-redis30)
 - [Using redis client cluster in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#23-using-redis-client-cluster-in-multi-threads)
 - [redis pipeline in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#24-use-redis-pipeline-in-multi-threads)
-
-
-
-
