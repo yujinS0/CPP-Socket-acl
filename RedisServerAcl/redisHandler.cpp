@@ -281,6 +281,36 @@ void handle_get_json(acl::redis_client& client) {
     }
 }
 
+// Redis에 JSON 데이터를 저장하는 함수
+bool set_json_data(acl::redis_client& client, const std::string& key, const User& user) {
+    acl::json json;
+    user_to_json(user, json);
+
+    acl::string json_str;
+    json.build_json(json_str);
+
+    acl::redis_command cmd(&client);
+    std::vector<const char*> argv = { "JSON.SET", key.c_str(), "$", json_str.c_str() };
+    std::vector<size_t> lens = { strlen("JSON.SET"), key.size(), strlen("$"), json_str.size() };
+
+    const acl::redis_result* result = cmd.request(argv.size(), argv.data(), lens.data());
+    return result && result->get_type() == acl::REDIS_RESULT_STATUS;
+}
+
+// Redis에서 각 필드를 개별적으로 가져오는 함수
+std::string get_json_field(acl::redis_client& client, const std::string& key, const std::string& field) {
+    acl::redis_command cmd(&client);
+    std::vector<const char*> argv = { "JSON.GET", key.c_str(), field.c_str() };
+    std::vector<size_t> lens = { strlen("JSON.GET"), key.size(), field.size() };
+
+    const acl::redis_result* result = cmd.request(argv.size(), argv.data(), lens.data());
+
+    if (!result || result->get_type() != acl::REDIS_RESULT_STRING) {
+        throw std::runtime_error("Failed to retrieve JSON field from Redis");
+    }
+    return result->get(0);
+}
+
 
 
 // 기본 실습 코드
