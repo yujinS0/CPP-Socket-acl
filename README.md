@@ -159,6 +159,8 @@ ACL을 사용하여 Redis와 상호작용하는 예제입니다. 이 예제는 R
 - [코루틴 설명 및 예제](./Document/Coroutine.md)
 - [동기화 객체](Document/Cpp-SynchronizationObject.md)
 - [Redis 설명 및 예제](./Document/Redis.md)
+    + [Redis 자주 사용하는 자료형](./Document/Acl-Redis-Data.md)
+    + [Redis JSON](./Document/Acl-Redis-Json.md)
 - [MySQL 설명 및 예제](./Document/MySQL-Acl.md)
 - [기초 예제](./Document/EX.md)
 - [심층 예제 (with 코루틴, mysql, redis)](./Document/Advanced_EX.md)
