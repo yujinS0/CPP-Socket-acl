@@ -5,22 +5,6 @@ int main() {
     acl::acl_cpp_init();
     acl::log::stdout_open(true);
 
-    /*acl::redis_client* client = setup_redis();
-    if (!client) {
-        return -1;
-    }
-
-    acl::redis redis;
-    redis.set_client(client);*/
-    
-    
-    // Redis 클라이언트 설정
-    //const char* redis_addr = "127.0.0.1:6389";
-    //acl::redis_client client(redis_addr, 10, 10);
-    //acl::redis redis;
-    //redis.set_client(&client);  // redis_client를 redis에 설정
-
-
     // Redis 설정 함수 호출
     const char* redis_addr = "127.0.0.1:6389";  // RedisJSON 서버 주소
     acl::redis* redis = setup_redis(redis_addr);
@@ -29,7 +13,6 @@ int main() {
     }
 
     acl::redis_client* client = redis->get_client();  // redis_client 객체 가져오기
-
 
     while (true) {
         std::string command;

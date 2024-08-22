@@ -1,8 +1,6 @@
 ﻿#include "redisHandler.h"
 #include "pch.h"
 #include "User.h"
-#include <limits>  // 이 헤더를 포함해야 std::numeric_limits 사용 가능
-#include <map>
 
 // redis 연결 설정
 // redis_client 반환하는 함수
@@ -87,36 +85,6 @@ void handle_get(acl::redis& redis) {
     }
 }
 
-void handle_list_get(acl::redis_list& redis) {
-    std::string key;
-    int start, end;
-
-    std::cout << "key를 입력하세요: ";
-    std::cin >> key;
-    std::cout << "조회 시작 인덱스를 입력하세요: ";
-    std::cin >> start;
-    std::cout << "조회 종료 인덱스를 입력하세요: ";
-    std::cin >> end;
-
-    acl::string acl_key(key.c_str());  // 안전한 방식으로 std::string -> acl::string 변환
-    std::vector<acl::string> list_values;  // 안전한 STL 컨테이너 사용
-
-    redis.clear();
-    if (redis.lrange(acl_key.c_str(), start, end, &list_values)) {
-        if (list_values.empty()) {
-            std::cout << "리스트가 비어있습니다." << std::endl;
-        }
-        else {
-            std::cout << "리스트 값들: " << std::endl;
-            for (size_t i = 0; i < list_values.size(); ++i) {
-                std::cout << "Index " << start + i << ": " << list_values[i].c_str() << std::endl;
-            }
-        }
-    }
-    else {
-        std::cerr << "Redis에서 리스트 '" << acl_key.c_str() << "'를 조회하는 중 오류가 발생했습니다." << std::endl;
-    }
-}
 
 void handle_list_push(acl::redis_list& redis) {
     std::string key, value;
@@ -153,6 +121,37 @@ void handle_list_push(acl::redis_list& redis) {
     }
 }
 
+void handle_list_get(acl::redis_list& redis) {
+    std::string key;
+    int start, end;
+
+    std::cout << "key를 입력하세요: ";
+    std::cin >> key;
+    std::cout << "조회 시작 인덱스를 입력하세요: ";
+    std::cin >> start;
+    std::cout << "조회 종료 인덱스를 입력하세요: ";
+    std::cin >> end;
+
+    acl::string acl_key(key.c_str());  // 안전한 방식으로 std::string -> acl::string 변환
+    std::vector<acl::string> list_values;  // 안전한 STL 컨테이너 사용
+
+    redis.clear();
+    if (redis.lrange(acl_key.c_str(), start, end, &list_values)) {
+        if (list_values.empty()) {
+            std::cout << "리스트가 비어있습니다." << std::endl;
+        }
+        else {
+            std::cout << "리스트 값들: " << std::endl;
+            for (size_t i = 0; i < list_values.size(); ++i) {
+                std::cout << "Index " << start + i << ": " << list_values[i].c_str() << std::endl;
+            }
+        }
+    }
+    else {
+        std::cerr << "Redis에서 리스트 '" << acl_key.c_str() << "'를 조회하는 중 오류가 발생했습니다." << std::endl;
+    }
+}
+
 
 void handle_set(acl::redis& redis) {
     std::string key, value;
@@ -173,6 +172,7 @@ void handle_set(acl::redis& redis) {
 
     std::cout << "Set 저장 완료!" << std::endl;
 }
+
 
 void handle_hash(acl::redis& redis) {
     std::string key, field, value;
@@ -198,6 +198,7 @@ void handle_hash(acl::redis& redis) {
 
     std::cout << "Hash 저장 완료!" << std::endl;
 }
+
 
 void handle_zset(acl::redis& redis) {
     std::string key, value;
@@ -241,7 +242,8 @@ void handle_zset(acl::redis& redis) {
     }
 }
 
-// JSON 관련 핸들러 함수들
+
+// JSON 관련 핸들러 함수
 void handle_set_json(acl::redis_client& client) {
     std::string key, name, email;
     int age;
@@ -312,8 +314,7 @@ std::string get_json_field(acl::redis_client& client, const std::string& key, co
 }
 
 
-
-// 기본 실습 코드
+// 이전 기본 실습 코드
 void set_with_ttl(acl::redis& cmd, const char* key, const char* value, int ttl) {
     if (cmd.setex(key, value, ttl) == false) {
         std::cerr << "Failed to set key with TTL in Redis" << std::endl;
@@ -322,7 +323,6 @@ void set_with_ttl(acl::redis& cmd, const char* key, const char* value, int ttl) 
         std::cout << "Data saved with " << ttl << " seconds TTL." << std::endl;
     }
 }
-
 
 void get_value(acl::redis& cmd, const char* key) {
     acl::string value;

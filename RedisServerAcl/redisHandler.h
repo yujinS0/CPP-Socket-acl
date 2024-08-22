@@ -27,7 +27,6 @@ void handle_get_json(acl::redis_client& client);
 bool set_json_data(acl::redis_client& client, const std::string& key, const User& user);
 std::string get_json_field(acl::redis_client& client, const std::string& key, const std::string& field);
 
-
 // 이전 기본 get/set 함수
 void set_with_ttl(acl::redis& cmd, const char* key, const char* value, int ttl);
 void get_value(acl::redis& cmd, const char* key);
