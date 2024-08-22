@@ -257,14 +257,14 @@ void handle_list_create(acl::redis_list& redis) {
         std::cin >> value;
         if (value == "q") break;
 
-        acl::string acl_value(value.c_str());  // 안전한 방식으로 std::string -> acl::string 변환
+        acl::string acl_value(value.c_str());  // std::string -> acl::string 변환
 
         bool success = false;
         if (action == 'L' || action == 'l') {
-            success = redis.lpush(acl_key, acl_value) >= 0;
+            success = redis.lpush(acl_key, acl_value, NULL) >= 0;
         }
         else if (action == 'R' || action == 'r') {
-            success = redis.rpush(acl_key, acl_value) >= 0;
+            success = redis.rpush(acl_key, acl_value, NULL) >= 0;
         }
 
         if (success) {
