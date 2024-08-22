@@ -1,9 +1,10 @@
 ﻿#include "redisHandler.h"
-#include <iostream>
+#include "pch.h"
 
 // Redis 연결 설정
 acl::redis_client* setup_redis() {
-    acl::string redis_addr("127.0.0.1:6379");
+    acl::string redis_addr("127.0.0.1:6389"); // RedisJSON 모듈(redislabs/rejson:latest)
+    //acl::string redis_addr("127.0.0.1:6379"); // 일반 Redis
     acl::redis_client* client = new acl::redis_client(redis_addr.c_str(), 10, 10);
 
     acl::redis redis;
@@ -205,6 +206,10 @@ void handle_zset(acl::redis& redis) {
     }
 }
 
+
+
+
+// 기본 실습 코드
 void set_with_ttl(acl::redis& cmd, const char* key, const char* value, int ttl) {
     if (cmd.setex(key, value, ttl) == false) {
         std::cerr << "Failed to set key with TTL in Redis" << std::endl;
