@@ -156,9 +156,10 @@ Redis 연결 설정, 주요 자료형 실습(String, List, Set, Hash, Sorted Set
 - [오픈소스 라이브러리(Acl 빌드 후) 정적 라이브러리로 추가 방법](./Document/Build.md)
 - [친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)
 
-## 실습 예제
+## 개념 및 실습 예제
 - [코루틴 설명 및 예제](./Document/Coroutine.md)
-- [동기화 객체](Document/Cpp-SynchronizationObject.md)
+- [동기화 객체](./Document/Cpp-SynchronizationObject.md)
+     + [코루틴 동기화 & fiber_mutex](./Document/Coroutine-fiber_mutex.md)
 - [Redis 설명 및 예제](./Document/Redis.md)
     + [Redis 자주 사용하는 자료형](./Document/Acl-Redis-Data.md)
     + [Redis JSON](./Document/Acl-Redis-Json.md)
@@ -171,3 +172,8 @@ Redis 연결 설정, 주요 자료형 실습(String, List, Set, Hash, Sorted Set
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
 
 
+## TODO
+- [ ] 기계 번역했던 문서 링크 걸기
+- [ ] httpclient, redis 기능 사용했을 때 사용 안했을 때와 비교해서 메모리 사용량 차이. 프로그램 빌드 시작 때 확인
+- [ ] httpclient, redis 기능을 사용했을 때 메모리릭은 없는지(아주 많은 횟수를 5~6시간 사용해보고)
+- [ ] 파이버 사용 소켓 서버 성능 및 안정성(긴 시간 운용) 테스트
