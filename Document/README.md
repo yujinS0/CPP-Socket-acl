@@ -7,13 +7,13 @@
 ### 실습 예제
 * [코루틴 설명 및 예제](./Coroutine.md)
 * [동기화 객체](./Cpp-SynchronizationObject.md)
+  + [코루틴 동기화 & fiber_mutex](./Coroutine-fiber_mutex.md)
 * [Redis 설명 및 예제](./Redis.md)
   + [Redis 자주 사용하는 자료형](./Acl-Redis-Data.md)
   + [Redis JSON](./Acl-Redis-Json.md)
 * [MySQL 설명 및 예제](./MySQL-Acl.md)
 * [기초 예제](./EX.md)
 * [심층 예제 (with 코루틴, mysql, redis)](./Advanced_EX.md)
-* [코루틴 동기화](./Coroutine-fiber_mutex.md)
 
 
 ### 원문 번역
