@@ -15,6 +15,7 @@ ACL의 전통적인 HTTP 서버 방식은 **Blocking I/O 모델**을 기반으�
 이 방식은 클라이언트와 서버 간의 통신이 순차적으로 이루어지며, 각 요청이 완료될 때까지 서버는 해당 작업에 대해 블로킹됩니다. <br>
 이 방식은 구현이 비교적 간단하고 직관적이지만, 다수의 클라이언트를 동시에 처리할 때 성능이 제한될 수 있습니다. <br>
 - 구현 소스코드 : [acl/lib_acl_cpp/src/http](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/src/http)
+- sample 소스코드 : [acl/lib_acl_cpp/samples/http](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/http)
 
 ### 1.2 주요 클래스와 구성 요소
 - **`acl::socket_stream`**: 클라이언트와의 연결을 담당하는 TCP 소켓 스트림.
@@ -86,6 +87,13 @@ ACL은 경량 스레드(Lightweight Threads)인 **Fiber**를 사용한 비동기
 
 Fiber 기반의 HTTP 서버는 각각의 연결 요청을 별도의 Fiber로 처리함으로써, 성능을 극대화하고 I/O 블로킹을 피할 수 있습니다. <br> 
 
+- 구현 소스코드 : [acl/lib_acl_cpp/src/http](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/src/http)
+- sample 소스코드 :
+  + [acl/lib_fiber/samples-c++/https](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/https_server)
+  + [acl/lib_fiber/samples-c++/httpd](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/httpd)
+
+
+
 ### 2.2 주요 클래스와 구성 요소
 - **`acl::fiber`**: 경량 스레드로서, 비동기 I/O 작업을 처리할 수 있는 기본 단위입니다.
 - **`acl_fiber_create()`**: 새로운 Fiber를 생성하여 HTTP 요청을 비동기적으로 처리하는 함수입니다.
@@ -95,9 +103,22 @@ Fiber 기반의 HTTP 서버는 각각의 연결 요청을 별도의 Fiber로 처
 ### 2.3 구현 방식
 
 #### Fiber 기반 HTTP 서버의 처리 흐름
-1. **Fiber 생성 및 스케줄링**: `acl_fiber_create()`를 통해 각 클라이언트의 요청을 처리할 Fiber를 생성합니다. Fiber는 경량 스레드이므로 빠르게 생성되고 스케줄링됩니다.
-2. **비동기 I/O 처리**: 각 Fiber는 비동기적으로 클라이언트의 요청을 처리합니다. 즉, 하나의 Fiber가 I/O 작업을 대기하는 동안에도 다른 Fiber가 계속해서 요청을 처리할 수 있습니다.
-3. **Fiber 스케줄링**: `acl_fiber_schedule()`을 통해 모든 Fiber를 스케줄링하고, 각 Fiber가 완료될 때까지 동작을 지속합니다.
+1. **Fiber 생성 및 스케줄링**: 
+   - `acl_fiber_create()` 함수를 사용해 각 클라이언트 요청을 처리할 Fiber를 생성합니다. Fiber는 경량 스레드로, 빠르게 생성되고 실행됩니다.
+   - 생성된 Fiber는 각각 클라이언트와의 연결을 비동기적으로 처리합니다. 이 방식은 성능을 극대화하고 서버의 I/O 작업이 블로킹되지 않도록 합니다.
+
+2. **비동기 I/O 처리**:
+   - Fiber는 I/O 작업을 대기하면서도 비동기적으로 요청을 처리할 수 있습니다. 즉, 하나의 Fiber가 I/O 작업을 기다리는 동안에도 다른 Fiber는 계속해서 요청을 처리할 수 있습니다.
+   - 이 방식은 서버가 다수의 클라이언트로부터 들어오는 요청을 동시에 처리할 수 있도록 하며, 시스템의 자원을 효율적으로 사용하게 만듭니다.
+
+3. **Fiber 스케줄링**:
+   - Fiber의 실행 순서를 관리하기 위해 `acl_fiber_schedule()` 함수를 사용하여 모든 Fiber를 스케줄링합니다.
+   - 이 스케줄러는 커널 이벤트나 `poll`, `select` 등의 방식으로 Fiber의 실행을 관리하며, 각 Fiber가 완료될 때까지 동작을 지속합니다.
+   
+4. **클라이언트 요청 처리**:
+   - 각 클라이언트의 요청은 Fiber에서 처리되며, Fiber는 각 클라이언트와의 통신이 종료될 때까지 실행됩니다.
+   - 클라이언트로부터의 HTTP 요청은 `HttpServlet`에서 처리되고, 해당 요청에 대한 응답이 완료되면 Fiber는 종료됩니다.
+
 
 ```cpp
 static void http_server(ACL_FIBER*, void* ctx) {
@@ -129,13 +150,16 @@ int main() {
 #### 장단점
 
 - **장점**:
-  - **경량 스레드(Fiber)**: Fiber는 일반적인 스레드보다 훨씬 경량화되어 있어, 수천 개의 Fiber를 동시에 생성하고 관리할 수 있습니다.
-  - **비동기 처리**: 비동기 I/O를 통해 높은 동시성 성능을 제공합니다. 클라이언트 요청을 블로킹 없이 처리할 수 있습니다.
-  - **성능 향상**: 다수의 클라이언트 요청을 처리할 때, 전통적인 멀티스레드보다 훨씬 적은 자원으로 고성능 처리가 가능합니다.
+  - **경량 스레드(Fiber)**: Fiber는 일반적인 스레드보다 훨씬 경량화되어 있어, 수천 개의 Fiber를 동시에 생성하고 관리할 수 있습니다. 이를 통해 다수의 클라이언트 요청을 동시에 처리할 수 있습니다.
+  - **비동기 처리**: Fiber를 사용하면 각 클라이언트의 요청을 비동기적으로 처리할 수
+
+ 있습니다. 이는 각 Fiber가 I/O 작업 중에도 다른 작업을 계속 처리할 수 있도록 하여, 서버가 더 높은 동시성 성능을 제공할 수 있게 합니다.
+  - **성능 향상**: 다수의 클라이언트 요청을 처리할 때, 전통적인 멀티스레드보다 훨씬 적은 자원으로 고성능 처리가 가능합니다. I/O 작업에서 발생하는 블로킹 문제를 해결할 수 있습니다.
 
 - **단점**:
-  - **구현 복잡성**: Fiber 기반 비동기 프로그래밍은 동기 방식에 비해 복잡도가 높으며, 디버깅이 까다로울 수 있습니다.
-  - **Fiber 관리**: Fiber 스케줄링 및 동작에 대한 이해가 필요합니다. 잘못된 설계는 성능 저하로 이어질 수 있습니다.
+  - **구현 복잡성**: Fiber 기반 비동기 프로그래밍은 동기 방식에 비해 구현의 복잡도가 높아집니다. Fiber의 스케줄링과 동작을 정확하게 관리해야 하며, 잘못된 설계는 성능 저하를 초래할 수 있습니다.
+  - **Fiber 관리**: Fiber의 생성, 스케줄링, 실행 상태를 세밀하게 관리해야 합니다. 이러한 관리가 복잡할 수 있으며, 디버깅 과정도 까다로울 수 있습니다.
+
 
 ---
 
