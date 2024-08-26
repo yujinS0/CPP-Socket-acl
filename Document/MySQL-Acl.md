@@ -42,9 +42,12 @@ Acl 사용을 위해 당연히 추가해줘야한다.
    - `C:\Program Files\MySQL\MySQL Server 8.0\lib` 디렉토리 내에 `libmysql.dll` 파일이 있습니다.
    - 이를 **실행 파일 디렉토리**로 복사합니다. ex. Debug 디렉토리
 
-#### 3. **Acl mysql 사용을 위해**
-1. `libmysql.lib` 경로 확인 (C:\Program Files\MySQL\MySQL Server 8.0\lib) 
-2. `libmysql.dll` 실행파일과 같은 디렉토리에 위치
+<br>
+
+### Acl mysql 사용을 위해
+1. `libmysql.lib` 경로 확인 (C:\Program Files\MySQL\MySQL Server 8.0\lib)
+   - acl에서 libmysql를 사용하기 때문에 추후 소스코드에서 경로를 지정해줘야 합니다.
+2. `libmysql.dll` 파일의 위치를 실행파일과 같은 디렉토리로 이동
 
 
 
