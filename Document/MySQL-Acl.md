@@ -10,7 +10,7 @@ Acl 사용을 위해 당연히 추가해줘야한다.
 
 ### mysql 관련 라이브러리 추가
 
-우선 Acl을 사용하더라도, mysql 연결을 해주는 libmysql 자체는 따로 추가를 해줘야한다. <br>
+우선 Acl을 사용하더라도, mysql 연결을 해주는 libmysql 자체는 따로 설치(추가)를 해줘야한다. <br>
 테스트를 위해서도 MySQL은 필요하니 공식 홈페이지에서 MySQL Workbench나 MySQL Server 설치를 진행하자.  <br><br>
 이때, MySQL 공식 홈페이지에서 다운 받을 때 Server까지 설치해주면, <br>
 `C:\Program Files\MySQL\MySQL Server 8.0\include` 해당 경로에 이미 **헤더파일**이 있고, <br>
@@ -20,7 +20,7 @@ Acl 사용을 위해 당연히 추가해줘야한다.
  <br> <br>
 
 
-### Visual Studio에서 MySQL 프로젝트 설정 방법 (Windows 환경)
+### Visual Studio에서 MySQL C API 사용을 위한 프로젝트 설정 방법 (Windows 환경)
 
 #### 1. **라이브러리 및 헤더 파일 설정**
 
@@ -42,7 +42,9 @@ Acl 사용을 위해 당연히 추가해줘야한다.
    - `C:\Program Files\MySQL\MySQL Server 8.0\lib` 디렉토리 내에 `libmysql.dll` 파일이 있습니다.
    - 이를 **실행 파일 디렉토리**로 복사합니다. ex. Debug 디렉토리
 
-#### 3. **MySQL 코드 작성 및 테스트**
+#### 3. **Acl mysql 사용을 위해**
+1. `libmysql.lib` 경로 확인 (C:\Program Files\MySQL\MySQL Server 8.0\lib) 
+2. `libmysql.dll` 실행파일과 같은 디렉토리에 위치
 
 
 
