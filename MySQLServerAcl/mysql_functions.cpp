@@ -11,7 +11,7 @@
 //")";
 //
 //// Create
-//static bool tbl_create(acl::db_handle& db)
+//bool tbl_create(acl::db_handle& db)
 //{
 //    if (db.tbl_exists("test_tbl")) {
 //        std::print("Table 'test_tbl' already exists.\r\n");
@@ -26,7 +26,7 @@
 //}
 //
 //// Insert
-//static bool tbl_insert(acl::db_handle& db, const char* name, int age)
+//bool tbl_insert(acl::db_handle& db, const char* name, int age)
 //{
 //    acl::query query;
 //
@@ -44,7 +44,7 @@
 //}
 //
 //// Select
-//static bool tbl_select(acl::db_handle& db)
+//bool tbl_select(acl::db_handle& db)
 //{
 //    acl::query query;
 //    query.create_sql("select * from test_tbl")
@@ -81,7 +81,7 @@
 //}
 //
 //// Update
-//static bool tbl_update(acl::db_handle& db, int id, const char* new_name, int new_age)
+//bool tbl_update(acl::db_handle& db, int id, const char* new_name, int new_age)
 //{
 //    acl::query query;
 //
@@ -100,7 +100,7 @@
 //}
 //
 //// Delete
-//static bool tbl_delete(acl::db_handle& db, int id)
+//bool tbl_delete(acl::db_handle& db, int id)
 //{
 //    acl::query query;
 //
