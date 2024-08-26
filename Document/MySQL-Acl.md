@@ -44,5 +44,96 @@ Acl 사용을 위해 당연히 추가해줘야한다.
 
 #### 3. **MySQL 코드 작성 및 테스트**
 
-작성중
+
+
+ <br> <br>
+ 
+
+## acl 사용 시 주의사항
+
+acl에서 mysql 쿼리문을 다루는 방법이 두가지가 존재합니다.
+1. `acl::string` 사용해서 raw 쿼리문 지정 및 `sql_update(query)`로 업데이트 시키기
+2. `acl::query` 사용해서 파라미터 지정 및 `exec_update(query)` 로 업데이트 시키기
+
+결론적으로 **2번 방법인 acl::query**를 사용해야만 합니다!
+
+### 1. acl::string & sql_* 함수(또는 get_result)사용
+
+```cpp
+static bool tbl_select(acl::db_handle& db)
+{
+    const char* sql = "SELECT * FROM test_tbl";
+
+    bool isSelect = db.sql_select(sql);
+    if (isSelect == false) {
+        printf("Select SQL error: %s\r\n", db.get_error());
+        return false;
+    }
+
+    const acl::db_rows* result = db.get_result();
+
+    if (result == NULL) {
+        printf("No result found. Result pointer is NULL.\r\n");
+        db.free_result();
+        return false;
+    }
+
+    const std::vector<acl::db_row*>& rows = result->get_rows();
+    if (rows.empty()) {
+        printf("No data found.\r\n");
+    }
+
+    for (size_t i = 0; i < rows.size(); i++) {
+        const acl::db_row* row = rows[i];
+        printf("ID: %s, Name: %s, Age: %s\r\n",
+            row->field_value("id"), row->field_value("name"), row->field_value("age"));
+    }
+
+    db.free_result();
+    return true;
+}
+```
+
+- 정상적으로 작동하는 것처럼 보여도 `db.get_result()` 시 NULL이 되어서 정상적으로 오류 처리를 하기 힘듦.
+- 또한 raw 쿼리문을 작성하면 사실 상 MySQL이 제공하는 C API 사용과 큰 다른 점이 없음.
+
+
+### 2. acl::query & exec_* 함수 사용
+
+
+```cpp
+
+static bool tbl_insert(acl::db_handle& db, const char* name, int age)
+{
+    acl::query query;
+
+    // 동적 SQL 쿼리 구성
+    query.create_sql("INSERT INTO test_tbl(name, age) VALUES(:name, :age)")
+        .set_parameter("name", name)
+        .set_parameter("age", age);
+
+    // SQL 실행
+    if (db.exec_update(query) == false) {
+        printf("Insert SQL error: %s\r\n", db.get_error());
+        return false;
+    }
+
+    printf("Data inserted successfully.\r\n");
+    return true;
+}
+
+```
+
+- acl::query 사용 시 `.set_parameter("name", new_name)` 로 안전하게 SQL 인젝션 공격을 막고 가독성을 높일 수 있음.
+- 이때 exec_update로 업데이트를 진행하면 ture false 반환 값도 정상적으로 나옴을 확인할 수 있음.
+
+
+
+
+
+
+
+
+
+
 
