@@ -23,16 +23,7 @@
 
 ## 소스코드 설명
 
-### 헤더 파일 및 라이브러리
-
-```cpp
-#include "lib_acl.h"
-#include "acl_cpp/lib_acl.hpp"
-#include "pch.h"
-```
-
 - `lib_acl.h`와 `acl_cpp/lib_acl.hpp`는 ACL 라이브러리의 헤더 파일로, MySQL과의 데이터베이스 연결 및 쿼리 실행에 사용됩니다.
-- `pch.h`는 프로젝트의 사전 컴파일된 헤더 파일입니다.
 
 ### 테이블 생성 SQL 쿼리
 
