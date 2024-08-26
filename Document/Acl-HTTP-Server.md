@@ -1,10 +1,11 @@
 # ACL (Advanced C/C++ Library) HTTP Server 기능 정리
 
-ACL(Advanced C/C++ Library)은 고성능 C/C++ 기반의 네트워크 프로그래밍 라이브러리로, 다양한 서버 및 클라이언트 통신 기능을 제공합니다. <br>
+ACL(Advanced C/C++ Library)은 고성능 C/C++ 기반의 네트워크 프로그래밍 라이브러리로, 다양한 서버 및 클라이언트 통신 기능을 제공합니다. <br><br>
+
 그 중 특히 HTTP 서버와 관련된 기능을 동기 및 비동기 방식으로 모두 제공하며, <br>
 `socket_stream`을 이용한 전통적인 HTTP 서버 구현부터 `fiber`(경량 스레드)를 활용한 고성능 비동기 서버 구현까지 지원합니다. <br>
 
-이 문서에서는 ACL에서 제공하는 HTTP 서버 기능을 두 가지 방식(전통적인 동기 방식 및 Fiber 기반 비동기 방식)으로 정리합니다. 
+이 문서는 ACL에서 제공하는 HTTP 서버 기능을 두 가지 방식(전통적인 동기 방식 및 Fiber 기반 비동기 방식)으로 정리합니다. 
 
 ---
 
@@ -17,6 +18,8 @@ ACL의 전통적인 HTTP 서버 방식은 **Blocking I/O 모델**을 기반으�
 - 구현 소스코드 : [acl/lib_acl_cpp/src/http](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/src/http)
 - sample 소스코드 : [acl/lib_acl_cpp/samples/http](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/http)
 
+<br> <br> 
+
 ### 1.2 주요 클래스와 구성 요소
 - **`acl::socket_stream`**: 클라이언트와의 연결을 담당하는 TCP 소켓 스트림.
   + 서버는 이 객체를 사용하여 클라이언트의 요청을 수신하고 응답을 전송합니다.
@@ -26,6 +29,8 @@ ACL의 전통적인 HTTP 서버 방식은 **Blocking I/O 모델**을 기반으�
 - **`acl::HttpServletRequest`**: HTTP 요청 데이터를 파싱하고 제공하는 클래스.
 - **`acl::HttpServletResponse`**: HTTP 응답을 작성하고 전송하는 클래스.
 
+<br> <br> 
+
 ### 1.3 구현 방식
 
 #### 서버 설정 및 요청 처리 흐름
@@ -34,21 +39,29 @@ ACL의 전통적인 HTTP 서버 방식은 **Blocking I/O 모델**을 기반으�
 3. **HTTP 요청 처리**: 클라이언트로부터 HTTP 요청이 들어오면 `acl::HttpServletRequest`가 요청 데이터를 파싱하고, 서버는 해당 요청에 맞는 처리 메서드(`doGet`, `doPost` 등)를 호출하여 응답을 생성합니다.
 4. **응답 전송**: `acl::HttpServletResponse`를 통해 클라이언트로 응답을 전송하고, 연결을 종료합니다.
 
-#### `acl::HttpServlet`
+<br> 
+
+#### acl::HttpServlet
 `HttpServlet` 클래스는 HTTP 요청과 응답을 처리하는 기본 클래스입니다. <br> 
 각 요청 메서드(GET, POST 등)를 처리하기 위한 메서드를 오버라이딩하여 사용자가 직접 요청 처리를 구현할 수 있습니다. <br> 
 
 - **`doRun()`**: 클라이언트 요청이 들어오면 `start()` 메서드를 호출하여 요청을 처리합니다. 이 과정에서 HTTP 메서드(GET, POST 등)를 파악하고, 해당 메서드에 맞는 핸들러(`doGet`, `doPost` 등)를 호출합니다.
 - **`start()`**: 실제 HTTP 요청을 처리하는 메서드로, 소켓 스트림을 통해 데이터를 읽어들이고 적절한 메서드를 호출하여 응답을 생성합니다.
+
+<br> 
+
   
-#### `acl::HttpServletRequest`
+#### acl::HttpServletRequest
 `HttpServletRequest` 클래스는 HTTP 요청 데이터를 파싱하고 제공하는 역할을 합니다.  <br> 
 클라이언트로부터 받은 요청 메서드(GET, POST 등), 헤더 정보, 파라미터 등을 다룹니다. <br> 
 
-#### `acl::HttpServletResponse`
+<br> 
+
+#### acl::HttpServletResponse
 `HttpServletResponse` 클래스는 서버가 클라이언트에게 응답할 데이터를 생성하고 전송하는 데 사용됩니다. <br>  
 상태 코드, 헤더 설정, 콘텐츠 길이 등을 관리하며, 데이터를 클라이언트로 전송합니다. <br> 
 
+<br> 
 
 ### Blocking I/O
 Blocking I/O 모델에서는 서버가 클라이언트로부터 데이터를 요청받을 때, 해당 I/O 작업이 완료될 때까지 해당 작업을 실행하는 쓰레드가 블로킹됩니다. <br> 
@@ -75,7 +88,7 @@ out->open(ACL_VSTREAM_OUT);
 `HttpServlet::start()` 메서드에서 이 소켓 스트림을 사용하여 클라이언트의 요청을 읽어들이고 응답을 작성합니다.<br> 
 
 
-
+<br> <br> 
 
 ---
 
@@ -92,13 +105,15 @@ Fiber 기반의 HTTP 서버는 각각의 연결 요청을 별도의 Fiber로 처
   + [acl/lib_fiber/samples-c++/https](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/https_server)
   + [acl/lib_fiber/samples-c++/httpd](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/httpd)
 
-
+<br> <br> 
 
 ### 2.2 주요 클래스와 구성 요소
 - **`acl::fiber`**: 경량 스레드로서, 비동기 I/O 작업을 처리할 수 있는 기본 단위입니다.
 - **`acl_fiber_create()`**: 새로운 Fiber를 생성하여 HTTP 요청을 비동기적으로 처리하는 함수입니다.
 - **`acl::HttpServlet`**: 전통적인 HTTP 서버와 마찬가지로 Fiber 기반 서버에서도 HTTP 요청 처리를 담당합니다.
 - **`acl::memcache_session`**: Fiber와 함께 사용될 수 있는 비동기식 세션 관리 클래스입니다.
+
+<br> <br> 
 
 ### 2.3 구현 방식
 
@@ -146,6 +161,7 @@ int main() {
     return 0;
 }
 ```
+<br> 
 
 #### 장단점
 
