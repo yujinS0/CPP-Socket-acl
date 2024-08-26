@@ -136,11 +136,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="0826.cpp" />
-    <ClCompile Include="MySQLServerAcl.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="mysql_C_API_test.cpp" />
+    <ClCompile Include="mysql_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="mysql_functions.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
