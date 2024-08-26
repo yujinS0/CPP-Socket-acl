@@ -136,8 +136,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="0826.cpp" />
     <ClCompile Include="MySQLServerAcl.cpp" />
-    <ClCompile Include="MySQL_EX_with_CAPI.cpp" />
+    <ClCompile Include="mysql_C_API_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
