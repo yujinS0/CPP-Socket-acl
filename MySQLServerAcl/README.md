@@ -98,6 +98,7 @@ static bool tbl_insert(acl::db_handle& db, const char* name, int age)
 
 - `query.create_sql`을 통해 삽입할 SQL 쿼리를 생성합니다.
 - `set_parameter`를 사용해 SQL 쿼리에서 사용할 값을 설정합니다.
+- `db.exec_update(query)`
 
 #### `tbl_select`
 
@@ -165,7 +166,7 @@ static bool tbl_update(acl::db_handle& db, int id, const char* new_name, int new
 }
 ```
 
-- 주어진 `id` 값을 기준으로 `name`과 `age` 필드를 업데이트합니다.
+- `db.exec_update(query)`
 
 #### `tbl_delete`
 
@@ -189,7 +190,7 @@ static bool tbl_delete(acl::db_handle& db, int id)
 }
 ```
 
-- 주어진 `id`에 해당하는 레코드를 삭제합니다.
+- `db.exec_update(query)`
 
 ### 메인 함수
 
