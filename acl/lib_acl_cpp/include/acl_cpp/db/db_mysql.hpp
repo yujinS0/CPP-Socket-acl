@@ -94,6 +94,8 @@ public:
 	 */
 	bool dbopen(const char* charset = NULL);
 
+	bool dbopen_ssl(const char* charset = NULL, bool disable_ssl = true);
+
 	/**
 	 * @override
 	 */

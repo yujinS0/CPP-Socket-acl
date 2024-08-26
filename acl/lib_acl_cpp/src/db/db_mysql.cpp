@@ -810,6 +810,144 @@ bool db_mysql::dbopen(const char* charset /* = NULL */)
 	return true;
 }
 
+bool db_mysql::dbopen_ssl(const char* charset /* = NULL */, bool disable_ssl /* = false */)
+{
+    if (conn_) {
+        return true;
+    }
+
+    char tmpbuf[256];
+    char *db_host, *db_unix;
+    int db_port;
+
+    // Parse the MySQL server address
+    char* ptr = strchr(dbaddr_, '/');
+    if (ptr == NULL) {
+        ACL_SAFE_STRNCPY(tmpbuf, dbaddr_, sizeof(tmpbuf));
+        ptr = strchr(tmpbuf, ':');
+        if (ptr == NULL || *(ptr + 1) == 0) {
+            logger_error("invalid db_addr=%s", dbaddr_);
+            return false;
+        } else {
+            *ptr++ = 0;
+        }
+        db_host = tmpbuf;
+        db_port = atoi(ptr);
+        db_unix = NULL;
+    } else {
+        db_unix = dbaddr_;
+        db_host = NULL;
+        db_port = 0;
+    }
+
+    // Initialize MySQL connection settings
+    int* dummy;
+    if (acl_pthread_once(&__thread_once_control, thread_once) != 0) {
+        logger_error("call thread_once error: %s", acl_last_serror());
+    } else if (!(dummy = (int*)acl_pthread_getspecific(__thread_key))) {
+        dummy = (int*)acl_mymalloc(sizeof(int));
+        *dummy = 1;
+        if (acl_pthread_setspecific(__thread_key, dummy) != 0) {
+            abort();
+        }
+
+        if ((unsigned long)acl_pthread_self() == acl_main_thread_self()) {
+            __main_dummy = dummy;
+#ifndef HAVE_NO_ATEXIT
+            atexit(main_free_dummy);
+#endif
+        }
+    }
+
+    // Initialize the MySQL connection object
+    __mysql_init_lock->lock();
+    conn_ = (void*)__mysql_init(NULL);
+    __mysql_init_lock->unlock();
+
+    if (conn_ == NULL) {
+        logger_error("mysql init error");
+        return false;
+    }
+
+    //// Disable SSL if specified
+    //if (disable_ssl) {
+    //    mysql_options((MYSQL*)conn_, MYSQL_OPT_SSL_MODE, (void*)SSL_MODE_DISABLED);
+    //}
+	
+	// 
+	// Always disable SSL
+	logger("Disabling SSL...");
+    if (mysql_ssl_set((MYSQL*)conn_, NULL, NULL, NULL, NULL, NULL) != 0) {
+        logger_error("Failed to disable SSL using mysql_ssl_set: %s", mysql_error((MYSQL*)conn_));
+        __mysql_close((MYSQL*)conn_);
+        conn_ = NULL;
+        return false;
+    }else {
+        logger("SSL successfully disabled.");
+    }
+
+    // Set connection timeout if specified
+    if (conn_timeout_ > 0) {
+        __mysql_options((MYSQL*)conn_, MYSQL_OPT_CONNECT_TIMEOUT, (const void*)&conn_timeout_);
+    }
+
+    // Set read/write timeout if specified
+    if (rw_timeout_ > 0) {
+        __mysql_options((MYSQL*)conn_, MYSQL_OPT_READ_TIMEOUT, (const void*)&rw_timeout_);
+        __mysql_options((MYSQL*)conn_, MYSQL_OPT_WRITE_TIMEOUT, (const void*)&rw_timeout_);
+    }
+
+    // Enable automatic reconnection
+    my_bool reconnect = 1;
+    __mysql_options((MYSQL*)conn_, MYSQL_OPT_RECONNECT, (const void*)&reconnect);
+
+    // Attempt to connect to the MySQL server
+    if (__mysql_open((MYSQL*)conn_, db_host, dbuser_ ? dbuser_ : "",
+        dbpass_ ? dbpass_ : "", dbname_, db_port, db_unix, dbflags_) == NULL) {
+
+        logger_error("connect mysql error(%s), db_host=%s, db_port=%d,"
+            " db_unix=%s, db_name=%s, db_user=%s, db_pass=%s, dbflags=%ld",
+            __mysql_error((MYSQL*)conn_),
+            db_host ? db_host : "null", db_port,
+            db_unix ? db_unix : "null",
+            dbname_ ? dbname_ : "null",
+            dbuser_ ? dbuser_ : "null",
+            dbpass_ ? dbpass_ : "null", dbflags_);
+
+        __mysql_close((MYSQL*)conn_);
+        conn_ = NULL;
+        return false;
+    }
+
+    // Set the character set for the connection if specified
+    if (charset != NULL && *charset != 0) {
+        charset_ = charset;
+    }
+
+    if (!charset_.empty()) {
+        if (__mysql_set_character_set((MYSQL*)conn_, charset_.c_str())) {
+            logger_error("set mysql to %s error %s",
+                charset_.c_str(), __mysql_error((MYSQL*)conn_));
+        }
+    }
+
+    // Enable or disable autocommit based on the class configuration
+#if MYSQL_VERSION_ID >= 50000
+    if (__mysql_autocommit((MYSQL*)conn_, auto_commit_ ? 1 : 0) != 0) {
+        logger_error("mysql_autocommit error");
+        __mysql_close((MYSQL*)conn_);
+        conn_ = NULL;
+        return false;
+    }
+#else
+    auto_commit_ = false;
+#endif
+
+    return true;
+}
+
+
+
 bool db_mysql::is_opened(void) const
 {
 	return conn_ ? true : false;
