@@ -90,7 +90,7 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 <br>
 
-# ACL 간단 실습
+# ACL 기본 실습
 
 ## 1. TCP Eco Server + CppConsoleClient
 
