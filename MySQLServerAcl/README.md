@@ -38,7 +38,16 @@ const char* CREATE_TBL =
 ")";
 ```
 
-- `CREATE_TBL` 변수는 `test_tbl`이라는 테이블을 생성하는 SQL 명령문입니다. 이 테이블은 `id`, `name`, `age`라는 세 가지 필드를 가지고 있으며, `id`는 기본 키로 설정되어 있습니다.
+```sql
+CREATE TABLE IF NOT EXISTS test_tbl(
+id INT AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+age INT NOT NULL
+);
+```
+
+- `CREATE_TBL` 변수는 `test_tbl`이라는 테이블을 생성하는 SQL 명령문입니다.
+- 이 테이블은 `id`, `name`, `age`라는 세 가지 필드를 가지고 있으며, `id`는 기본 키로 설정되어 있습니다.
 
 ### 함수 설명
 
