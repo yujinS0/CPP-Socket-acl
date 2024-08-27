@@ -22,7 +22,7 @@
 
 * [Acl redis - One C++ redis client library in Acl](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md)
 * ACL은 다양한 기능을 제공하는 C++ 라이브러리로, 네트워크 프로그래밍과 코루틴, **Redis**와 같은 데이터베이스와의 상호작용 등을 쉽게 할 수 있게 해줍니다.
-* Redis에 대한 자세한 설명이 필요하시다면 ["Redis가 지원하는 자료형 with Acl"](../Document/Acl-Redis-Data.md) 문서를 참고하세요.
+* Redis에 대한 자세한 설명이 필요하시다면 ["📄Redis가 지원하는 자료형 with Acl"](../Document/Acl-Redis-Data.md) 문서를 참고하세요.
 
 ---
 
@@ -345,7 +345,7 @@ void handle_zset(acl::redis& redis) {
 Redis는 JSON 데이터를 저장하기 위한 별도의 RedisJSON 모듈을 지원합니다. <br>
 이 모듈을 활용하면 구조체 데이터를 JSON 형식으로 Redis에 저장하고 조회할 수 있습니다. 
 <br>
-RedisJSON 모듈에 대한 설명이 궁금하다면 [Redis JSON이란?](../Document/Acl-Redis-Json.md) 문서를 참고하세요. <br>
+RedisJSON 모듈에 대한 설명이 궁금하다면 [📄Redis JSON이란?](../Document/Acl-Redis-Json.md) 문서를 참고하세요. <br>
 이번 실습에서는 Acl을 통해 `User` 구조체를 JSON으로 변환하고, 이를 Redis에 저장하거나 조회하는 방법을 다룹니다.
 <br>
 
@@ -551,6 +551,6 @@ JSON 데이터를 사용하는 부분에서는 `User` 구조체를 ACL의 JSON �
 
 Acl Redis를 더욱 깊이 이해하고 사용하려면 아래 링크들을 참조하세요.
 
-- [cluster example for redis3.0+](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#22-redis-client-cluster-example-for-redis30)
-- [Using redis client cluster in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#23-using-redis-client-cluster-in-multi-threads)
-- [redis pipeline in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#24-use-redis-pipeline-in-multi-threads)
+- [🖱️cluster example for redis3.0+](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#22-redis-client-cluster-example-for-redis30)
+- [🖱️Using redis client cluster in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#23-using-redis-client-cluster-in-multi-threads)
+- [🖱️redis pipeline in multi-threads](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md#24-use-redis-pipeline-in-multi-threads)
