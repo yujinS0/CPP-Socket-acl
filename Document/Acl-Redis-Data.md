@@ -29,7 +29,7 @@ Redis는 인메모리 데이터베이스로, 고속의 데이터 읽기 및 쓰�
 
 주요 자료구조로는 **String**, **List**, **Set**, **Hash**, **Sorted Set(ZSet)** 등이 있으며, 각 자료구조는 특정한 목적을 위해 사용됩니다.
 
-[Redis 자료구조](https://redis.io/docs/latest/develop/data-types/)
+[🌐Redis 자료구조](https://redis.io/docs/latest/develop/data-types/)
 
 ---
 
