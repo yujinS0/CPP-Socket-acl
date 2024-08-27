@@ -1,6 +1,3 @@
-[SAMPLES.md 파일의 번역](https://github.com/acl-dev/acl/blob/master/SAMPLES.md)
-
-
 # acl 예제
 
 acl에 다양한 기능이 포함되어있기에 예제 목록도 복잡합니다. 이를 정리/번역한 문서입니다.
@@ -8,11 +5,14 @@ acl에 다양한 기능이 포함되어있기에 예제 목록도 복잡합니�
 ## 주요 예제
 
 ### MYSQL 관련 예제
-* **2.52 mysql: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql)
-* **2.53 mysql2: mysql 클라이언트 프로그램** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql2)
+* **mysql_query** : [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/db/mysql_query)
+
+* 아래 mysql, mysql2에서는 char 형식으로 raw query로 쿼리문을 처리하고 있습니다. 따라서 이보다 위의 **mysql_query**를 사용하는 것을 추천합니다.
+  * 2.52 mysql: mysql 클라이언트 프로그램 [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql)
+  * 2.53 mysql2: mysql 클라이언트 프로그램 [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/mysql2)
 
 ### Redis 관련 예제
-* **Redis 관련 파일** [소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
+* **Redis 관련 파일** [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_acl_cpp/samples/redis)
   - 2.75 redis/redis_connection: redis 연결 클라이언트 프로그램
   - 2.76 redis/redis_hash: redis 해시 테이블과 유사한 클라이언트 애플리케이션
   - 2.77 redis/redis_hyperloglog: redis 하이퍼로그 클라이언트 프로그램
@@ -29,18 +29,24 @@ acl에 다양한 기능이 포함되어있기에 예제 목록도 복잡합니�
   - 2.88 redis/redis_zset_pool: redis ordered-set 클라이언트, ordered-set 객체를 사용하여 대용량 데이터 블록을 저장하고 연결 풀링을 지원합니다.
 
 ### Coroutine 관련 예제
-* [samples](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c++)
-  + event_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/event_mutex)
-  + thread_cond [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_cond)
-  + thread_event [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_event)
-  + thread_lock [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_lock)
+* 전체 Coroutine 관련 lib_fiber 예제 : [samples 소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c++)
+* lib_fiber 설명 문서(EN) : [lib_fiber 설명 문서](https://github.com/acl-dev/acl/blob/master/lib_fiber/README_en.md)
+
+* 동기화 객체 사용 예제
+  + event_mutex [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/event_mutex)
+  + thread_cond [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_cond)
+  + thread_event [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_event)
+  + thread_lock [sample 소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_lock)
   + thread_mutex [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_mutex)
   + thread_tbox [소스코드](https://github.com/acl-dev/acl/tree/master/lib_fiber/samples-c%2B%2B/thread_tbox)
     
 * 위 Samples은 [acl project](https://github.com/acl-dev/acl/) library의 APIs 사용
 
 
+---
+# 아래 SAMPLES.md 파일의 기계 번역
 
+원문 출처 : [SAMPLES.md 파일](https://github.com/acl-dev/acl/blob/master/SAMPLES.md)
 
 
 ## acl 프로젝트의 테스트 및 애플리케이션 예제는 주로 다음과 같이 세 가지 예제 모음으로 구성되어 있습니다:
