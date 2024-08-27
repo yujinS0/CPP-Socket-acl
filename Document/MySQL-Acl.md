@@ -108,28 +108,45 @@ static bool tbl_select(acl::db_handle& db)
 
 ```cpp
 
-static bool tbl_insert(acl::db_handle& db, const char* name, int age)
+static bool tbl_select(acl::db_handle& db)
 {
     acl::query query;
+    query.create_sql("select * from test_tbl")
+        .set_format("id", "id")
+        .set_format("name", "name")
+        .set_format("age", "age");
 
-    // 동적 SQL 쿼리 구성
-    query.create_sql("INSERT INTO test_tbl(name, age) VALUES(:name, :age)")
-        .set_parameter("name", name)
-        .set_parameter("age", age);
-
-    // SQL 실행
-    if (db.exec_update(query) == false) {
-        printf("Insert SQL error: %s\r\n", db.get_error());
+    if (db.exec_select(query) == false)
+    {
+        printf("select sql error\r\n");
         return false;
     }
 
-    printf("Data inserted successfully.\r\n");
+    const acl::db_rows* result = db.get_result();
+    if (result == NULL) {
+        printf("No result found.\r\n");
+        return false;
+    }
+
+    const std::vector<acl::db_row*>& rows = result->get_rows();
+    if (rows.empty()) {
+        printf("No data found.\r\n");
+        return false;
+    }
+
+    for (size_t i = 0; i < rows.size(); i++) {
+        const acl::db_row* row = rows[i];
+        printf("ID: %s, Name: %s, Age: %s\r\n",
+            row->field_value("id"), row->field_value("name"), row->field_value("age"));
+    }
+
+    db.free_result();
     return true;
 }
 
 ```
 
-- acl::query 사용 시 `.set_parameter("name", new_name)` 로 안전하게 SQL 인젝션 공격을 막고 가독성을 높일 수 있음.
+- acl::query 사용 시 `.set_parameter` 또는 `.set_format` 로 안전하게 SQL 인젝션 공격을 막고 가독성을 높일 수 있음.
 - 이때 exec_update로 업데이트를 진행하면 ture false 반환 값도 정상적으로 나옴을 확인할 수 있음.
 
 
