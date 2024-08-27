@@ -216,8 +216,7 @@ Acl이 제공하는 유용한 기능을 활용하여 C++ TCP 채팅 서버를 �
     + [Redis 자주 사용하는 자료형](./Document/Acl-Redis-Data.md)
     + [Redis JSON](./Document/Acl-Redis-Json.md)
 - [MySQL 설명 및 예제](./Document/MySQL-Acl.md)
-- [기초 예제](./Document/EX.md)
-- [심층 예제 (with 코루틴, mysql, redis)](./Document/Advanced_EX.md)
+- [예제 소스코드 (기본, 코루틴, DB)](./Document/EX.md)
 - [코루틴 동기화](./Document/Coroutine-fiber_mutex.md)
 
 ## 원문 번역
