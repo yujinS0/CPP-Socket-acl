@@ -1,14 +1,13 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include "pch.h"
+﻿#include "pch.h"
 
 // 공유 자원
 int shared_resource = 0;
-acl::fiber_mutex mutex;
+acl::fiber_mutex fmutex;
 
 // 코루틴 함수
 void test_fiber_mutex(int fiber_id) {
     for (int i = 0; i < 10; ++i) {
-        mutex.lock(); // mutex lock 주석 시 -> 최종 값이 50
+        fmutex.lock(); // mutex lock 주석 시 -> 최종 값이 50
         std::cout << "Mutex locked by [fiber ID: " << fiber_id << "] at iteration " << i << std::endl;
 
         // 공유 자원에 접근
@@ -18,7 +17,7 @@ void test_fiber_mutex(int fiber_id) {
 
         std::cout << "Fiber ID " << fiber_id << " accessed resource: " << shared_resource << " at iteration " << i << std::endl;
 
-        mutex.unlock(); // mutex lock 주석 시 -> 최종 값이 50
+        fmutex.unlock(); // mutex lock 주석 시 -> 최종 값이 50
         std::cout << "Mutex unlocked by [fiber ID: " << fiber_id << "] at iteration " << i << std::endl;
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
@@ -36,7 +35,7 @@ void thread_func(int thread_id) {
     acl::fiber::schedule();
 }
 
-int main() {
+int main_fmutex() {
     // ACL 초기화
     acl::acl_cpp_init();
 
