@@ -2,10 +2,10 @@
 
 ### Acl 빌드 및 관련 정적 라이브러리 추가
 Acl 사용을 위해 당연히 추가해줘야한다.
-[ACL 빌드 및 정적 라이브러리 추가 방법](https://github.com/yujinS0/CPP-Socket-acl/tree/main?tab=readme-ov-file#acl-빌드-및-정적-라이브러리로-추가하는-방법)
+[📄ACL 빌드 및 정적 라이브러리 추가 방법](https://github.com/yujinS0/CPP-Socket-acl/tree/main?tab=readme-ov-file#acl-빌드-및-정적-라이브러리로-추가하는-방법)
 
-- [오픈소스 라이브러리(Acl 빌드 후) 정적 라이브러리로 추가 방법](./Build.md)
-- [친절한 정적 라이브러리 추가 방법](./HowToAddCPPStaticLibrary.md)
+- [📄오픈소스 라이브러리(Acl 빌드 후) 정적 라이브러리로 추가 방법](./Build.md)
+- [📄친절한 정적 라이브러리 추가 방법](./HowToAddCPPStaticLibrary.md)
 
 
 ### mysql 관련 라이브러리 추가
@@ -152,7 +152,7 @@ static bool tbl_select(acl::db_handle& db)
 
 
 ## Acl을 활용한 mysql 실습 예시
-- [MySQL with Acl](../MySQLServerAcl)
+- [📁MySQL with Acl](../MySQLServerAcl)
 
 
 

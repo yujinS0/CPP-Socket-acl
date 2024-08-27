@@ -18,7 +18,7 @@
 
 ## 1. 코루틴 동기화 소개
 
-코루틴은 협력적 멀티태스킹을 제공하여, 동일한 스레드 내에서 여러 작업을 순차적으로 처리할 수 있습니다. [🤔코루틴 문서](./Coroutine.md)  <br><br>
+코루틴은 협력적 멀티태스킹을 제공하여, 동일한 스레드 내에서 여러 작업을 순차적으로 처리할 수 있습니다. [📄코루틴 문서](./Coroutine.md)  <br><br>
 
 코루틴은 하나의 스레드 내에서 협력적으로 스케줄링되어 실행되기 때문에, 
 일반적인 스레드와 달리 명시적인 컨텍스트 전환이 가능합니다.
@@ -47,7 +47,7 @@ fiber_mutex는 코루틴 간 동기화에 특화된 도구이지만, 내부적�
 
 ### `fiber_mutex` 생성자 및 소멸자
 
-[lib_fiber/cpp/src/fiber_mutex.cpp](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex.cpp)
+[🖱️lib_fiber/cpp/src/fiber_mutex.cpp](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex.cpp)
 
 ```cpp
 fiber_mutex::fiber_mutex(ACL_FIBER_MUTEX *mutex /* NULL */)

@@ -311,7 +311,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   cond.signal(); // 조건이 만족되었음을 신호
   ```
 
-### 5.6 **`fiber_event_mutex`**
+#### 5.6 **`event_mutex`**
 - **설명**: 코루틴 기반의 이벤트 뮤텍스 객체로, 코루틴 및 스레드 간의 상호 배제를 보장하면서 이벤트를 동기화하는 메커니즘을 제공합니다.
 - **사용 시나리오**: 자원의 상호 배제와 함께 이벤트 신호를 사용하여 작업을 동기화할 때 사용됩니다.
 - **코드 예시**:
@@ -338,8 +338,8 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   bool fiber_mutex::unlock(void) { acl_fiber_mutex_unlock(mutex_); return true; }
   ```
 
-- **관련 파일**: [Acl 소스코드 : fiber_mutex](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex.cpp)
-- [🤔더 자세한 fiber_mutex 사용법이 궁금해!](./Coroutine-fiber_mutex.md)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_mutex](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex.cpp)
+- [📄더 자세한 fiber_mutex 사용법이 궁금해!](./Coroutine-fiber_mutex.md)
 
 ---
 
@@ -354,7 +354,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   bool fiber_cond::wait(fiber_mutex& mutex, int timeout /* = -1 */) { return acl_fiber_cond_wait(cond_, mutex.get_mutex()) == 0; }
   bool fiber_cond::notify(void) { return acl_fiber_cond_signal(cond_) == 0; }
   ```
-- **관련 파일**: [Acl 소스코드 : fiber_cond](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_cond.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_cond](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_cond.cpp)
 
 ---
 
@@ -369,7 +369,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   bool fiber_lock::lock(void) { acl_fiber_lock_lock(lock_); return true; }
   bool fiber_lock::unlock(void) { acl_fiber_lock_unlock(lock_); return true; }
   ```
-- **관련 파일**: [Acl 소스코드 : fiber_lock](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_lock.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_lock](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_lock.cpp)
 
 #### **3.2. fiber_rwlock**
 - **설명**: `fiber_rwlock`은 읽기-쓰기 락으로, 여러 코루틴이 동시 읽기를 허용하고, 쓰기는 하나의 코루틴만 허용하는 동기화 객체입니다.
@@ -380,7 +380,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   void fiber_rwlock::rlock(void) { acl_fiber_rwlock_rlock(rwlk_); }
   void fiber_rwlock::wlock(void) { acl_fiber_rwlock_wlock(rwlk_); }
   ```
-- **관련 파일**: [Acl 소스코드 : fiber_rwlock](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_rwlock.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_rwlock](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_rwlock.cpp)
 
 ---
 
@@ -395,7 +395,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
   int fiber_sem::wait(void) { /* 세마포어 대기 */ }
   void fiber_sem::post(void) { /* 세마포어 해제 */ }
   ```
-- **관련 파일**: [Acl 소스코드 : fiber_sem](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_sem.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_sem](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_sem.cpp)
 
 ---
 
@@ -410,7 +410,7 @@ ACL은 **비동기 프로그래밍** 및 **코루틴 기반**의 프로그램에
 bool fiber_event::wait(void) { return acl_fiber_event_wait(event_); }
 bool fiber_event::notify(void) { return acl_fiber_event_notify(event_); }
 ```
-- **관련 파일**: [Acl 소스코드 : fiber_event](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_event.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_event](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_event.cpp)
 
 ---
 
@@ -425,7 +425,7 @@ bool fiber_event::notify(void) { return acl_fiber_event_notify(event_); }
 bool fiber_mutex::deadlock(fiber_mutex_stats& out) { /* 교착 상태 추적 */ }
 void fiber_mutex::deadlock_show(void) { /* 교착 상태 출력 */ }
 ```
-- **관련 파일**: [Acl 소스코드 : fiber_mutex_stat](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex_stat.cpp)
+- **관련 파일**: [🖱️Acl 소스코드 : fiber_mutex_stat](https://github.com/acl-dev/acl/blob/master/lib_fiber/cpp/src/fiber_mutex_stat.cpp)
 
 
 

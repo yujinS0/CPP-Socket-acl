@@ -57,7 +57,7 @@
 
 * acl의 `lib_fiber`는 windows 기준 **select, poll, iocp, GUI Message** 지원
 * lib fiber를 사용하면 이벤트 중심 모델을 사용하는 기존 비동기 프레임워크보다 <br> **고성능과 대용량 네트워크 애플리케이션 서비스를 더 쉽게 작성 가능**
-  + 또한 동기화 객체도 지원하고 있다. [☑️lib_fiber가 지원하는 동기화 객체](./Cpp-SynchronizationObject.md)
+  + 또한 동기화 객체도 지원하고 있다. [📄lib_fiber가 지원하는 동기화 객체](./Cpp-SynchronizationObject.md)
 * +) 코루틴 방식으로 Windows에서 GUI 프레임워크(MFC, wtl 등)로 작성된 Windows GUI 앱의 네트워크 모듈도 작성 가능
 
 <br>
@@ -79,10 +79,12 @@
  
 <br>
 
+원문 출처 : [lib_fiber/README_en.md](https://github.com/acl-dev/acl/blob/master/lib_fiber/README_en.md)
+
 --------------------
 
 ## 예제1 : 기초 예제
-- [CoroutineTCP 소스코드](../TCPCoroutineEcoServerAcl)
+- [📁CoroutineTCP 소스코드](../TCPCoroutineEcoServerAcl)
 : ACL 라이브러리의 코루틴 기능을 사용하여 TCP 서버를 구현한 것입니다. 
 
 ### 1. `run_tcp_coroutine_server` 함수의 정의
@@ -181,7 +183,7 @@ void run_tcp_coroutine_server() {
 
 이 예제들은 `acl` 라이브러리를 활용하여 코루틴과 스레드 간 동기화를 다루는 방법을 보여줍니다. <br>
 
-이 중 코루틴 동기화 관련한 **fiber_mutex 사용법**은 [☑️fiber_mutex 코루틴 동기화](./Coroutine-fiber_mutex.md) 를 참고하세요. <br><br>
+이 중 코루틴 동기화 관련한 **fiber_mutex 사용법**은 [📄fiber_mutex 코루틴 동기화](./Coroutine-fiber_mutex.md) 를 참고하세요. <br><br>
 
 아래 예제는 `mutex`, `semaphore`, `condition variable`, `event`, 및 `thread-safe queue`와 같은 동기화 기법을 사용하여 다중 코루틴 환경에서 안전한 자원 관리를 구현합니다.<br>
 
