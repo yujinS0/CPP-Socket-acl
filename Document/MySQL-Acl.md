@@ -151,7 +151,8 @@ static bool tbl_select(acl::db_handle& db)
 
 
 
-
+## Acl을 활용한 mysql 실습 예시
+- [MySQL with Acl](../MySQLServerAcl)
 
 
 
