@@ -9,5 +9,11 @@
   <ItemGroup>
     <ClCompile Include="fiber_mutex_ex.cpp" />
     <ClCompile Include="pch.h" />
+    <ClCompile Include="fiber_event_ex.cpp" />
+    <ClCompile Include="fiber_cond_ex.cpp" />
+    <ClCompile Include="fiber_lock_ex.cpp" />
+    <ClCompile Include="fiber_sem_ex.cpp" />
+    <ClCompile Include="fiber_rwlock_ex.cpp" />
+    <ClCompile Include="fiber_mutex_stat_ex.cpp" />
   </ItemGroup>
 </Project>
