@@ -20,7 +20,7 @@
 
 ## Acl Redis
 
-* [Acl redis - One C++ redis client library in Acl](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md)
+* [🖱️Acl redis - One C++ redis client library in Acl](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/redis/README.md)
 * ACL은 다양한 기능을 제공하는 C++ 라이브러리로, 네트워크 프로그래밍과 코루틴, **Redis**와 같은 데이터베이스와의 상호작용 등을 쉽게 할 수 있게 해줍니다.
 * Redis에 대한 자세한 설명이 필요하시다면 ["📄Redis가 지원하는 자료형 with Acl"](../Document/Acl-Redis-Data.md) 문서를 참고하세요.
 
