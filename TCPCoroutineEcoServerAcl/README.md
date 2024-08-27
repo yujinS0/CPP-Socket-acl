@@ -16,7 +16,7 @@
 ---
 
 ## Acl - Coroutine
-- [fiber lib 공식문서 설명](https://github.com/acl-dev/acl/blob/master/lib_fiber/README_en.md)
+- [🖱️fiber lib 공식문서 설명](https://github.com/acl-dev/acl/blob/master/lib_fiber/README_en.md)
 - **코루틴**은 비동기 프로그래밍을 간편하게 만들어주는 도구입니다. <br>
 일반적인 스레드와는 달리, 하나의 스레드 내에서 여러 코루틴을 생성하고 실행할 수 있으며, <br>
 이들 코루틴은 서로 독립적으로 실행됩니다.<br>
@@ -56,7 +56,7 @@
     + 경량 스레드: 스레드보다 더 적은 자원을 사용하여 효율적인 비동기 작업을 수행할 수 있습니다.
 
 
-[더 자세한 Coroutine 개념 🖱️click](../Document/Coroutine.md#코루틴coroutine이란)
+[📄더 자세한 Coroutine 개념 🖱️click](../Document/Coroutine.md#코루틴coroutine이란)
 
 --------------------
 
@@ -184,7 +184,7 @@ void run_tcp_coroutine_server() {
 코루틴 기반의 TCP 서버에서는 여러 코루틴이 동시에 자원에 접근할 수 있으므로, 동기화가 필요할 수 있습니다. <br>
 이때 ACL에서 제공하는 `fiber_mutex`를 활용할 수 있습니다. 이를 통해 자원을 안전하게 보호하고, 데드락이나 경합 상태를 방지할 수 있습니다.
 
-[코루틴 동기화 관련 문서 보기](../Document/Coroutine-fiber_mutex.md)
+[📄코루틴 동기화 관련 문서 보기](../Document/Coroutine-fiber_mutex.md)
 
 
 
