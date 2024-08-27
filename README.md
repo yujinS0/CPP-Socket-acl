@@ -12,7 +12,7 @@
 
 2. [ACL 빌드 및 정적 라이브러리로 추가하는 방법](#acl-빌드-및-정적-라이브러리로-추가하는-방법)
 
-3. [ACL 기능 별 실습](#acl-기본-실습)
+3. [ACL 기능 별 실습](#acl-기능-별-실습)
    - TCP Eco 서버 (TCP Eco Server + CppConsoleClient)
    - Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient)
    - Redis 실습 (Redis Server Acl)
@@ -105,7 +105,7 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 <br>
 
-# ACL 기본 실습
+# ACL 기능 별 실습
 
 ## 1. TCP Eco Server + CppConsoleClient
 
