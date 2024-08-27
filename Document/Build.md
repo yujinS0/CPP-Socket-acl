@@ -22,8 +22,8 @@ lib 파일과 hpp 파일의 경로를 바탕으로 정적 라이브러리로 추
 
 ## 정적 라이브러리로 추가하기
 솔루션 속성에서 
-* 일단 자신이 빌드한 lib 파일의 플랫폼 버전에 맞게 지정 (나의 경우 Win32)
-  + **구성 관리자** 까지 눌러서 확인하기
+* 일단 자신이 빌드한 lib 파일의 플랫폼 버전에 맞게 지정 (x64)
+  + 반드시 **구성 관리자** 까지 눌러서 확인하기
 
 * C/C++ > 일반 > **추가 포함 디렉터리**에 헤더파일 경로 추가
   + `..\acl\lib_fiber\c\include;..\acl\lib_fiber\cpp\include;..\acl\lib_acl_cpp\include;..\acl\lib_protocol\include;..\acl\lib_acl\include;..\acl\include;%(AdditionalIncludeDirectories)`
