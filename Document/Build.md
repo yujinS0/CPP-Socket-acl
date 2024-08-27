@@ -16,8 +16,8 @@ lib 파일과 hpp 파일의 경로를 바탕으로 정적 라이브러리로 추
 * libfiber_cpp
 
 <br><br>
-현재 나의 레포지토리 [acl/Debug_lib_Files](../acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
-따라서 추가로 빌드 과정을 거치고 싶지 않다면, 해당 위치에 존재하는 .lib 파일들을 그대로 자신의 로컬 [acl/Debug 폴더](../acl/Debug)에 옮긴 후 아래 과정을 (경로까지 같게) 똑같이 따라하면 된다.
+현재 나의 레포지토리 [📁acl/Debug_lib_Files](../acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
+따라서 추가로 빌드 과정을 거치고 싶지 않다면, 해당 위치에 존재하는 .lib 파일들을 그대로 자신의 로컬 [📁acl/Debug 폴더](../acl/Debug)에 옮긴 후 아래 과정을 (경로까지 같게) 똑같이 따라하면 된다.
 
 
 ## 정적 라이브러리로 추가하기
@@ -40,7 +40,7 @@ lib 파일과 hpp 파일의 경로를 바탕으로 정적 라이브러리로 추
 이때 나의 경우, 빌드 파일과 플랫폼 모두 Win32(x64)로 진행했다. <br>
 
 
-헷갈린다면 [친절한 정적 라이브러리 추가 방법(사진포함)](./HowToAddCPPStaticLibrary.md) 을 참고하자.
+헷갈린다면 [📄친절한 정적 라이브러리 추가 방법(사진포함)](./HowToAddCPPStaticLibrary.md) 을 참고하자.
 
 <br>
 
