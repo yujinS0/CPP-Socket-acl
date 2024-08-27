@@ -8,6 +8,7 @@
 
 이 프로그램은 MySQL과 상호작용하기 위해 ACL 라이브러리를 사용하며, `test_tbl`이라는 이름의 테이블을 생성하고, 데이터를 삽입하고, 조회하고, 업데이트하고, 삭제하는 기능을 제공합니다. <br>
 프로그램은 사용자로부터 입력을 받아 CRUD 작업을 수행할 수 있도록 설계되었습니다. <br>
+- [Acl Mysql 쿼리 예시 소스코드](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/db/mysql_query)
 
 ### 초기 설정
 - [mysql with acl 문서 보러가기](../Document/MySQL-Acl.md)
