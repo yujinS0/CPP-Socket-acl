@@ -3,7 +3,7 @@
 이 프로젝트는 Visual C++ 환경에서 오픈 소스 네트워크 프레임워크인 ACL(Advanced C/C++ Library)을 활용하여 구현한 채팅 서버입니다. <br>
 이 서버는 코루틴을 이용한 비동기 처리, Redis를 활용한 사용자 인증, 그리고 C++과 C# 간의 직렬화된 데이터를 주고받는 기능을 포함합니다.
 <br>
-이 서버의 클라이언트는 [WinFormsClient 디렉토리](../WinFormsClient)에 존재합니다.
+이 서버의 클라이언트는 [📁WinFormsClient 디렉토리](../WinFormsClient)에 존재합니다.
 
 ## 프로젝트 구조
 
@@ -92,7 +92,7 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
 이 방식은 사용자 정의된 간단한 직렬화 포맷을 통해 데이터를 처리하여 효율적으로 전송됩니다.
 
 - **Protocol Buffer 소개**:  
- * [Protocol Buffers](https://protobuf.dev/)와 같은 오픈소스 데이터 직렬화 형식은 데이터를 효율적으로 인코딩하고, 여러 언어에서 쉽게 해석할 수 있도록 도와줍니다.
+ * [🌐Protocol Buffers](https://protobuf.dev/)와 같은 오픈소스 데이터 직렬화 형식은 데이터를 효율적으로 인코딩하고, 여러 언어에서 쉽게 해석할 수 있도록 도와줍니다.
  * 하지만 이 프로젝트에서는 C++에서 직접 패킷 구조를 정의 후 직렬화하는 과정 학습을 위해 커스텀 직렬화 방식을 채택했습니다.
 
 - **현재 구현 방식**:  
