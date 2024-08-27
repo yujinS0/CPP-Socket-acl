@@ -14,6 +14,7 @@ const char* CREATE_TBL =
 // Create
 static bool tbl_create(acl::db_handle& db)
 {
+    bool isTblExists = db.tbl_exists("test_tbl");
     if (db.tbl_exists("test_tbl")) {
         printf("Table 'test_tbl' already exists.\r\n");
         return true;
