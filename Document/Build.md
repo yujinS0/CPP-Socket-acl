@@ -41,3 +41,7 @@ lib 파일과 hpp 파일의 경로를 바탕으로 정적 라이브러리로 추
 
 
 헷갈린다면 [친절한 정적 라이브러리 추가 방법(사진포함)](./HowToAddCPPStaticLibrary.md) 을 참고하자.
+
+<br>
+
+원문 출처: [BUILD.md](https://github.com/acl-dev/acl/blob/master/BUILD.md)
