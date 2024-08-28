@@ -17,7 +17,7 @@
    - Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient)
    - Redis 실습 (Redis Server Acl)
    - MySQL 실습 (Mysql Server Acl)
-   - 동기화 객체 실습
+   - 동기화 객체 실습 (Sync Objects Acl)
    - HTTP Server 실습
 
 4. [ACL 채팅 서버 실습 (with C# WinForms client)](#acl-채팅-서버-실습-with-c-winforms-client)
@@ -69,7 +69,7 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
    - Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient)
    - Redis 실습 (Redis Server Acl)
    - MySQL 실습 (Mysql Server Acl)
-   - 동기화 객체 실습
+   - 동기화 객체 실습 (Sync Objects Acl)
    - HTTP Server 실습
    - 채팅 서버 실습
 
@@ -142,9 +142,10 @@ ACL이 제공하는 동기화 객체를 학습하는 예제입니다. 이 예제
 구체적으로 아래와 같은 동기화 객체에 대해 다룹니다.
 
 - fiber_mutex : 코루틴 전용 뮤텍스 객체
-- fiber_event : 코루틴/스레드 간 신호를 전달하여 트리거하는 이벤트 객체
-- fiber_sem : 세마포어 객체 (접근 가능한 코루틴 수 제한)
 - fiber_lock : 일반적인 락 메커니즘을 제공하는 락 객체
+- fiber_rwlock : 읽기-쓰기 락 객체
+- fiber_sem : 세마포어 객체 (접근 가능한 코루틴 수 제한)
+- fiber_event : 코루틴/스레드 간 신호를 전달하여 트리거하는 이벤트 객체
 - fiber_cond : 특정 조건을 만족할 때까지 대기하는 코루틴을 깨우기 위해 사용하는 조건 변수 객체
 - fiber_event_mutex : 코루틴 기반의 이벤트 뮤텍스 객체
 
