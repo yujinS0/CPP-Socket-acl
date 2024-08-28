@@ -24,7 +24,7 @@ void lock_fiber(int fiber_id) {
 
 // 각 스레드에서 코루틴을 실행하는 함수
 static void thread_func(int thread_id) {
-    for (int i = 1; i <= 5; ++i) {   // 5개의 코루틴 생성
+    for (int i = 1; i <= 100; ++i) { 
         go[i]() {
             lock_fiber(i);
         };
@@ -37,9 +37,8 @@ int main_flock() {
     // ACL 초기화
     acl::acl_cpp_init();
 
-    // 3개의 스레드 생성
-    std::vector<std::thread> threads;
-    for (int i = 0; i < 10; ++i) {
+    std::vector<std::thread> threads; // 단일 스레드로 진행!
+    for (int i = 0; i < 1; ++i) { 
         threads.emplace_back(thread_func, i);  // 각 스레드에 코루틴 실행 함수 할당
     }
 
