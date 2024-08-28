@@ -135,7 +135,7 @@ MySQL 데이터베이스 연결 및 상호작용하여 데이터를 삽입, 조�
 
 1. MySql 코드는 `MySQLServerAcl/` 디렉토리에 있습니다. [🖱️click](./MySQLServerAcl)
 
-## 5. Acl Synchronization Object (진행 예정)
+## 5. Acl Synchronization Object
 
 ACL이 제공하는 동기화 객체를 학습하는 예제입니다. 이 예제에서는 비동기 프로그래밍 및 코루틴 기반의 프로그램에서 사용할 수 있는 다양한 동기화 객체에 대해 학습합니다. <br>
 코루틴이나 멀티스레드 환경에서 안정성과 자원 경합을 방지하기 위해 동기화 객체는 항상 필요합니다. <br>
@@ -148,7 +148,7 @@ ACL이 제공하는 동기화 객체를 학습하는 예제입니다. 이 예제
 - fiber_cond : 특정 조건을 만족할 때까지 대기하는 코루틴을 깨우기 위해 사용하는 조건 변수 객체
 - fiber_event_mutex : 코루틴 기반의 이벤트 뮤텍스 객체
 
-1. Acl Synchronization Object 코드는 ` ` 디렉토리에 있습니다. [🖱️click](./)
+1. Acl Synchronization Object 코드는 `SyncObjectsAcl/` 디렉토리에 있습니다. [🖱️click](./SyncObjectsAcl)
 
 
 ## 6. HTTP Server (진행 예정)
