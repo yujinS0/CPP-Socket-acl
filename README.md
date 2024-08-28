@@ -79,7 +79,7 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 # ACL 빌드 및 정적 라이브러리로 추가하는 방법
 
 ## 1. ACL 빌드
-1. 이 리포지토리의 [acl 디렉토리](./acl)로 이동합니다. 또는 [공식 깃허브](https://github.com/acl-dev/acl)를 clone 합니다.
+1. 이 리포지토리의 [📁acl 디렉토리](./acl)로 이동합니다. 또는 [🖱️공식 깃허브](https://github.com/acl-dev/acl)를 clone 합니다.
 2. 빌드를 진행하세요.
    - windows 기준 : `acl_cpp_vc2022.sln` 솔루션에서 필요한 각 프로젝트의 빌드를 진행한다. <br>
       * lib_acl
@@ -87,17 +87,17 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
       * lib_acl_cpp
       * libfiber
       * libfiber_cpp
-   - 빌드 방법에 대한 자세한 내용은 [Acl 빌드 후 정적 라이브러리로 추가하기](./Document/Build.md)를 참조하세요.
+   - 빌드 방법에 대한 자세한 내용은 [📄Acl 빌드 후 정적 라이브러리로 추가하기](./Document/Build.md)를 참조하세요.
 <br><br>
 
 #### 만약 위의 과정을 생략하고 현재 나의 빌드 버전으로 테스트만 진행하고 싶다면,
-이 리포지토리의 [acl/Debug_lib_Files 디렉토리](./acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
-따라서 추가로 빌드 과정을 거치고 싶지 않다면, [해당 위치](./acl/Debug_lib_Files)에 존재하는 .lib 파일들을 그대로 자신의 로컬 [acl/Debug 디렉토리](./acl/Debug)에 옮긴 후 <br>
+이 리포지토리의 [📁acl/Debug_lib_Files 디렉토리](./acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
+따라서 추가로 빌드 과정을 거치고 싶지 않다면, [해당 위치(📁acl/Debug_lib_Files 디렉토리)](./acl/Debug_lib_Files)에 존재하는 .lib 파일들을 그대로 자신의 로컬 [📁acl/Debug 디렉토리](./acl/Debug)에 옮긴 후 <br>
 아래 과정을 (경로까지 같게) 똑같이 따라하면 된다. <br>
 하지만 학습을 위해 직접 빌드부터 라이브러리 추가까지의 과정을 경험하는 것을 추천한다. <br>
 
 ## 2. 정적 라이브러리 추가
-정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
+정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [📄친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
    - 플랫폼 확인 (ex. win32)
    - C/C++ > 일반 > **추가 포함 디렉터리**에 헤더파일 경로 추가
    - 링커 > 일반 > **추가 라이브러리 디렉터리**에 lib 파일 경로 추가
@@ -184,10 +184,10 @@ Acl이 제공하는 유용한 기능을 활용하여 C++ TCP 채팅 서버를 �
      이는 사용자 정의된 간단한 직렬화 포맷을 사용하여 데이터를 처리합니다.
 
 4. **동기화 객체**
-   - 코루틴 사용 시 동기화 객체의 필요성 [☑️동기화 객체란?](./Document/Cpp-SynchronizationObject.md)
+   - 코루틴 사용 시 동기화 객체의 필요성 [📄동기화 객체란?](./Document/Cpp-SynchronizationObject.md)
    - Acl가 지원하는 동기화 객체 fiber_mutex 를 통해 코루틴/스레드 간 상호 배제와 신호 전달을 안전하게 관리하여 프로그램의 안정성과 성능을 보장
-   - [☑️lib_fiber가 지원하는 동기화 객체에 대한 설명](./Document/Cpp-SynchronizationObject.md)
-   - [☑️동기화 객체 fiber_mutex에 대한 설명](./Document/Coroutine-fiber_mutex.md)
+   - [📄lib_fiber가 지원하는 동기화 객체에 대한 설명](./Document/Cpp-SynchronizationObject.md)
+   - [📄동기화 객체 fiber_mutex에 대한 설명](./Document/Coroutine-fiber_mutex.md)
 
 
 ## 실습 캡쳐
