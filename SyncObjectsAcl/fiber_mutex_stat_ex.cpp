@@ -57,7 +57,7 @@ void deadlock_fiber2(int fiber_id) {
     mutex_ms.unlock();
 }
 
-int main() {
+int main_ms() {
     acl::acl_cpp_init();
 
     // 데드락 상태 추적 시작

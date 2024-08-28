@@ -140,6 +140,7 @@
     <ClCompile Include="fiber_mutex_stat_ex.cpp" />
     <ClCompile Include="fiber_rwlock_ex.cpp" />
     <ClCompile Include="fiber_sem_ex.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.h" />
     <ClCompile Include="fiber_mutex_ex.cpp" />
   </ItemGroup>

@@ -15,5 +15,6 @@
     <ClCompile Include="fiber_sem_ex.cpp" />
     <ClCompile Include="fiber_rwlock_ex.cpp" />
     <ClCompile Include="fiber_mutex_stat_ex.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>
