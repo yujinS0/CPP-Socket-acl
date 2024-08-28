@@ -28,8 +28,8 @@ ACL에서 제공하는 다양한 동기화 객체를 실습하고 테스트하�
 - ACL에서 제공하는 동기화 객체의 이해
 
 관련 문서:
-- acl_fiber란? [📄Acl fiber의 Coroutine](./Coroutine.md)
-- 동기화 객체란? [📄동기화 객체](./Cpp-SynchronizationObject.md)
+- acl_fiber란? [📄Acl fiber의 Coroutine](../Document/Coroutine.md)
+- 동기화 객체란? [📄동기화 객체](../Document/Cpp-SynchronizationObject.md)
 
 
 -----
