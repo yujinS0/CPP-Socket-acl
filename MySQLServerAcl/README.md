@@ -286,3 +286,89 @@ int main(void)
 2. 사용자가 입력한 작업에 따라 데이터를 삽입, 조회, 업데이트 또는 삭제할 수 있습니다.
 3. `q`를 입력하면 프로그램이 종료됩니다.
 
+
+
+<br>
+
+
+### C++23 기능 활용 리팩토링
+
+C++23에서 제공하는 최신 기능들을 적용하여 기존 MySQL 코드를 리팩토링했습니다. 이 MySQL 프로젝트 코드에서 수행된 주요 수정 사항을 정리하여 설명합니다.
+- `std::print`를 통한 간결한 출력
+- `std::string_view`를 통한 효율적인 문자열 처리
+- `[[nodiscard]]`를 통한 안전한 반환 값 처리
+- 범위 기반 `for` 루프를 통한 간결한 반복문
+
+### 1. **`std::print` 함수 사용**
+
+C++23에서 새롭게 도입된 `std::print`와 `std::println` 함수를 사용하여 출력 구문을 간결하게 작성했습니다. 이는 기존의 `printf`나 `std::cout`보다 간결하며, 서식화된 출력을 쉽게 관리할 수 있습니다.
+출력 관련 코드의 가독성과 유지 보수성을 향상시켰습니다.
+
+**적용 전:**
+```cpp
+printf("Table 'test_tbl' created successfully.\n");
+```
+
+**적용 후:**
+```cpp
+std::print("Table 'test_tbl' created successfully.\n");
+```
+
+
+### 2. **`std::string_view` 사용**
+
+함수 인자로 전달되는 문자열에 `std::string_view`를 사용하여 불필요한 메모리 복사와 할당을 방지하고, 성능을 최적화했습니다.
+- `std::string_view`는 문자열 데이터를 복사하지 않고 참조할 수 있어, 함수 호출 시 성능을 최적화하고 메모리 사용량을 줄일 수 있습니다.
+
+**적용 전:**
+```cpp
+bool tbl_insert(acl::db_handle& db, const char* name, int age);
+```
+
+**적용 후:**
+```cpp
+bool tbl_insert(acl::db_handle& db, std::string_view name, int age);
+```
+
+
+### 3. **`[[nodiscard]]` 속성 추가**
+
+중요한 반환 값을 가지는 함수에 `[[nodiscard]]` 속성을 추가하여, 반환 값이 무시되지 않도록 강제했습니다.
+- `[[nodiscard]]` 속성을 추가함으로써, 개발자가 실수로 반환 값을 무시하는 상황을 방지하고, 함수의 결과가 올바르게 처리되도록 보장했습니다.
+
+**적용 전:**
+```cpp
+bool tbl_select(acl::db_handle& db);
+```
+
+**적용 후:**
+```cpp
+[[nodiscard]] bool tbl_select(acl::db_handle& db);
+```
+
+
+### 4. **범위 기반 `for` 루프 사용**
+
+범위 기반 `for` 루프를 사용하여 반복문을 간결하고 안전하게 작성했습니다.
+-범위 기반 `for` 루프는 가독성을 높이고, 반복문 내에서의 인덱스 관리에 따른 오류 가능성을 줄여줍니다.
+
+**적용 전:**
+```cpp
+for (size_t i = 0; i < rows.size(); i++) {
+    const acl::db_row* row = rows[i];
+    printf("ID: %s, Name: %s, Age: %s\r\n",
+        row->field_value("id"), row->field_value("name"), row->field_value("age"));
+}
+```
+
+**적용 후:**
+```cpp
+for (const auto& row : rows) {
+    std::print("ID: {}, Name: {}, Age: {}\n",
+               row->field_value("id"),
+               row->field_value("name"),
+               row->field_value("age"));
+}
+```
+
+<br>
