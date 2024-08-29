@@ -145,32 +145,33 @@ Fiber 기반의 HTTP 서버는 각각의 연결 요청을 별도의 Fiber로 처
    - 클라이언트로부터의 HTTP 요청은 `HttpServlet`에서 처리되고, 해당 요청에 대한 응답이 완료되면 Fiber는 종료됩니다.
 
 
-```cpp
-static void http_server(ACL_FIBER*, void* ctx) {
-    acl::socket_stream* conn = (acl::socket_stream*) ctx;
-    acl::memcache_session session("127.0.0.1:11211");
-    http_servlet servlet(conn, &session);
+  ```cpp
+  static void http_server(ACL_FIBER*, void* ctx) {
+      acl::socket_stream* conn = (acl::socket_stream*) ctx;
+      acl::memcache_session session("127.0.0.1:11211");
+      http_servlet servlet(conn, &session);
+  
+      while (servlet.doRun()) {
+          // 요청 처리
+      }
+  
+      delete conn;
+  }
+  
+  int main() {
+      acl::server_socket server;
+      server.open("127.0.0.1:9001");
+  
+      while (true) {
+          acl::socket_stream* client = server.accept();
+          acl_fiber_create(http_server, client, 128000); // Fiber 생성
+      }
+  
+      acl_fiber_schedule(); // Fiber 스케줄링
+      return 0;
+  }
+  ```
 
-    while (servlet.doRun()) {
-        // 요청 처리
-    }
-
-    delete conn;
-}
-
-int main() {
-    acl::server_socket server;
-    server.open("127.0.0.1:9001");
-
-    while (true) {
-        acl::socket_stream* client = server.accept();
-        acl_fiber_create(http_server, client, 128000); // Fiber 생성
-    }
-
-    acl_fiber_schedule(); // Fiber 스케줄링
-    return 0;
-}
-```
 <br> 
 
 #### 장단점
