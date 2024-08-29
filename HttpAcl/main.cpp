@@ -1,59 +1,47 @@
-#include "acl_cpp/lib_acl.hpp"
+#include "acl_cpp/lib_acl.hpp"  // Must before http_server.hpp
 #include "fiber/http_server.hpp"
+#include "http_controller.hpp"
+
+// 서버의 설정 변수
+static char* var_cfg_debug_msg;
+static acl::master_str_tbl var_conf_str_tab[] = {
+  { "debug_msg", "test_msg", &var_cfg_debug_msg },
+  { 0, 0, 0 }
+};
+
+static int var_cfg_io_timeout;
+static acl::master_int_tbl var_conf_int_tab[] = {
+  { "io_timeout", 120, &var_cfg_io_timeout, 0, 0 },
+  { 0, 0 , 0 , 0, 0 }
+};
 
 int main() {
-    acl::acl_cpp_init(); // ACL 라이브러리 초기화
-    const char* addr = "0.0.0.0:8080"; // 서버 주소와 포트 설정
+    const char* addr = "0.0.0.0|8194";
 
-    // HTTP 서버 객체 생성
+    acl::acl_cpp_init();
+
     acl::http_server server;
 
-    // GET /
-    server.Get("/", [](acl::HttpRequest&, acl::HttpResponse& res) {
-        std::string response = "Hello, World!";
-        res.setContentType("text/plain");
-        res.setContentLength(response.size());
-        return res.write(response.c_str(), response.size());
-        });
+    // 서버 설정값 초기화
+    server.set_cfg_int(var_conf_int_tab).set_cfg_str(var_conf_str_tab);
 
-    // POST /data
-    server.Post("/data", [](acl::HttpRequest& req, acl::HttpResponse& res) {
-        acl::string* body = req.getBody();
-        std::string response = "Received: ";
-        if (body != nullptr) {
-            response += body->c_str(); // acl::string을 const char*로 변환하여 사용
-        }
-        else {
-            response += "(no data)";
-        }
-        res.setContentType("text/plain");
-        res.setContentLength(response.size());
-        return res.write(response.c_str(), response.size());
-        });
-
-    // POST /json
-    server.Post("/json", [](acl::HttpRequest& req, acl::HttpResponse& res) {
-        acl::string* body = req.getBody();
-        std::string body_content = body ? body->c_str() : "(empty)";
-        std::cout << "Request Body: " << body_content << std::endl;
-
-        // 직접 JSON 파싱 시도
-        acl::json json;
-        if (json.update(body_content.c_str())) { // JSON을 수동으로 파싱
-            std::cout << "Parsed JSON: " << json.to_string() << std::endl;
-            return res.write(json); // JSON 응답 전송
-        }
-        else {
-            std::string buf = "failed to parse json\r\n";
-            std::cout << "Failed to parse JSON" << std::endl;
-            res.setContentLength(buf.size());
-            return res.write(buf.c_str(), buf.size());
-        }
-        });
-
+    // 라우팅 설정
+    HttpController controller;
+    controller.configure_routes(server);
 
     // 서버 실행
-    server.run_alone(addr);
+    server.on_proc_init([&addr] {
+        printf("---> after process init: addr=%s, io_timeout=%d\r\n", addr, var_cfg_io_timeout);
+        }).on_proc_exit([] {
+            printf("---> before process exit\r\n");
+            }).on_proc_sighup([](acl::string& s) {
+                s = "+ok";
+                printf("---> process got sighup\r\n");
+                return true;
+                }).on_thread_accept([](acl::socket_stream& conn) {
+                    printf("---> accept %d\r\n", conn.sock_handle());
+                    return true;
+                    }).run_alone(addr);
 
-    return 0;
+                return 0;
 }

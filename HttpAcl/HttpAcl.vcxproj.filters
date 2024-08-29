@@ -8,9 +8,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="http_ex.cpp" />
+    <ClCompile Include="main_custom_ex.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="http_controller.hpp" />
+    <ClInclude Include="http_service.hpp" />
+    <ClInclude Include="http_model.hpp" />
   </ItemGroup>
 </Project>

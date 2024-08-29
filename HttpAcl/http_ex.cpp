@@ -50,7 +50,8 @@ int main_http_test() {
                                 res.setContentLength(buf.size());
                                 return res.write(buf.c_str(), buf.size());
                             }
-                            }).run_alone(addr); // 서버 alone 모드로 실행
+                            }
+                        ).run_alone(addr); // 서버 alone 모드로 실행
 
                         return 0;
 }

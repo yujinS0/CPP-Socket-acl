@@ -138,8 +138,12 @@
   <ItemGroup>
     <ClCompile Include="http_ex.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="main_custom_ex.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="http_controller.hpp" />
+    <ClInclude Include="http_model.hpp" />
+    <ClInclude Include="http_service.hpp" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
