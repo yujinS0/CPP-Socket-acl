@@ -1,103 +1,98 @@
 ﻿#include "PacketDefinition.h"
 
-void PacketHeader::Serialize(char* buffer) const {
-    std::memcpy(buffer, &TotalSize, sizeof(TotalSize));
-    std::memcpy(buffer + sizeof(TotalSize), &Id, sizeof(Id));
-    std::memcpy(buffer + sizeof(TotalSize) + sizeof(Id), &Type, sizeof(Type));
+void PacketHeader::Serialize(std::span<std::byte> buffer) const {
+    auto it = buffer.begin();
+    std::memcpy(&*it, &TotalSize, sizeof(TotalSize));
+    std::memcpy(&*(it + sizeof(TotalSize)), &Id, sizeof(Id));
+    std::memcpy(&*(it + sizeof(TotalSize) + sizeof(Id)), &Type, sizeof(Type));
 }
 
-PacketHeader PacketHeader::Deserialize(const char* buffer) {
+PacketHeader PacketHeader::Deserialize(std::span<const std::byte> buffer) {
     PacketHeader header;
-    std::memcpy(&header.TotalSize, buffer, sizeof(header.TotalSize));
-    std::memcpy(&header.Id, buffer + sizeof(header.TotalSize), sizeof(header.Id));
-    std::memcpy(&header.Type, buffer + sizeof(header.TotalSize) + sizeof(header.Id), sizeof(header.Type));
+    auto it = buffer.begin();
+    std::memcpy(&header.TotalSize, &*it, sizeof(header.TotalSize));
+    std::memcpy(&header.Id, &*(it + sizeof(header.TotalSize)), sizeof(header.Id));
+    std::memcpy(&header.Type, &*(it + sizeof(header.TotalSize) + sizeof(header.Id)), sizeof(header.Type));
     return header;
 }
 
-
-// LoginRequest
-void LoginRequest::Serialize(char* buffer) const {
+void LoginRequest::Serialize(std::span<std::byte> buffer) const {
     PacketHeader::Serialize(buffer);
-    std::memcpy(buffer + sizeof(PacketHeader), UserID, sizeof(UserID));
-    std::memcpy(buffer + sizeof(PacketHeader) + sizeof(UserID), AuthToken, sizeof(AuthToken));
+    std::memcpy(buffer.data() + sizeof(PacketHeader), UserID.data(), UserID.size());
+    std::memcpy(buffer.data() + sizeof(PacketHeader) + UserID.size(), AuthToken.data(), AuthToken.size());
 }
 
-LoginRequest LoginRequest::Deserialize(const char* buffer) {
+LoginRequest LoginRequest::Deserialize(std::span<const std::byte> buffer) {
     LoginRequest request;
-    request.TotalSize = *(uint16_t*)buffer;
-    request.Id = *(PacketID*)(buffer + sizeof(request.TotalSize));
-    request.Type = buffer[sizeof(request.TotalSize) + sizeof(request.Id)];
-    std::memcpy(request.UserID, buffer + sizeof(PacketHeader), sizeof(request.UserID));
-    std::memcpy(request.AuthToken, buffer + sizeof(PacketHeader) + sizeof(request.UserID), sizeof(request.AuthToken));
+    auto it = buffer.begin();
+    std::memcpy(&request.TotalSize, &*it, sizeof(request.TotalSize));
+    std::memcpy(&request.Id, &*(it + sizeof(request.TotalSize)), sizeof(request.Id));
+    std::memcpy(&request.Type, &*(it + sizeof(request.TotalSize) + sizeof(request.Id)), sizeof(request.Type));
+    std::memcpy(request.UserID.data(), buffer.data() + sizeof(PacketHeader), request.UserID.size());
+    std::memcpy(request.AuthToken.data(), buffer.data() + sizeof(PacketHeader) + request.UserID.size(), request.AuthToken.size());
     return request;
 }
 
-
-// RoomEnterRequest
-void RoomEnterRequest::Serialize(char* buffer) const {
+void RoomEnterRequest::Serialize(std::span<std::byte> buffer) const {
     PacketHeader::Serialize(buffer);
-    std::memcpy(buffer + sizeof(PacketHeader), &RoomNumber, sizeof(RoomNumber));
+    std::memcpy(buffer.data() + sizeof(PacketHeader), &RoomNumber, sizeof(RoomNumber));
 }
 
-RoomEnterRequest RoomEnterRequest::Deserialize(const char* buffer) {
+RoomEnterRequest RoomEnterRequest::Deserialize(std::span<const std::byte> buffer) {
     RoomEnterRequest request;
-    request.TotalSize = *(uint16_t*)buffer;
-    request.Id = *(PacketID*)(buffer + sizeof(request.TotalSize));
-    request.Type = buffer[sizeof(request.TotalSize) + sizeof(request.Id)];
-    std::memcpy(&request.RoomNumber, buffer + sizeof(PacketHeader), sizeof(request.RoomNumber));
+    auto it = buffer.begin();
+    std::memcpy(&request.TotalSize, &*it, sizeof(request.TotalSize));
+    std::memcpy(&request.Id, &*(it + sizeof(request.TotalSize)), sizeof(request.Id));
+    std::memcpy(&request.Type, &*(it + sizeof(request.TotalSize) + sizeof(request.Id)), sizeof(request.Type));
+    std::memcpy(&request.RoomNumber, buffer.data() + sizeof(PacketHeader), sizeof(request.RoomNumber));
     return request;
 }
 
-
-// UserListNotification
-void UserListNotification::Serialize(char* buffer) const {
+void UserListNotification::Serialize(std::span<std::byte> buffer) const {
     PacketHeader::Serialize(buffer);
-    std::memcpy(buffer + sizeof(PacketHeader), UserID1, sizeof(UserID1));
-    std::memcpy(buffer + sizeof(PacketHeader) + sizeof(UserID1), UserID2, sizeof(UserID2));
+    std::memcpy(buffer.data() + sizeof(PacketHeader), UserID1.data(), UserID1.size());
+    std::memcpy(buffer.data() + sizeof(PacketHeader) + UserID1.size(), UserID2.data(), UserID2.size());
 }
 
-UserListNotification UserListNotification::Deserialize(const char* buffer) {
+UserListNotification UserListNotification::Deserialize(std::span<const std::byte> buffer) {
     UserListNotification notification;
-    notification.TotalSize = *(uint16_t*)buffer;
-    notification.Id = *(PacketID*)(buffer + sizeof(notification.TotalSize));
-    notification.Type = buffer[sizeof(notification.TotalSize) + sizeof(notification.Id)];
-    std::memcpy(notification.UserID1, buffer + sizeof(PacketHeader), sizeof(notification.UserID1));
-    std::memcpy(notification.UserID2, buffer + sizeof(PacketHeader) + sizeof(notification.UserID1), sizeof(notification.UserID2));
+    auto it = buffer.begin();
+    std::memcpy(&notification.TotalSize, &*it, sizeof(notification.TotalSize));
+    std::memcpy(&notification.Id, &*(it + sizeof(notification.TotalSize)), sizeof(notification.Id));
+    std::memcpy(&notification.Type, &*(it + sizeof(notification.TotalSize) + sizeof(notification.Id)), sizeof(notification.Type));
+    std::memcpy(notification.UserID1.data(), buffer.data() + sizeof(PacketHeader), notification.UserID1.size());
+    std::memcpy(notification.UserID2.data(), buffer.data() + sizeof(PacketHeader) + notification.UserID1.size(), notification.UserID2.size());
     return notification;
 }
 
-
-// RoomChatRequest
-void RoomChatRequest::Serialize(char* buffer) const {
+void RoomChatRequest::Serialize(std::span<std::byte> buffer) const {
     PacketHeader::Serialize(buffer);
-    std::memcpy(buffer + sizeof(PacketHeader), Message, sizeof(Message));
+    std::memcpy(buffer.data() + sizeof(PacketHeader), Message.data(), Message.size());
 }
 
-RoomChatRequest RoomChatRequest::Deserialize(const char* buffer) {
+RoomChatRequest RoomChatRequest::Deserialize(std::span<const std::byte> buffer) {
     RoomChatRequest request{};
-
-    request.TotalSize = *(uint16_t*)buffer;
-    request.Id = *(PacketID*)(buffer + sizeof(request.TotalSize));
-    request.Type = buffer[sizeof(request.TotalSize) + sizeof(request.Id)];
-    std::memcpy(request.Message, buffer + sizeof(PacketHeader), sizeof(request.Message));
+    auto it = buffer.begin();
+    std::memcpy(&request.TotalSize, &*it, sizeof(request.TotalSize));
+    std::memcpy(&request.Id, &*(it + sizeof(request.TotalSize)), sizeof(request.Id));
+    std::memcpy(&request.Type, &*(it + sizeof(request.TotalSize) + sizeof(request.Id)), sizeof(request.Type));
+    std::memcpy(request.Message.data(), buffer.data() + sizeof(PacketHeader), request.Message.size());
     return request;
 }
 
-
-// RoomChatNotification
-void RoomChatNotification::Serialize(char* buffer) const {
+void RoomChatNotification::Serialize(std::span<std::byte> buffer) const {
     PacketHeader::Serialize(buffer);
-    std::memcpy(buffer + sizeof(PacketHeader), UserID, sizeof(UserID));
-    std::memcpy(buffer + sizeof(PacketHeader) + sizeof(UserID), Message, sizeof(Message));
+    std::memcpy(buffer.data() + sizeof(PacketHeader), UserID.data(), UserID.size());
+    std::memcpy(buffer.data() + sizeof(PacketHeader) + UserID.size(), Message.data(), Message.size());
 }
 
-RoomChatNotification RoomChatNotification::Deserialize(const char* buffer) {
+RoomChatNotification RoomChatNotification::Deserialize(std::span<const std::byte> buffer) {
     RoomChatNotification notification{};
-
-    notification.TotalSize = *(uint16_t*)buffer;
-    notification.Id = *(PacketID*)(buffer + sizeof(notification.TotalSize));
-    notification.Type = buffer[sizeof(notification.TotalSize) + sizeof(notification.Id)];
-    std::memcpy(notification.UserID, buffer + sizeof(PacketHeader), sizeof(notification.UserID));
-    std::memcpy(notification.Message, buffer + sizeof(PacketHeader) + sizeof(notification.UserID), sizeof(notification.Message));
+    auto it = buffer.begin();
+    std::memcpy(&notification.TotalSize, &*it, sizeof(notification.TotalSize));
+    std::memcpy(&notification.Id, &*(it + sizeof(notification.TotalSize)), sizeof(notification.Id));
+    std::memcpy(&notification.Type, &*(it + sizeof(notification.TotalSize) + sizeof(notification.Id)), sizeof(notification.Type));
+    std::memcpy(notification.UserID.data(), buffer.data() + sizeof(PacketHeader), notification.UserID.size());
+    std::memcpy(notification.Message.data(), buffer.data() + sizeof(PacketHeader) + notification.UserID.size(), notification.Message.size());
     return notification;
 }

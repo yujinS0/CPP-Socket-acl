@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include <cstdint>
 #include <cstring>
+#include <array>
+#include <span>
+#include <bit>
 
 enum class PacketID : uint16_t {
     ReqLogin = 1002,
@@ -17,53 +20,53 @@ struct PacketHeader {
     PacketID Id;
     uint8_t Type;
 
-    void Serialize(char* buffer) const;
-    static PacketHeader Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static PacketHeader Deserialize(std::span<const std::byte> buffer);
 };
 
 struct LoginRequest : public PacketHeader {
-    char UserID[32];
-    char AuthToken[32];
+    std::array<char, 32> UserID{};
+    std::array<char, 32> AuthToken{};
 
-    void Serialize(char* buffer) const;
-    static LoginRequest Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static LoginRequest Deserialize(std::span<const std::byte> buffer);
 };
+
 struct RoomEnterRequest : public PacketHeader {
     int RoomNumber;
 
-    void Serialize(char* buffer) const;
-    static RoomEnterRequest Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static RoomEnterRequest Deserialize(std::span<const std::byte> buffer);
 };
 
 struct UserListNotification : public PacketHeader {
-    char UserID1[32];  // 첫 번째 유저 ID
-    char UserID2[32];  // 두 번째 유저 ID (없으면 빈 문자열)
+    std::array<char, 32> UserID1{};
+    std::array<char, 32> UserID2{};
 
-    void Serialize(char* buffer) const;
-    static UserListNotification Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static UserListNotification Deserialize(std::span<const std::byte> buffer);
 };
 
-
 struct RoomChatRequest : public PacketHeader {
-    char Message[256];
+    std::array<char, 256> Message{};
 
     RoomChatRequest() : PacketHeader() {
-        std::memset(Message, 0, sizeof(Message));
+        Message.fill(0);
     }
 
-    void Serialize(char* buffer) const;
-    static RoomChatRequest Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static RoomChatRequest Deserialize(std::span<const std::byte> buffer);
 };
 
 struct RoomChatNotification : public PacketHeader {
-    char UserID[32];
-    char Message[256];
+    std::array<char, 32> UserID{};
+    std::array<char, 256> Message{};
 
     RoomChatNotification() : PacketHeader() {
-        std::memset(UserID, 0, sizeof(UserID));
-        std::memset(Message, 0, sizeof(Message));
+        UserID.fill(0);
+        Message.fill(0);
     }
 
-    void Serialize(char* buffer) const;
-    static RoomChatNotification Deserialize(const char* buffer);
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static RoomChatNotification Deserialize(std::span<const std::byte> buffer);
 };
