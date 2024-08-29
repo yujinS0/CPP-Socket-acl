@@ -1,6 +1,4 @@
-#ifndef USER_H
-#define USER_H
-
+#pragma once
 #include <string>
 #include <acl_cpp/lib_acl.hpp>
 
@@ -13,6 +11,4 @@ struct User {
 
 // JSON 변환 관련 함수 선언
 void user_to_json(const User& user, acl::json& json);
-User json_to_user(acl::redis_client& client, const std::string& key);
-
-#endif // USER_H
+[[nodiscard]] User json_to_user(acl::redis_client& client, std::string_view key);

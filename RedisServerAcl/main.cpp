@@ -1,12 +1,13 @@
 ﻿#include "pch.h"
 #include "redisHandler.h"
+#include <print>
 
 int main() {
     acl::acl_cpp_init();
     acl::log::stdout_open(true);
 
     // Redis 설정 함수 호출
-    const char* redis_addr = "127.0.0.1:6389";  // RedisJSON 서버 주소
+    std::string_view redis_addr = "127.0.0.1:6389";  // RedisJSON 서버 주소
     acl::redis* redis = setup_redis(redis_addr);
     if (!redis) {
         return -1;  // Redis 연결 실패 시 종료
@@ -16,7 +17,7 @@ int main() {
 
     while (true) {
         std::string command;
-        std::cout << "\n[Redis Test with Acl] 명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, set_json, get_json, exit): ";
+        std::print("\n[Redis Test with Acl] 명령어를 입력하세요 (set, get, list_push, list_get, hash, zset, set_json, get_json, exit): ");
         std::cin >> command;
 
         if (command == "exit") {
@@ -41,13 +42,13 @@ int main() {
             handle_zset(*redis);
         }
         else if (command == "set_json") {
-            handle_set_json(*client); 
+            handle_set_json(*client);
         }
         else if (command == "get_json") {
             handle_get_json(*client);
         }
         else {
-            std::cout << "지원하지 않는 명령어입니다." << std::endl;
+            std::print("지원하지 않는 명령어입니다.\n");
         }
     }
 

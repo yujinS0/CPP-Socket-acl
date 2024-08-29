@@ -12,7 +12,7 @@ void user_to_json(const User& user, acl::json& json) {
 }
 
 // Redis에서 전체 User 구조체 데이터를 가져오는 함수
-User json_to_user(acl::redis_client& client, const std::string& key) {
+[[nodiscard]] User json_to_user(acl::redis_client& client, std::string_view key) {
     User user;
 
     user.name = get_json_field(client, key, "name");
