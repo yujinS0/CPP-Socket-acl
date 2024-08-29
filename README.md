@@ -18,7 +18,7 @@
    - Redis 실습 (Redis Server Acl)
    - MySQL 실습 (Mysql Server Acl)
    - 동기화 객체 실습 (Sync Objects Acl)
-   - HTTP Server 실습
+   - HTTP Server 실습 (Http Acl)
 
 4. [ACL 채팅 서버 실습 (with C# WinForms client)](#acl-채팅-서버-실습-with-c-winforms-client)
    - 실습 목표 소개
@@ -152,9 +152,12 @@ ACL이 제공하는 동기화 객체를 학습하는 예제입니다. 이 예제
 1. Acl Synchronization Object 코드는 `SyncObjectsAcl/` 디렉토리에 있습니다. [🖱️click](./SyncObjectsAcl)
 
 
-## 6. HTTP Server (진행 예정)
+## 6. HTTP Server
 
-Acl을 사용하여 구현한 HTTP Server입니다. 이 예제는 HTTP 서버를 acl를 활용해 C++에서도 간편하게 사용하고 있습니다.
+Acl을 사용하여 구현한 HTTP Server입니다. 이 예제는 acl의 http module을 활용해 C++에서도 HTTP 서버 구현을 진행합니다. <br>
+구체적으로 Acl의 fiber를 통한 비동기 http server의 구현에 대해 학습합니다.
+
+1. Http Server 코드는 `HttpAcl/` 디렉토리에 있습니다. [🖱️click](./HttpAcl)
 
 
 <br>
