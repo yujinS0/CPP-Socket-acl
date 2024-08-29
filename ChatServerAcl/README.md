@@ -156,3 +156,110 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
 ## 결론
 이 프로젝트는 ACL 라이브러리를 활용하여 TCP 서버와 클라이언트 간의 채팅 시스템을 구축하는 실습 프로젝트입니다. <br>
 주요 기능으로 Redis를 사용한 로그인 인증, 방을 관리하는 채팅 기능, C++과 C# 간의 커스텀 직렬화 방식을 구현하여 서버와 클라이언트 간의 원활한 통신을 실현합니다. <br>
+
+
+----
+
+# C++23 리팩토링 개념 및 수정 사항 정리
+
+C++23로 리팩토링을 진행하면서, 최신 C++ 표준의 기능들을 적용하여 코드의 안정성과 가독성을 개선할 수 있습니다. <br>
+아래는 주요 개념들과 이들을 적용한 구체적인 수정 사항을 정리한 내용입니다. <br>
+
+### 1. `std::byte` 사용
+
+#### 개념 설명
+`std::byte`는 바이트 단위의 데이터를 명확하게 표현하는 타입으로, 문자 데이터를 저장하는 `char`와는 구분됩니다. 이를 통해 바이트 단위의 연산이나 메모리 조작의 의도를 더욱 명확하게 나타낼 수 있습니다.
+
+#### 적용된 수정 사항
+모든 바이트 처리 부분에서 기존의 `char*` 대신 `std::byte*` 혹은 `std::span<std::byte>`를 사용하도록 변경하였습니다. 이는 데이터가 문자 데이터가 아닌 순수 바이트임을 명확히 표현하며, 타입 안정성을 높입니다.
+
+**변경 전:**
+```cpp
+void PacketHeader::Serialize(char* buffer) const;
+PacketHeader PacketHeader::Deserialize(const char* buffer);
+```
+
+**변경 후:**
+```cpp
+void PacketHeader::Serialize(std::span<std::byte> buffer) const;
+[[nodiscard]] static PacketHeader Deserialize(std::span<const std::byte> buffer);
+```
+
+### 2. `std::span` 사용
+
+#### 개념 설명
+`std::span`은 배열이나 연속된 메모리 블록을 안전하고 효율적으로 다룰 수 있는 클래스 템플릿입니다.  <br>
+`std::span`을 사용하면 버퍼 크기와 데이터를 함께 처리할 수 있어, 경계를 넘어서는 접근으로 인한 버그를 방지할 수 있습니다. <br>
+
+#### 적용된 수정 사항
+함수 인자로 전달되는 모든 버퍼를 `std::span`으로 변경하였습니다. 이를 통해 버퍼 크기를 별도로 전달할 필요가 없어졌으며, 잘못된 크기의 버퍼가 전달되는 경우를 방지할 수 있습니다.
+
+**변경 전:**
+```cpp
+void LoginRequest::Serialize(char* buffer) const;
+LoginRequest LoginRequest::Deserialize(const char* buffer);
+```
+
+**변경 후:**
+```cpp
+void LoginRequest::Serialize(std::span<std::byte> buffer) const;
+[[nodiscard]] static LoginRequest Deserialize(std::span<const std::byte> buffer);
+```
+
+### 3. `std::array` 사용
+
+#### 개념 설명
+`std::array`는 고정 크기 배열을 안전하게 관리할 수 있는 표준 템플릿 클래스입니다. <br>
+배열의 크기가 타입에 포함되므로, 함수에 배열을 전달할 때 더욱 안전하게 사용할 수 있습니다. <br>
+
+#### 적용된 수정 사항
+고정 크기의 배열(`UserID`, `Message` 등)을 `std::array`로 변경하였습니다.  <br>
+이를 통해 배열의 크기를 코드 내에서 명확하게 관리할 수 있으며, 메모리 안전성을 향상시켰습니다. <br>
+
+**변경 전:**
+```cpp
+struct LoginRequest : public PacketHeader {
+    char UserID[32];
+    char AuthToken[32];
+};
+```
+
+**변경 후:**
+```cpp
+struct LoginRequest : public PacketHeader {
+    std::array<char, 32> UserID{};
+    std::array<char, 32> AuthToken{};
+};
+```
+
+### 4. `std::bit_cast` 사용
+
+#### 개념 설명
+`std::bit_cast`는 비트 단위의 안전한 타입 변환을 제공하는 C++23의 기능입니다. <br>
+메모리 상의 데이터를 그대로 복사하여 다른 타입으로 변환할 때 사용되며, 비트 해석에 대한 안전성을 보장합니다. <br>
+
+#### 적용된 수정 사항
+이번 코드 리팩토링에서는 `std::bit_cast`를 적용할 부분이 많지 않았지만, 데이터 직렬화와 역직렬화 작업에서 타입 간 변환이 필요할 경우 유용하게 활용할 수 있습니다.
+
+### 5. `[[nodiscard]]` 속성 사용
+
+#### 개념 설명
+`[[nodiscard]]` 속성은 함수의 반환 값을 무시해서는 안 되도록 강제하는 C++ 표준 속성입니다. 이를 통해 반환 값을 무시함으로써 발생할 수 있는 잠재적인 오류를 방지할 수 있습니다.
+
+#### 적용된 수정 사항
+모든 역직렬화 함수에 `[[nodiscard]]` 속성을 추가하였습니다. 이를 통해 반환 값을 무시하지 않고 반드시 사용하도록 강제하여, 함수의 결과가 의도대로 사용되지 않는 문제를 예방합니다.
+
+**변경 전:**
+```cpp
+PacketHeader PacketHeader::Deserialize(const char* buffer);
+```
+
+**변경 후:**
+```cpp
+[[nodiscard]] static PacketHeader Deserialize(std::span<const std::byte> buffer);
+```
+
+### 요약
+이번 리팩토링에서는 C++23의 최신 기능들을 활용하여 코드의 안정성과 가독성을 크게 향상시켰습니다. 특히 `std::byte`, `std::span`, `std::array`를 도입하여 메모리 및 버퍼 관리를 더 안전하게 처리할 수 있도록 하였으며, `[[nodiscard]]` 속성을 통해 중요한 함수 반환 값을 반드시 처리하도록 하였습니다. 이러한 리팩토링은 코드의 유지 보수성을 높이는 데 기여할 것입니다.
+
+
