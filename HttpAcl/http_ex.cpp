@@ -15,7 +15,7 @@ static acl::master_int_tbl var_conf_int_tab[] = {
 };
 
 
-int main() {
+int main_http_test() {
     const char* addr = "0.0.0.0|8194";
 
     acl::acl_cpp_init();
