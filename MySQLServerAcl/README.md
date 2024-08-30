@@ -4,16 +4,54 @@
 이 프로그램은 MySQL 데이터베이스와 상호작용하여 데이터를 삽입, 조회, 업데이트 및 삭제하는 간단한 CRUD(Create, Read, Update, Delete) 작업을 수행합니다. <br>
 각 함수는 ACL 라이브러리의 기능을 활용하여 SQL 쿼리를 실행합니다. <br>
 
+## 목차
+
+- ### [개요](#개요-1)
+- ### [프로젝트 구조](#프로젝트-구조-1)
+- ### [초기 설정](#초기-설정-1)
+- ### [주의할 부분](#주의할-부분-1)
+- ### [소스코드 설명](#소스코드-설명-1)
+  - #### [테이블 생성 SQL 쿼리](#테이블-생성-sql-쿼리-1)
+  - #### [함수 설명](#함수-설명-1)
+    - [tbl_create](#tbl_create)
+    - [tbl_insert](#tbl_insert)
+    - [tbl_select](#tbl_select)
+    - [tbl_update](#tbl_update)
+    - [tbl_delete](#tbl_delete)
+  - #### [메인 함수](#메인-함수)
+  - #### [프로그램 실행 흐름](#프로그램-실행-흐름-1)
+- ### [C++23 기능 활용 리팩토링](#c23-기능-활용-리팩토링-1)
+  - #### [std::print 함수 사용](#stdprint-함수-사용-1)
+  - #### [std::string_view 사용](#stdstring_view-사용-1)
+  - #### [nodiscard 속성 추가](#nodiscard-속성-추가-1)
+  - #### [범위 기반 for 루프 사용](#범위-기반-for-루프-사용-1)
+
+
+
 ## 개요
 
 이 프로그램은 MySQL과 상호작용하기 위해 ACL 라이브러리를 사용하며, `test_tbl`이라는 이름의 테이블을 생성하고, 데이터를 삽입하고, 조회하고, 업데이트하고, 삭제하는 기능을 제공합니다. <br>
 프로그램은 사용자로부터 입력을 받아 CRUD 작업을 수행할 수 있도록 설계되었습니다. <br>
 - [🖱️Acl Mysql 쿼리 예시 소스코드](https://github.com/acl-dev/acl/blob/master/lib_acl_cpp/samples/db/mysql_query)
 
+### 프로젝트 구조
+
+```
+MySQLServerAcl/
+├── main.cpp                # 프로젝트의 메인 파일로, 서버 초기화 및 실행을 담당
+├── mysql_functions.cpp     # MySQL 데이터베이스와의 상호작용을 위한 함수들의 구현 파일 (ACL 라이브러리 사용)
+├── mysql_functions.h       # MySQL 함수들의 선언을 포함한 헤더 파일
+├── mysql_C_API_test.cpp    # MySQL C API를 직접 활용한 테스트 코드
+├── pch.h                   # 프로젝트 전반에서 사용되는 공통 헤더 파일 (프리컴파일 헤더)
+├── libmysql.dll            # MySQL 데이터베이스와 상호작용을 위한 동적 라이브러리 파일 (실행파일과 같은 디렉토리에 위치해야 함)
+
+```
+
+
 ### 초기 설정
 - [📄mysql with acl 문서 보러가기](../Document/MySQL-Acl.md)
 
-### 주의할 부분
+### **주의할 부분**
 1. mysql 설치 및 libmysql 경로 확인하기 (acl 사용 시 필요)
    
 2. mysql ssl 설정 관련 오류 발생 시, mysql의 my.ini의 mysqld 섹션에 ssl=0 추가하기 (ssl 설정 해제)
