@@ -99,15 +99,15 @@ int main() {
 
 ```cpp
     server.on_proc_init([&addr] {
-        printf("---> after process init: addr=%s, io_timeout=%d\r\n", addr, var_cfg_io_timeout);
+        std::print("---> after process init: addr={}, io_timeout={}\n", addr, var_cfg_io_timeout);
     }).on_proc_exit([] {
-        printf("---> before process exit\r\n");
+        std::print("---> before process exit\n");
     }).on_proc_sighup([](acl::string& s) {
         s = "+ok";
-        printf("---> process got sighup\r\n");
+        std::print("---> process got sighup\n");
         return true;
     }).on_thread_accept([](acl::socket_stream& conn) {
-        printf("---> accept %d\r\n", (long long)conn.sock_handle());
+        std::print("---> accept {}\n", conn.sock_handle());
         return true;
     })
 ```
