@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 #include "../acl_cpp_define.hpp"
 #include <stdarg.h>
 
@@ -11,15 +11,15 @@
 
 #  if _MSC_VER >= 1500
 #   define logger(fmt, ...)  \
-        acl::log::msg4(__FILE__, __LINE__, __FUNCTION__, fmt, __VA_ARGS__)
+        acl::log::msg4(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #   define logger_warn(fmt, ...)  \
-        acl::log::warn4(__FILE__, __LINE__, __FUNCTION__, fmt, __VA_ARGS__)
+        acl::log::warn4(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #   define logger_error(fmt, ...)  \
-        acl::log::error4(__FILE__, __LINE__, __FUNCTION__, fmt, __VA_ARGS__)
+        acl::log::error4(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #   define logger_fatal(fmt, ...)  \
-        acl::log::fatal4(__FILE__, __LINE__, __FUNCTION__, fmt, __VA_ARGS__)
+        acl::log::fatal4(__FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #   define logger_debug(section, level, fmt, ...)  \
-        acl::log::msg6(section, level, __FILE__, __LINE__, __FUNCTION__, fmt, __VA_ARGS__)
+        acl::log::msg6(section, level, __FILE__, __LINE__, __FUNCTION__, fmt, ##__VA_ARGS__)
 #  else
 #   define logger       acl::log::msg1
 #   define logger_warn  acl::log::warn1
@@ -55,7 +55,7 @@
 #  endif
 
 # endif
-#endif // ACL_LOG_MACRO_OFF
+#endif // ACL_LOGGER_MACRO_OFF
 
 namespace acl {
 
@@ -64,42 +64,42 @@ class string;
 class ACL_CPP_API log {
 public:
 	/**
-	 * ëŒ”ì—­íœ‘ç¾šåŒ¡ìˆ­, ç³ë„‹åŸ¼ë†“è¿¦ëºìŸë”§ç—°êµ¶ë³€é‘’å¯§ëŠ´
-	 * @param recipients {const char*} íœ‘ç¾šìŒˆæ¾—í¬ì£—ê¹Šï¼Œè­š "|" ë¡¸ëª°ï¼ŒìŒˆæ¾—í¬
-	 *  ì˜µï¥€è§’êµ¶ë’ˆåŒ¡ìˆ­ìƒ€é™¶ë„‹æ•¬ìŒˆì™¯ï¼Œí”:
+	 * ´ò¿ªÈÕÖ¾ÎÄ¼ş, ÔÚ³ÌĞò³õÊ¼»¯Àïµ÷ÓÃ±¾º¯ÊıÒ»´Î
+	 * @param recipients {const char*} ÈÕÖ¾½ÓÊÕÆ÷ÁĞ±í£¬ÓÉ "|" ·Ö¸ô£¬½ÓÊÕÆ÷
+	 *  ¿ÉÒÔÊÇ±¾µØÎÄ¼ş»òÔ¶³ÌÌ×½Ó¿Ú£¬Èç:
 	 *  /tmp/test.log|UDP:127.0.0.1:12345|TCP:127.0.0.1:12345|UNIX:/tmp/test.sock
-	 *  ë§¡í† é›¶ï¤«í—¹ì‰¥æ°å”íœ‘ç¾šè°¿ç‚ë™ëª» /tmp/test.log, UDP:127.0.0.1:12345,
-	 *  TCP:127.0.0.1:12345 ëµ¨ UNIX:/tmp/test.sock æ„·ëª¸íœ‘ç¾šìŒˆæ¾—í¬ëš¤è¹¶
-	 * @param procname ë„‹åŸ¼ì¸°, í”: test
-	 * @param cfg ë”§æ¡¿íœ‘ç¾ší† é›¶, ëª©é§•æ§¨: {section}:{level}; {section}:{level}; ...
-	 *  í”: 100:2; 101:3; 102: 4, ê¹Šåˆ»æ€œì…˜ì©Œê¹ƒè¡—æ§¨ 100/ì„¬ê¹ < 2,
-	 *  ï¥€ì„Ÿê¹ƒè¡—æ§¨ 101/ì„¬ê¹ < 3, ï¥€ì„Ÿê¹ƒè¡—æ§¨ 102/ì„¬ê¹ < 4 ë¨íœ‘ç¾šæ·ƒ
+	 *  ¸ÃÅäÖÃÒªÇó½«ËùÓĞÈÕÖ¾Í¬Ê±·¢¸ø /tmp/test.log, UDP:127.0.0.1:12345,
+	 *  TCP:127.0.0.1:12345 ºÍ UNIX:/tmp/test.sock ËÄ¸öÈÕÖ¾½ÓÊÕÆ÷¶ÔÏó
+	 * @param procname ³ÌĞòÃû, Èç: test
+	 * @param cfg µ÷ÊÔÈÕÖ¾ÅäÖÃ, ¸ñÊ½Îª: {section}:{level}; {section}:{level}; ...
+	 *  Èç: 100:2; 101:3; 102: 4, ±íÊ¾Ö»¼ÇÂ¼±êÊ¶Îª 100/¼¶±ğ < 2,
+	 *  ÒÔ¼°±êÊ¶Îª 101/¼¶±ğ < 3, ÒÔ¼°±êÊ¶Îª 102/¼¶±ğ < 4 µÄÈÕÖ¾Ïî
 	 */
 	static void open(const char* recipients, const char* procname = "unknown",
 		const char* cfg = NULL);
 
 	/**
-	 * ë„‹åŸ¼è—ë†”í’ˆë”§ç—°ëŠªë³€é‘’ë°‘ê· íœ‘ç¾š
+	 * ³ÌĞòÍË³öÇ°µ÷ÓÃ´Ëº¯Êı¹Ø±ÕÈÕÖ¾
 	 */
 	static void close(void);
 
 	/**
-	 * ë†“è¿¦ëºíœ‘ç¾šë”§æ¡¿ë”§ç—°ìŒˆì™¯
-	 * @param cfg {const char*} ë”§æ¡¿ê¹ƒí‘¯ì„Ÿì„¬ê¹ä¿šë¥œëˆ”, ëª©é§•í”è‹Ÿ:
+	 * ³õÊ¼»¯ÈÕÖ¾µ÷ÊÔµ÷ÓÃ½Ó¿Ú
+	 * @param cfg {const char*} µ÷ÊÔ±êÇ©¼°¼¶±ğ×Ö·û´®, ¸ñÊ½ÈçÏÂ:
 	 *  {section}:{level}; {section}:{level}; ...
-	 *  í”: 1:1, 2:10, 3:8...  or 1:1; 2:10; 3:8... or all:1
+	 *  Èç: 1:1, 2:10, 3:8...  or 1:1; 2:10; 3:8... or all:1
 	 */
 	static void debug_init(const char* cfg);
 
 	/**
-	 * ë çŒç¹«ë²• open ëŒ”ì—­íœ‘ç¾šì§ëë”§ç—°ì…˜íœ‘ç¾šëœå®®ë°‘ë³€é‘’ç‚è§’ë¤ çŸœï¤«ì‰¥æ–¤å£
-	 * æ¸´ë†”é€ê¹ƒç¡«æ¸´ë†”
+	 * µ±Î´Í¨¹ı open ´ò¿ªÈÕÖ¾Á÷¶øµ÷ÓÃ¼ÇÈÕÖ¾µÈÏà¹Øº¯ÊıÊ±ÊÇ·ñĞèÒª½«ĞÅÏ¢
+	 * Êä³öÖÁ±ê×¼Êä³ö
 	 * @param onoff {bool}
 	 */
 	static void stdout_open(bool onoff);
 
 	/**
-	 * íœ‘ç¾šì…˜ì©Œë³€é‘’
+	 * ÈÕÖ¾¼ÇÂ¼º¯Êı
 	 */
 
 	static void ACL_CPP_PRINTF(1, 2) msg1(const char* fmt, ...);
@@ -142,7 +142,7 @@ public:
 		const char* fmt, va_list ap);
 
 	/************************************************************************/
-	/*                        åˆ»ì ˆ                                          */
+	/*                        Ê¾Àı                                          */
 	/************************************************************************/
 
 #ifndef ACL_LOGGER_MACRO_OFF
@@ -156,12 +156,12 @@ public:
 		const char* logfile = "test.log", *procname = "test";
 		const char* cfg = "101:2; 102:3; 103:2";
 
-		// ç³ë„‹åŸ¼ë†“è¿¦ëºç‚ëŒ”ì—­íœ‘ç¾š
+		// ÔÚ³ÌĞò³õÊ¼»¯Ê±´ò¿ªÈÕÖ¾
 		logger_open(logfile, procname, cfg);
 
 # if defined(VC2003) || defined(VC2002) || defined(VC6)
 
-		// ì‚”ç•‡íœ‘ç¾š
+		// »áĞ´ÈÕÖ¾
 
 		logger("%s(%d), %s: %s", __FILE__, __LINE__, __FUNCTION__, "zsx");
 
@@ -172,14 +172,14 @@ public:
 		logger_debug(DEBUG_TEST3, 2, "%s(%d), %s: hello world13(%s)!",
 			__FILE__, __LINE__, __FUNCTION__, "zsx");
 
-		// ê¼‡ì‚”ç•‡íœ‘ç¾š
+		// ²»»áĞ´ÈÕÖ¾
 
 		logger_debug(DEBUG_TEST1, 3, "%s(%d), %s: hello world21(%s)!",
 			__FILE__, __LINE__, __FUNCTION__, "zsx");
 
 # else	// VC2005, VC2008, VC2010
 
-		// ì‚”ç•‡íœ‘ç¾š
+		// »áĞ´ÈÕÖ¾
 
 		logger("error(%s)!", "zsx");
 
@@ -187,13 +187,13 @@ public:
 		logger_debug(DEBUG_TEST2, 3, "hello world12(%s)!", "zsx");
 		logger_debug(DEBUG_TEST3, 2, "hello world13(%s)!", "zsx");
 
-		// ê¼‡ì‚”ç•‡íœ‘ç¾š
+		// ²»»áĞ´ÈÕÖ¾
 
 		logger_debug(DEBUG_TEST1, 3, "hello world21(%s)!", "zsx");
 
 # endif
 
-		// ë„‹åŸ¼ì¨ç›£í’ˆë°‘ê· íœ‘ç¾š
+		// ³ÌĞò½áÊøÇ°¹Ø±ÕÈÕÖ¾
 		logger_close();
 	}
 

@@ -869,6 +869,8 @@ bool db_mysql::dbopen_ssl(const char* charset /* = NULL */, bool disable_ssl /* 
         return false;
     }
 
+
+
     //// Disable SSL if specified
     //if (disable_ssl) {
     //    mysql_options((MYSQL*)conn_, MYSQL_OPT_SSL_MODE, (void*)SSL_MODE_DISABLED);
