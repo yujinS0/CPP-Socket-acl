@@ -1,9 +1,0 @@
-#!/bin/sh
-mkdir -p build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/opt/soft/acl -DACL_BUILD_SHARED=YES \
-	-DHAS_MYSQL_DLL=YES -DHAS_PGSQL_DLL=YES -DHAS_SQLITE_DLL=YES \
-	-DHAS_POLARSSL_DLL=YES -DHAS_MBEDTLS_DLL=YES -DHAS_OPENSSL_DLL=YES ..
-#cmake -DACL_BUILD_SHARED=YES ..
-make -j 4
-make install
