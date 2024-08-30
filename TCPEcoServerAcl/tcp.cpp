@@ -1,4 +1,5 @@
 ﻿#include <thread>
+#include <print>
 #include "pch.h"
 #include "tcp.h"
 
@@ -9,7 +10,7 @@ void handle_client(acl::socket_stream* conn) {
         if (ret <= 0) break;  // 연결이 종료되거나 오류 발생 시 루프 탈출
 
         buf[ret] = '\0';  // 문자열로 처리하기 위해 null-terminator 추가
-        std::cout << "Received from client: " << buf << std::endl;
+        std::print("Received from client: {}\n", buf);
 
         conn->write(buf, ret);  // 읽은 데이터를 클라이언트로 에코
     }
@@ -21,16 +22,16 @@ void run_tcp_server() {
     acl::server_socket server;
 
     if (!server.open(addr)) {  // 로컬 주소에 바인드하고 리슨
-        std::cerr << "Failed to open server socket on " << addr << std::endl;
+        std::print("Failed to open server socket on {}\n", addr);
         return;
     }
 
-    std::cout << "Server is running on " << addr << std::endl;
+    std::print("Server is running on {}\n", addr);
 
     while (true) {
         acl::socket_stream* conn = server.accept(); // 클라이언트 연결 대기
         if (conn == nullptr) {
-            std::cerr << "Failed to accept connection" << std::endl;
+            std::print("Failed to accept connection\n");
             continue;
         }
 
@@ -38,4 +39,3 @@ void run_tcp_server() {
         client_thread.detach();  // 스레드를 분리하여 독립적으로 실행되도록 함
     }
 }
-
