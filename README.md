@@ -344,7 +344,8 @@ PacketHeader PacketHeader::Deserialize(const char* buffer);
 ### 요약
 이번 리팩토링에서는 C++23의 최신 기능들을 활용하여 코드의 안정성과 가독성을 크게 향상시켰습니다. 
 특히 `std::byte`, `std::span`, `std::array`를 도입하여 메모리 및 버퍼 관리를 더 안전하게 처리할 수 있도록 하였으며, 
-`[[nodiscard]]` 속성을 통해 중요한 함수 반환 값을 반드시 처리하도록 하였습니다. 이러한 리팩토링은 코드의 유지 보수성을 높이는 데 기여할 것입니다.
+`[[nodiscard]]` 속성을 통해 중요한 함수 반환 값을 반드시 처리하도록 하였습니다. 
+이러한 리팩토링은 코드의 유지 보수성을 높이는 데 기여할 것입니다.
 
 ---
 
@@ -377,3 +378,5 @@ PacketHeader PacketHeader::Deserialize(const char* buffer);
 - [ ] httpclient, redis 기능 사용했을 때 사용 안했을 때와 비교해서 메모리 사용량 차이. 프로그램 빌드 시작 때 확인
 - [ ] httpclient, redis 기능을 사용했을 때 메모리릭은 없는지(아주 많은 횟수를 5~6시간 사용해보고)
 - [ ] 파이버 사용 소켓 서버 성능 및 안정성(긴 시간 운용) 테스트
+- [ ] 유닛 테스트 코드 추가하기
+- [ ] chat server에 오목 게임 컨텐츠 추가하기
