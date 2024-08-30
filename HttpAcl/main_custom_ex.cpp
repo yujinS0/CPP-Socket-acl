@@ -1,5 +1,6 @@
 #include "acl_cpp/lib_acl.hpp"
 #include "fiber/http_server.hpp"
+#include <print>
 
 int main_sample() {
     acl::acl_cpp_init(); // ACL 라이브러리 초기화
@@ -14,7 +15,7 @@ int main_sample() {
         res.setContentType("text/plain");
         res.setContentLength(response.size());
         return res.write(response.c_str(), response.size());
-        });
+    });
 
     // POST /data
     server.Post("/data", [](acl::HttpRequest& req, acl::HttpResponse& res) {
@@ -29,7 +30,7 @@ int main_sample() {
         res.setContentType("text/plain");
         res.setContentLength(response.size());
         return res.write(response.c_str(), response.size());
-        });
+    });
 
     // POST /json
     server.Post("/json", [](acl::HttpRequest& req, acl::HttpResponse& res) {
@@ -49,7 +50,7 @@ int main_sample() {
             res.setContentLength(buf.size());
             return res.write(buf.c_str(), buf.size());
         }
-        });
+    });
 
 
     // 서버 실행

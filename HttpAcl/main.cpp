@@ -1,6 +1,7 @@
 #include "acl_cpp/lib_acl.hpp"  // Must before http_server.hpp
 #include "fiber/http_server.hpp"
 #include "http_controller.hpp"
+#include <print>
 
 // 서버의 설정 변수
 static char* var_cfg_debug_msg;
@@ -31,17 +32,17 @@ int main() {
 
     // 서버 실행
     server.on_proc_init([&addr] {
-        printf("---> after process init: addr=%s, io_timeout=%d\r\n", addr, var_cfg_io_timeout);
-        }).on_proc_exit([] {
-            printf("---> before process exit\r\n");
-            }).on_proc_sighup([](acl::string& s) {
-                s = "+ok";
-                printf("---> process got sighup\r\n");
-                return true;
-                }).on_thread_accept([](acl::socket_stream& conn) {
-                    printf("---> accept %d\r\n", conn.sock_handle());
-                    return true;
-                    }).run_alone(addr);
+        std::print("---> after process init: addr={}, io_timeout={}\n", addr, var_cfg_io_timeout);
+    }).on_proc_exit([] {
+        std::print("---> before process exit\n");
+    }).on_proc_sighup([](acl::string& s) {
+        s = "+ok";
+        std::print("---> process got sighup\n");
+        return true;
+    }).on_thread_accept([](acl::socket_stream& conn) {
+        std::print("---> accept {}\n", conn.sock_handle());
+        return true;
+    }).run_alone(addr);
 
-                return 0;
+    return 0;
 }
