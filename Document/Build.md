@@ -36,7 +36,7 @@ lib 파일과 hpp 파일의 경로를 바탕으로 정적 라이브러리로 추
 
 
 * 링커 > 일반 > **추가 라이브러리 디렉터리**에 lib 파일 경로 추가
-  + `..\acl\Debug;%(AdditionalLibraryDirectories)`
+  + `..\acl\Debug_lib_Files;%(AdditionalLibraryDirectories)`
  
   + 이때 만약 [Release]모드 빌드를 원하실 경우
     * `..\acl\Release_lib_Files;%(AdditionalLibraryDirectories)`
