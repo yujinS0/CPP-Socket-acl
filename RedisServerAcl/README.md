@@ -1,4 +1,4 @@
-## Acl을 활용하여 Redis 사용하는 예제
+## Acl을 활용하여 Redis 실습 프로젝트
 
 ### 목차
 1. [Acl Redis](#acl-redis)
@@ -36,6 +36,20 @@
 5. Hash 자료형 실습: 해시(Hash)에 필드와 값을 저장하고 조회합니다.
 6. Sorted Set (ZSet) 자료형 실습: 정렬된 집합에 값과 점수를 저장하고 조회합니다.
 7. Redis JSON 사용: JSON 데이터를 Redis에 저장하고 가져옵니다.
+
+
+### 프로젝트 구조
+
+```
+RedisServerAcl/
+├── main.cpp                # 메인 파일로, 프로그램의 시작점 및 주요 실행 흐름을 포함
+├── redisHandler.cpp        # Redis와의 상호작용을 위한 함수 구현 파일
+├── redisHandler.h          # Redis 관련 함수 선언을 포함한 헤더 파일
+├── User.cpp                # User 구조체와 관련된 JSON 변환 함수 구현 파일
+├── User.h                  # User 구조체 선언 및 관련 함수 선언 파일
+├── pch.h                   # 프로젝트 전반에서 사용되는 공통 헤더 파일 (프리컴파일 헤더)
+
+```
 
 ---
 
