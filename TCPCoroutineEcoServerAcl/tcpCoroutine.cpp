@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "tcpCoroutine.h"
+#include <print>
 
 void run_tcp_coroutine_server() {
     const char* addr = "127.0.0.1:8088";
@@ -9,7 +10,7 @@ void run_tcp_coroutine_server() {
         return;
     }
 
-    std::cout << "Coroutine TCP Server is running on " << addr << std::endl;
+    std::print("Coroutine TCP Server is running on {}\n", addr);
 
     go[&]{
         while (true) {
