@@ -370,7 +370,6 @@ PacketHeader PacketHeader::Deserialize(const char* buffer);
     + [Redis JSON](./Document/Acl-Redis-Json.md)
 - [MySQL 설명 및 예제](./Document/MySQL-Acl.md)
 - [예제 소스코드 (기본, 코루틴, DB)](./Document/EX.md)
-- [코루틴 동기화](./Document/Coroutine-fiber_mutex.md)
 
 ## 원문 번역
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
