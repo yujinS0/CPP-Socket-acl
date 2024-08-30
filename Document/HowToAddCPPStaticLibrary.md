@@ -19,7 +19,8 @@
 <br><br>
 
 ### 2. 구성관리자 솔루션 플랫폼 확인하기
-#### 자신이 사용할 오픈소스 빌드 플랫폼 버전과 같은지 확인하기 (우리의 경우 x64)
+#### 자신이 사용할 오픈소스 빌드 파일의 **구성** & **플랫폼 버전**과 같은지 확인하기 
+(우리의 프로젝트는 "구성: Debug, Release & 플랫폼: x64"을 지원하고 있다.)
 #### 이때 구성관리자 버튼까지 눌러서 확인하기
 ![플랫폼버전확인-구성관리자](./img/CppStaticLib_x64.PNG)
 
@@ -40,7 +41,7 @@
 #### `링커 > 일반` 에서 `추가 라이브러리 디렉터리`에 lib 파일 경로 넣기
 ![정적라이브러리파일경로추가](./img/CppStaticLib_0302.PNG)
 
- + ex. 구성:Debug `..\acl\Debug;%(AdditionalLibraryDirectories)`
+ + ex. 구성:Debug `..\acl\Debug_lib_Files;%(AdditionalLibraryDirectories)`
  + ex. 구성:Release `..\acl\Release_lib_Files;%(AdditionalLibraryDirectories)`
 
 <br>
