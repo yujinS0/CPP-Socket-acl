@@ -53,15 +53,19 @@ ChatServerAcl/
   3. 일치할 경우 "Login Success!" 메시지를, 실패할 경우 "Login Failed!" 메시지를 클라이언트에 전송합니다.
 
 ```cpp
-acl::string storedPassword;
-bool userExists = cmd.get(loginRequest.UserID, storedPassword);
+case PacketID::ReqLogin: {
+    LoginRequest loginRequest = LoginRequest::Deserialize(buf);
+    acl::string storedPassword;
+    bool userExists = cmd.get(loginRequest.UserID.data(), storedPassword);
 
-if (userExists && storedPassword == loginRequest.AuthToken) {
-    std::string successMessage = "Login Success!";
-    conn->write(successMessage.c_str(), successMessage.size());
-} else {
-    std::string failureMessage = "Login Failed!";
-    conn->write(failureMessage.c_str(), failureMessage.size());
+    if (userExists && storedPassword == loginRequest.AuthToken.data()) {
+        std::string successMessage = "Login Success!";
+        conn->write(successMessage.c_str(), successMessage.size());
+    } else {
+        std::string failureMessage = "Login Failed!";
+        conn->write(failureMessage.c_str(), failureMessage.size());
+    }
+    break;
 }
 ```
 
@@ -77,74 +81,66 @@ void RoomManager::BroadcastMessage(int roomNumber, const std::string& message, c
     RoomChatNotification notification;
     notification.TotalSize = sizeof(RoomChatNotification);
     notification.Id = PacketID::NtfRoomChat;
-    std::strncpy(notification.UserID, senderID.c_str(), sizeof(notification.UserID) - 1);
-    std::strncpy(notification.Message, message.c_str(), sizeof(notification.Message) - 1);
+    std::strncpy(notification.UserID.data(), senderID.c_str(), notification.UserID.size() - 1);
+    std::strncpy(notification.Message.data(), message.c_str(), notification.Message.size() - 1);
 
-    char buffer[sizeof(RoomChatNotification)];
+    std::array<std::byte, sizeof(RoomChatNotification)> buffer{};
     notification.Serialize(buffer);
-    Broadcast(roomNumber, buffer, sizeof(buffer));
+
+    std::cout << "Broadcasting Message: [" << senderID << "] " << message << " to all clients." << std::endl;
+    Broadcast(roomNumber, buffer);
 }
 ```
 
 ### 3. C#과 C++ 사이의 패킷 직렬화 기법
 
 이 프로젝트에서는 C++과 C# 간의 통신에서 패킷을 주고받기 위해 직접 구현한 **커스텀 직렬화** 방식을 사용합니다. <br>
-이 방식은 사용자 정의된 간단한 직렬화 포맷을 통해 데이터를 처리하여 효율적으로 전송됩니다.
+이 방식은 사용자 정의된 직렬화 포맷을 통해 데이터를 효율적으로 처리하며, 직렬화된 데이터를 안전하게 전송합니다.
 
 - **Protocol Buffer 소개**:  
  * [🌐Protocol Buffers](https://protobuf.dev/)와 같은 오픈소스 데이터 직렬화 형식은 데이터를 효율적으로 인코딩하고, 여러 언어에서 쉽게 해석할 수 있도록 도와줍니다.
  * 하지만 이 프로젝트에서는 C++에서 직접 패킷 구조를 정의 후 직렬화하는 과정 학습을 위해 커스텀 직렬화 방식을 채택했습니다.
 
-- **현재 구현 방식**:  
-  각 패킷은 `Serialize` 및 `Deserialize` 함수를 통해 메모리 버퍼에 데이터를 기록하거나 읽습니다. 이 방식은 직관적이면서도 성능을 최적화할 수 있습니다.
+- **C++23의 `std::span` 및 `std::byte` 사용**:
+  C++23에서 제공하는 `std::span`과 `std::byte`를 사용하여, 메모리 관리의 안정성과 효율성을 높였습니다. `std::span`을 사용해 버퍼를 관리하고, `std::byte`를 통해 바이트 단위의 데이터 처리가 더욱 명확해졌습니다.
 
-  ```cpp
-  // PacketDefinition.h
-  struct PacketHeader {
-      uint16_t TotalSize;
-      PacketID Id;
-      uint8_t Type;
-  
-      void Serialize(char* buffer) const;
-      static PacketHeader Deserialize(const char* buffer);
-  };
-  
-      .
-      .
-      .
-  
-  struct RoomChatRequest : public PacketHeader {
-      char Message[256];
-  
-      RoomChatRequest() : PacketHeader() {
-          std::memset(Message, 0, sizeof(Message));
-      }
-  
-      void Serialize(char* buffer) const;
-      static RoomChatRequest Deserialize(const char* buffer);
-  };
-  
-  ```
-  
-  
-  ```cpp
-  // PacketDefinition.cpp
-  void RoomChatRequest::Serialize(char* buffer) const {
-      PacketHeader::Serialize(buffer);
-      std::memcpy(buffer + sizeof(PacketHeader), Message, sizeof(Message));
-  }
-  
-  RoomChatRequest RoomChatRequest::Deserialize(const char* buffer) {
-      RoomChatRequest request{};
-      request.TotalSize = *(uint16_t*)buffer;
-      request.Id = *(PacketID*)(buffer + sizeof(request.TotalSize));
-      request.Type = buffer[sizeof(request.TotalSize) + sizeof(request.Id)];
-      std::memcpy(request.Message, buffer + sizeof(PacketHeader), sizeof(request.Message));
-      return request;
-  }
-  ```
+```cpp
+// PacketDefinition.h
+struct PacketHeader {
+    uint16_t TotalSize;
+    PacketID Id;
+    uint8_t Type;
+
+    void Serialize(std::span<std::byte> buffer) const;
+    [[nodiscard]] static PacketHeader Deserialize(std::span<const std::byte> buffer);
+};
+```
+
+- **패킷 직렬화와 역직렬화**:
+  각 패킷은 `Serialize` 및 `Deserialize` 함수를 통해 메모리 버퍼에 데이터를 기록하거나 읽습니다. 이를 통해 C++과 C# 간의 데이터를 안전하고 효율적으로 주고받을 수 있습니다.
+
+```cpp
+// PacketDefinition.cpp
+void PacketHeader::Serialize(std::span<std::byte> buffer) const {
+    auto it = buffer.begin();
+    std::memcpy(&*it, &TotalSize, sizeof(TotalSize));
+    std::memcpy(&*(it + sizeof(TotalSize)), &Id, sizeof(Id));
+    std::memcpy(&*(it + sizeof(TotalSize) + sizeof(Id)), &Type, sizeof(Type));
+}
+
+PacketHeader PacketHeader::Deserialize(std::span<const std::byte> buffer) {
+    PacketHeader header;
+    auto it = buffer.begin();
+    std::memcpy(&header.TotalSize, &*it, sizeof(header.TotalSize));
+    std::memcpy(&header.Id, &*(it + sizeof(header.TotalSize)), sizeof(header.Id));
+    std::memcpy(&header.Type, &*(it + sizeof(header.TotalSize) + sizeof(header.Id)), sizeof(header.Type));
+    return header;
+}
+```
 
 이와 같은 방식으로 패킷을 주고받으며, C++과 C# 간의 원활한 데이터 통신을 제공합니다.
+
+<br>
 
 ## 실습 캡쳐
 
