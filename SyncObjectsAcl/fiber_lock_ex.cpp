@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <random>
+#include <print>
 
 // 공유 자원
 int shared_resource_flock = 0;
@@ -9,13 +10,13 @@ acl::fiber_lock lock;  // fiber_lock 사용
 void lock_fiber(int fiber_id) {
     for (int i = 0; i < 10; ++i) {
         lock.lock();  // fiber_lock 활성화
-        std::cout << "Fiber " << fiber_id << " locked the resource at iteration " << i << std::endl;
+        std::print("Fiber {} locked the resource at iteration {}\n", fiber_id, i);
 
         shared_resource_flock++;
-        std::cout << "Fiber " << fiber_id << " accessed resource: " << shared_resource_flock << std::endl;
+        std::print("Fiber {} accessed resource: {}\n", fiber_id, shared_resource_flock);
 
         lock.unlock();  // fiber_lock 해제
-        std::cout << "Fiber " << fiber_id << " unlocked the resource at iteration " << i << std::endl;
+        std::print("Fiber {} unlocked the resource at iteration {}\n", fiber_id, i);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
@@ -48,8 +49,7 @@ int main_flock() {
             th.join();  // 스레드 종료 대기
         }
     }
-
-    std::cout << "Final shared resource value: " << shared_resource_flock << std::endl; // 정상 50
+    std::print("Final shared resource value: {}\n", shared_resource_flock); // 정상 50
 
     return 0;
 }

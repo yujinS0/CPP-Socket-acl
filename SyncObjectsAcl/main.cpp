@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <print>
 
 // 각 동기화 객체의 main 함수 선언
 int main_fcond();   // fiber_cond 예제 함수
@@ -47,11 +48,11 @@ int main() {
             main_ms();
         }
         else if (input == "q") {
-            std::cout << "Exiting..." << std::endl;
+            std::print("Exiting...\n");
             break;
         }
         else {
-            std::cout << "Invalid choice! Please try again." << std::endl;
+            std::print("Invalid choice! Please try again.\n");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿#include "pch.h"
+#include <print>
 
 // 공유 자원
 int shared_resource = 0;
@@ -8,17 +9,17 @@ acl::fiber_mutex fmutex;
 void test_fiber_mutex(int fiber_id) {
     for (int i = 0; i < 10; ++i) {
         fmutex.lock(); // mutex lock 주석 시 -> 최종 값이 50
-        std::cout << "Mutex locked by [fiber ID: " << fiber_id << "] at iteration " << i << std::endl;
+        std::print("Mutex locked by [fiber ID: {}] at iteration {}\n", fiber_id, i);
 
         // 공유 자원에 접근
         int temp = shared_resource;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));  // 경합 유발
         shared_resource = temp + 1;
 
-        std::cout << "Fiber ID " << fiber_id << " accessed resource: " << shared_resource << " at iteration " << i << std::endl;
+        std::print("Fiber ID {} accessed resource: {} at iteration {}\n", fiber_id, shared_resource, i);
 
         fmutex.unlock(); // mutex lock 주석 시 -> 최종 값이 50
-        std::cout << "Mutex unlocked by [fiber ID: " << fiber_id << "] at iteration " << i << std::endl;
+        std::print("Mutex unlocked by [fiber ID: {}] at iteration {}\n", fiber_id, i);
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
     }
@@ -52,7 +53,7 @@ int main_fmutex() {
         }
     }
 
-    std::cout << "Final shared resource value: " << shared_resource << std::endl; // 정상적인 경우 250
+    std::print("Final shared resource value: {}", shared_resource); // 정상적인 경우 250
 
     return 0;
 }
