@@ -35,6 +35,8 @@
   
 <br>
 
+---
+
 # ACL 이란?
 
 [The Acl (Advanced C/C++ Library)](https://github.com/acl-dev/acl/tree/master)은 강력한 다중 플랫폼 네트워크 통신 라이브러리 및 서비스 프레임워크입니다.
@@ -80,6 +82,9 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 <br> <br>
 
+---
+
+
 # ACL 빌드 및 정적 라이브러리로 추가하는 방법
 
 ## 1. ACL 빌드
@@ -116,6 +121,9 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [📄친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
 
 <br>
+
+---
+
 
 # ACL 기능 별 실습
 
@@ -190,6 +198,9 @@ Acl을 사용하여 구현한 HTTP Server입니다. 이 예제는 acl의 http mo
 
 
 <br>
+
+---
+
 
 # ACL 채팅 서버 실습 (with C# WinForms client)
 
@@ -327,7 +338,6 @@ C++23에서 새롭게 도입된 `std::print` 함수는 서식화된 문자열 �
   }
   ```
 
----
 
 ## 5. **`std::map`과 `acl::string` 사용**
 
@@ -349,10 +359,11 @@ C++23에서 새롭게 도입된 `std::print` 함수는 서식화된 문자열 �
   ```
 
 
+<br>
 
 ---
 
-<br>
+
 
 # 문서
 
