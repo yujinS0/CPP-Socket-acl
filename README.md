@@ -37,10 +37,9 @@
 
 # ACL 이란?
 
-[The Acl (Advanced C/C++ Library) project](https://github.com/acl-dev/acl/tree/master)은 강력한 다중 플랫폼 네트워크 통신 라이브러리 및 서비스 프레임워크입니다.
+[The Acl (Advanced C/C++ Library)](https://github.com/acl-dev/acl/tree/master)은 강력한 다중 플랫폼 네트워크 통신 라이브러리 및 서비스 프레임워크입니다.
 
-지원되는 플랫폼:
-- Linux, Windows, Solaris, FreeBSD, MacOS, iOS, AndroidOS
+지원되는 플랫폼: Linux, Windows, Solaris, FreeBSD, MacOS, iOS, AndroidOS
 
 ## ACL 주요 기능 소개
 ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
@@ -79,13 +78,13 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 <br>
 그리고 C++23 버전을 지원하여, C++23의 다양한 기능을 도입하여 코드의 가독성, 성능, 유지 보수성을 개선했습니다.
 
-<br>
+<br> <br>
 
 # ACL 빌드 및 정적 라이브러리로 추가하는 방법
 
 ## 1. ACL 빌드
 1. 이 리포지토리의 [📁acl 디렉토리](./acl)로 이동합니다. 또는 [🖱️공식 깃허브](https://github.com/acl-dev/acl)를 clone 합니다.
-2. 빌드를 진행하세요.
+2. 빌드를 진행하세요. **단, 자신의 프로젝트의 구성(Debug/Release)과 플랫폼(x64/x86)과 일치하도록**
    - windows 기준 : `acl_cpp_vc2022.sln` 솔루션에서 필요한 각 프로젝트의 빌드를 진행한다. <br>
       * lib_acl
       * lib_protocol
@@ -96,17 +95,25 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 <br><br>
 
 #### 만약 위의 과정을 생략하고 현재 나의 빌드 버전으로 테스트만 진행하고 싶다면,
+현재 내 프로젝트에서 기본적으로 acl 라이브러리 세팅이 되어있기 때문에 테스트가 가능항 상황이다. <br> <br>
+
+만약, 빌드에 문제가 있다면 아래 과정을 따라하자. <br>
 이 리포지토리의 [📁acl/Debug_lib_Files 디렉토리](./acl/Debug_lib_Files) 에 빌드 파일이 위치하고 있다. <br>
 따라서 추가로 빌드 과정을 거치고 싶지 않다면, [해당 위치(📁acl/Debug_lib_Files 디렉토리)](./acl/Debug_lib_Files)에 존재하는 .lib 파일들을 그대로 자신의 로컬 [📁acl/Debug 디렉토리](./acl/Debug)에 옮긴 후 <br>
 아래 과정을 (경로까지 같게) 똑같이 따라하면 된다. <br>
 하지만 학습을 위해 직접 빌드부터 라이브러리 추가까지의 과정을 경험하는 것을 추천한다. <br>
 
 ## 2. 정적 라이브러리 추가
+- 구성관리자 > 구성/플랫폼 반드시 확인 (ex. Debug/x64)
+- C/C++ > 일반 > **추가 포함 디렉터리**에 헤더파일 경로 추가
+  + `..\acl\lib_fiber\c\include;..\acl\lib_fiber\cpp\include;..\acl\lib_acl_cpp\include;..\acl\lib_protocol\include;..\acl\lib_acl\include;..\acl\include;%(AdditionalIncludeDirectories)`
+- 링커 > 일반 > **추가 라이브러리 디렉터리**에 lib 파일 경로 추가
+  + `..\acl\Debug_lib_Files;%(AdditionalLibraryDirectories)` or `..\acl\Release_lib_Files;%(AdditionalLibraryDirectories)`
+- 링커 > 입력 > **추가 종속성**에 lib파일 이름 추가
+  + `lib_protocol.lib;lib_acl.lib;lib_acl_cpp.lib;libfiber.lib;libfiber_cpp.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)`
+
+<br>
 정적 라이브러리를 Visual C++ 프로젝트에 추가하는 방법은 [📄친절한 정적 라이브러리 추가 방법](./Document/HowToAddCPPStaticLibrary.md)에 사진과 함께 설명되어 있습니다.
-   - 플랫폼 확인 (ex. win32)
-   - C/C++ > 일반 > **추가 포함 디렉터리**에 헤더파일 경로 추가
-   - 링커 > 일반 > **추가 라이브러리 디렉터리**에 lib 파일 경로 추가
-   - 링커 > 입력 > **추가 종속성**에 lib파일 이름 추가
 
 <br>
 
@@ -176,7 +183,7 @@ Acl이 제공하는 유용한 기능을 활용하여 C++ TCP 채팅 서버를 �
 
 ## 실습 목표 소개
 
-이 실습의 목표는 C++ ACL을 사용하여 서버를 구축하고, C# WinForms 기반의 클라이언트와 연동하는 것입니다. <br>
+이 실습의 목표는 C++ ACL을 사용하여 TCP 채팅 서버를 구축하고, C# WinForms 기반의 클라이언트와 연동하는 것입니다. <br>
 이 과정에서 Redis를 사용한 사용자 로그인, 채팅 메시지 처리, 패킷 직렬화 및 역직렬화 등의 개념을 다룹니다.
 
 ## 주요 기능
@@ -352,8 +359,8 @@ C++23에서 새롭게 도입된 `std::print` 함수는 서식화된 문자열 �
 - [예제 디렉토리 설명-번역](./Document/SAMPLES-KO.md)
 
 
-## TODO
-- [ ] 기계 번역했던 문서 링크 걸기
+## 추후 진행할 TODO
+- [x] 기계 번역했던 문서 링크 걸기
 - [ ] httpclient, redis 기능 사용했을 때 사용 안했을 때와 비교해서 메모리 사용량 차이. 프로그램 빌드 시작 때 확인
 - [ ] httpclient, redis 기능을 사용했을 때 메모리릭은 없는지(아주 많은 횟수를 5~6시간 사용해보고)
 - [ ] 파이버 사용 소켓 서버 성능 및 안정성(긴 시간 운용) 테스트
