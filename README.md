@@ -29,7 +29,7 @@
       + 동기화 객체
    - 실습 캡쳐
 
-5. [C++23을 활용한 코드 리팩토링](#c23을-활용한-코드-리팩토링-정리)
+5. [C++23을 활용한 코드 리팩토링](#c23-리팩토링-개념-및-수정-사항-정리)
 
 6. [문서](#문서)
   
@@ -42,6 +42,18 @@
 [The Acl (Advanced C/C++ Library)](https://github.com/acl-dev/acl/tree/master)은 강력한 다중 플랫폼 네트워크 통신 라이브러리 및 서비스 프레임워크입니다.
 
 지원되는 플랫폼: Linux, Windows, Solaris, FreeBSD, MacOS, iOS, AndroidOS
+
+<br>
+
+HTTP/SMTP/ICMP//MQTT/Redis/Memcached/Beanstalk/Handler Socket과 같은 일반적인 프로토콜이 Acl에서 구현되며, 
+
+코덱 라이브러리(XML/JSON/MIME/BASE64/UUCODE/QPCODE/RFC2047/RFC1035)도 포함되어 있습니다. 
+
+또한 Acl은 Mysql, Postgresql, Sqlite와 같이 널리 사용되는 데이터베이스를 위한 통합 추상 인터페이스도 제공합니다. 
+
+Acl 라이브러리를 사용하면 데이터베이스 애플리케이션을 더 쉽고, 빠르고, 안전하게 작성할 수 있습니다.
+
+<br>
 
 ## ACL 주요 기능 소개
 ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
