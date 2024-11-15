@@ -82,8 +82,8 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 이 깃허브 프로젝트에서는 ACL을 사용하여 TCP 서버, HTTP 서버, 코루틴과 동기화 객체, DB(Redis, Mysql)과 같은 기능을 실습합니다. <br>
 또한 채팅 서버 실습을 통해, C++에서 C# WinForms 클라이언트와의 통신도 구현합니다. <br>
-   - TCP Echo 서버 (TCP Echo Server + CppConsoleClient) [🖱️click](./TCPEchoServerAcl)
-   - Coroutine을 사용한 TCP Echo 서버 (TCP Coroutine Echo Server + CppConsoleClient) [🖱️click](./TCPCoroutineEchoServerAcl)
+   - TCP Echo 서버 (TCP Echo Server + CppConsoleClient) [🖱️click](./TCPServerAcl)
+   - Coroutine을 사용한 TCP Echo 서버 (TCP Coroutine Echo Server + CppConsoleClient) [🖱️click](./TCPCoroutineServerAcl)
    - Redis 실습 (Redis Server Acl) [🖱️click](./RedisServerAcl)
    - MySQL 실습 (Mysql Server Acl) [🖱️click](./MySQLServerAcl)
    - 동기화 객체 실습 (Sync Objects Acl) [🖱️click](./SyncObjectsAcl)
