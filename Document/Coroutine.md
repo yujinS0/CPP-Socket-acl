@@ -84,7 +84,7 @@
 --------------------
 
 ## 예제1 : 기초 예제
-- [📁CoroutineTCP 소스코드](../TCPCoroutineEcoServerAcl)
+- [📁CoroutineTCP 소스코드](../TCPCoroutineServerAcl)
 : ACL 라이브러리의 코루틴 기능을 사용하여 TCP 서버를 구현한 것입니다. 
 
 ### 1. `run_tcp_coroutine_server` 함수의 정의
