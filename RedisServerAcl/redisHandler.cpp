@@ -1,7 +1,8 @@
 ﻿#include "redisHandler.h"
-#include "pch.h"
+//#include "pch.h"
 #include "User.h"
 #include <print>
+
 
 // redis 연결 설정
 acl::redis_client* setup_redis() {
@@ -263,8 +264,12 @@ bool set_json_data(acl::redis_client& client, std::string_view key, const User& 
     json.build_json(json_str);
 
     acl::redis_command cmd(&client);
-    std::vector<const char*> argv = { "JSON.SET", key.data(), "$", json_str.c_str() };
-    std::vector<size_t> lens = { strlen("JSON.SET"), key.size(), strlen("$"), json_str.size() };
+    std::vector<const char*> argv = {
+        "JSON.SET", key.data(), "$", json_str.c_str() 
+    };
+    std::vector<size_t> lens = { 
+        strlen("JSON.SET"), key.size(), strlen("$"), json_str.size() 
+    };
 
     const acl::redis_result* result = cmd.request(argv.size(), argv.data(), lens.data());
     return result && result->get_type() == acl::REDIS_RESULT_STATUS;
