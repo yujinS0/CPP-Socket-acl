@@ -13,8 +13,8 @@
 2. [ACL 빌드 및 정적 라이브러리로 추가하는 방법](#acl-빌드-및-정적-라이브러리로-추가하는-방법)
 
 3. [ACL 기능 별 실습](#acl-기능-별-실습)
-   - [TCP Eco 서버 (TCP Eco Server + CppConsoleClient)](#1-tcp-eco-server--cppconsoleclient)
-   - [Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient)](#2-tcp-coroutine-eco-server--cppconsoleclient)
+   - [TCP Echo 서버 (TCP Echo Server + CppConsoleClient)](#1-tcp-echo-server--cppconsoleclient)
+   - [Coroutine을 사용한 TCP Echo 서버 (TCP Coroutine Echo Server + CppConsoleClient)](#2-tcp-coroutine-echo-server--cppconsoleclient)
    - [Redis 실습 (Redis Server Acl)](#3-redis)
    - [MySQL 실습 (Mysql Server Acl)](#4-mysql)
    - [동기화 객체 실습 (Sync Objects Acl)](#5-acl-synchronization-object)
@@ -82,8 +82,8 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 이 깃허브 프로젝트에서는 ACL을 사용하여 TCP 서버, HTTP 서버, 코루틴과 동기화 객체, DB(Redis, Mysql)과 같은 기능을 실습합니다. <br>
 또한 채팅 서버 실습을 통해, C++에서 C# WinForms 클라이언트와의 통신도 구현합니다. <br>
-   - TCP Eco 서버 (TCP Eco Server + CppConsoleClient) [🖱️click](./TCPEcoServerAcl)
-   - Coroutine을 사용한 TCP Eco 서버 (TCP Coroutine Eco Server + CppConsoleClient) [🖱️click](./TCPCoroutineEcoServerAcl)
+   - TCP Echo 서버 (TCP Echo Server + CppConsoleClient) [🖱️click](./TCPEchoServerAcl)
+   - Coroutine을 사용한 TCP Echo 서버 (TCP Coroutine Echo Server + CppConsoleClient) [🖱️click](./TCPCoroutineEchoServerAcl)
    - Redis 실습 (Redis Server Acl) [🖱️click](./RedisServerAcl)
    - MySQL 실습 (Mysql Server Acl) [🖱️click](./MySQLServerAcl)
    - 동기화 객체 실습 (Sync Objects Acl) [🖱️click](./SyncObjectsAcl)
@@ -142,20 +142,20 @@ ACL 라이브러리에서 제공하는 주요 기능은 다음과 같습니다:
 
 # ACL 기능 별 실습
 
-## 1. TCP Eco Server + CppConsoleClient
+## 1. TCP Echo Server + CppConsoleClient
 
 이 실습은 기본적인 TCP Echo 서버와 C++로 구현된 간단한 콘솔 클라이언트를 다룹니다. 서버는 클라이언트로부터 받은 데이터를 그대로 돌려줍니다.
 
-1. 서버 코드는 `TCPEcoServerAcl/` 디렉토리에 있습니다. [🖱️click](./TCPEcoServerAcl)
+1. 서버 코드는 `TCPServerAcl/` 디렉토리에 있습니다. [🖱️click](./TCPServerAcl)
 2. 클라이언트 코드는 `CppConsoleClient/` 디렉토리에 있습니다. [🖱️click](./CppConsoleClient)
 
 <br>
 
-## 2. TCP Coroutine Eco Server + CppConsoleClient
+## 2. TCP Coroutine Echo Server + CppConsoleClient
 
 이 실습은 TCP Echo 서버를 코루틴 기반으로 확장합니다. 이 서버는 경량 코루틴을 사용하여 클라이언트와 비동기적으로 통신합니다.
 
-1. 서버 코드는 `TCPCoroutineEcoServerAcl/` 디렉토리에 있습니다. [🖱️click](./TCPCoroutineEcoServerAcl)
+1. 서버 코드는 `TCPCoroutineServerAcl/` 디렉토리에 있습니다. [🖱️click](./TCPCoroutineServerAcl)
 2. 클라이언트 코드는 `CppConsoleClient/` 디렉토리에 있습니다. [🖱️click](./CppConsoleClient)
 
 <br>

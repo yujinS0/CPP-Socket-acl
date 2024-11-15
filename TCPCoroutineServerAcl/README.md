@@ -1,4 +1,4 @@
-# Acl을 활용한 Coroutine TCP Eco Server 예제
+# Acl을 활용한 Coroutine TCP Echo Server 예제
 
 ## 목차
 1. [Acl - Coroutine](#acl---coroutine)

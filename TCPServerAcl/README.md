@@ -1,6 +1,6 @@
-### TCP Eco Server with Acl
+### TCP Echo Server with Acl
 
-**TCPEcoServerAcl** 프로젝트는 ACL(Advanced C/C++ Library) 프레임워크를 사용하여 구현한 간단한 TCP 에코 서버입니다. <br>
+**TCPServerAcl** 프로젝트는 ACL(Advanced C/C++ Library) 프레임워크를 사용하여 구현한 간단한 TCP 에코 서버입니다. <br>
 이 서버는 클라이언트로부터 수신한 데이터를 그대로 다시 클라이언트에게 반환하는 기능을 제공합니다. <br>
 이 서버의 클라이언트는 [📁CppConsoleClient 디렉토리](../CppConsoleClient)에 존재합니다.
 
@@ -9,8 +9,8 @@
 ## 프로젝트 구조
 
 ```
-TCPEcoServerAcl/
-├── TCPEcoServerAcl.cpp  # 프로젝트의 메인 파일로, 서버 초기화 및 실행을 담당
+TCPServerAcl/
+├── TCPServerAcl.cpp  # 프로젝트의 메인 파일로, 서버 초기화 및 실행을 담당
 ├── tcp.cpp              # TCP 서버의 핵심 기능을 구현한 파일
 ├── tcp.h                # TCP 서버 함수들의 선언을 포함한 헤더 파일
 ├── pch.h                # 프로젝트 전반에서 사용되는 공통 헤더 파일
@@ -20,7 +20,7 @@ TCPEcoServerAcl/
 
 ## 주요 기능
 
-### 1. 서버 초기화 및 실행 (`TCPEcoServerAcl.cpp`)
+### 1. 서버 초기화 및 실행 (`TCPServerAcl.cpp`)
 - **메인 엔트리 포인트**: `main()` 함수는 프로그램의 시작점으로, ACL 라이브러리 초기화와 TCP 서버 실행을 담당합니다.
 - **예외 처리**: 서버 실행 중 발생할 수 있는 예외를 처리하여 안정성을 보장합니다.
 
@@ -36,7 +36,7 @@ TCPEcoServerAcl/
 ## 빌드 및 실행
 
 1. **빌드**:
-   - Visual Studio에서 솔루션 파일(`TCPEcoServerAcl.sln`)을 열고, `빌드` 메뉴에서 프로젝트를 빌드합니다.
+   - Visual Studio에서 솔루션 파일(`TCPServerAcl.sln`)을 열고, `빌드` 메뉴에서 프로젝트를 빌드합니다.
 
 2. **실행**:
    - 빌드가 완료되면, 실행 파일을 통해 서버를 시작할 수 있습니다. 서버는 기본적으로 `127.0.0.1:8088`에서 클라이언트의 연결을 대기합니다.
@@ -98,4 +98,4 @@ void run_tcp_server() {
 
 ## 결론
 
-TCPEcoServerAcl 프로젝트는 간단한 TCP 에코 서버를 구현한 예제로, ACL 라이브러리와 C++의 멀티스레딩 기능을 활용합니다. 이 프로젝트를 통해 네트워크 프로그래밍의 기본적인 개념을 익히고, ACL 라이브러리의 사용 방법을 학습할 수 있습니다.
+TCPServerAcl 프로젝트는 간단한 TCP 에코 서버를 구현한 예제로, ACL 라이브러리와 C++의 멀티스레딩 기능을 활용합니다. 이 프로젝트를 통해 네트워크 프로그래밍의 기본적인 개념을 익히고, ACL 라이브러리의 사용 방법을 학습할 수 있습니다.
